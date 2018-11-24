@@ -1,0 +1,53 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\T540P\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\Users\T540P\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\T540P\bin;C:\Program Files\Docker\Docker\Resources\bin;C:\ProgramData\Oracle\Java\javapath;C:\Python27;C:\Python27\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin;C:\Program Files (x86)\WinSCP;C:\Users\T540P\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\xampp\mysql\bin;C:\Users\T540P\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Users\T540P\AppData\Local\Programs\Python\Python37-32;C:\Users\T540P\AppData\Local\Microsoft\WindowsApps;C:\Users\T540P\AppData\Roaming\npm;C:\Microsoft VS Code\bin;C:\Program Files\heroku\bin;C:\Python27;C:\Python27\Scripts;C:\Users\T540P\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\T540P\AppData\Roaming\Composer\vendor\bin;C:\xampp\mysql\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.9.4
+
+Node version: 
+  8.11.4
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: connect ETIMEDOUT 104.16.23.35:443
+      at Object._errnoException (util.js:992:11)
+      at _exceptionWithHostPort (util.js:1014:20)
+      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1186:14)
+
+npm manifest: 
+  {
+    "name": "goatti",
+    "version": "0.0.1",
+    "description": "Test the paystack package",
+    "main": "app.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "dev": "nodemon app.js"
+    },
+    "repository": "",
+    "keywords": [
+      "paystack",
+      "node",
+      "token"
+    ],
+    "author": "Ibrahim Lawal",
+    "license": "MIT",
+    "dependencies": {
+      "body-parser": "^1.15.0",
+      "dotenv": "^2.0.0",
+      "express": "^4.13.4",
+      "node-uuid": "^1.4.7",
+      "paystack": "^1.1.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
