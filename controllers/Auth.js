@@ -41,6 +41,7 @@ module.exports = {
 
   signup: (req, res)=>{
     const user = {username, password, firstname, lastname, country, state, email} = req.body;
+    console.log("Creating", user)
     User.create(user).then(user =>{
       if(user){
         let token = jwtSign(user);
