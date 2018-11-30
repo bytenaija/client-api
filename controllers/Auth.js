@@ -18,8 +18,8 @@ module.exports = {
                   return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
               }else{
                 user.saveToken(token)
-                
-                res.status(200).json({success: true, token, user})
+
+                res.status(200).json({success: true, auth: {token, user}})
               }
             });
 
