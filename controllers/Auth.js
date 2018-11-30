@@ -19,7 +19,7 @@ module.exports = {
               }else{
                 user.token = token;
                 user.save();
-                res.status(200).json({success: true, auth:{token, user}})
+                res.status(200).json({success: true,  user})
               }
             });
 
