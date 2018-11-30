@@ -8,6 +8,9 @@
     "dev": "nodemon app.js",
     "start": "node app.js"
   },
+  "engines": {
+    "node": ">=8.11.4" 
+  },
   "repository": "",
   "keywords": [
     "paystack",
