@@ -18,15 +18,15 @@ mongoose.connect('mongodb://root:rootUser@goattiapp-shard-00-00-32hsd.mongodb.ne
 })
 var express =  require('express');
 var app = require('express')();
-var bodyParser = require('body-parser');
+
 app.use(cors())
 app.use(morgan('dev'))
 
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 
-app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({   // to support URL-encoded bodies
+app.use(express.json());       // to support JSON-encoded bodies
+app.use(express.urlencoded({   // to support URL-encoded bodies
     extended: true
 }));
 

@@ -10,7 +10,7 @@
   },
   "engines": {
     "node": "8.11.4",
-    "npm":"6.4.x",
+    "npm": "6.4.x",
     "yarn": "1.9.4"
   },
   "repository": "",
@@ -19,21 +19,17 @@
     "node",
     "token"
   ],
-  "author": "Ibrahim Lawal",
+  "author": "Everistus Olumese",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^3.0.2",
-    "body-parser": "^1.15.0",
     "cors": "^2.8.5",
-    "dotenv": "^2.0.0",
-    "express": "^4.13.4",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
-    "jwt": "^0.2.0",
     "mongoose": "^5.3.14",
     "morgan": "^1.9.1",
-    "node-uuid": "^1.4.7",
-    "passport": "^0.4.0",
-    "paystack": "^1.1.0",
+    "paystack": "^2.0.1",
     "socket.io": "^2.2.0"
   }
 }
