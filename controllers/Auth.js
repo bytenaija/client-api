@@ -44,9 +44,15 @@ module.exports = {
     console.log("Creating", user)
     User.create(user).then(user =>{
       if(user){
-        let token = jwtSign(user);
-        user.saveToken(token)
-        res.status(200).json({success: true, token, user})
+        jwtSign(user, (err, token)=>{
+          if(err){
+              return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+          }else{
+            user.token = token;
+            user.save();
+            res.status(200).json({success: true, user})
+          }
+        });
       }else{
           return res.status(404).json({success: false, message: 'Your account could not be created. Please try again'})
       }
