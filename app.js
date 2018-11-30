@@ -12,7 +12,7 @@ var paystack = require('paystack')(process.env.PAYSTACK_SECRET_KEY);
 
 // uuid module is required to create a random reference number
 var uuid     = require('node-uuid');
-mongoose.connect('mongodb://root:rootUser@goattiapp-shard-00-00-32hsd.mongodb.net:27017,goattiapp-shard-00-01-32hsd.mongodb.net:27017,goattiapp-shard-00-02-32hsd.mongodb.net:27017/test?ssl=true&replicaSet=GOATTIAPP-shard-0&authSource=admin&retryWrites=true', (err, connect)=>{
+mongoose.connect('mongodb://root:rootUser1@ds123224.mlab.com:23224/goatti', (err, connect)=>{
   if(err) throw err
   console.log("Connected to MongoDB")
 })
