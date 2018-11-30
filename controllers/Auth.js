@@ -11,6 +11,8 @@ module.exports = {
           return res.status(404).json({success: false, message: 'Invalid credentials'})
         }else{
         //  console.dir(user)
+        user.token = null;
+        user.save();
         user.comparePassword(user.password, password, (err, isMatch)=>{
           if(isMatch){
             jwtSign(user, (err, token)=>{
@@ -19,7 +21,7 @@ module.exports = {
               }else{
                 user.token = token;
                 user.save();
-                res.status(200).json({success: true,  user})
+                res.status(200).json({success: true, user})
               }
             });
 
