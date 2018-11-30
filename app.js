@@ -1,17 +1,26 @@
 // Load Environment variables
 require('dotenv').load();
+let morgan = require('morgan')
 let cors = require('cors');
-// paystack module is required to make charge token call
-console.log(process.env.PAYSTACK_SECRET_KEY)
+const mongoose = require('mongoose')
+
+let adminRoutes = require('./routes/admin/auth.js')
+let authRoutes = require('./routes/auth.js')
+// let adminRoute = require('./routes/admin/auth.js')
+// let adminRoute = require('./routes/admin/auth.js')
 var paystack = require('paystack')(process.env.PAYSTACK_SECRET_KEY);
 
 // uuid module is required to create a random reference number
 var uuid     = require('node-uuid');
-
+mongoose.connect('mongodb://root:rootUser@goattiapp-shard-00-00-32hsd.mongodb.net:27017,goattiapp-shard-00-01-32hsd.mongodb.net:27017,goattiapp-shard-00-02-32hsd.mongodb.net:27017/test?ssl=true&replicaSet=GOATTIAPP-shard-0&authSource=admin&retryWrites=true', (err, connect)=>{
+  if(err) throw err
+  console.log("Connected to MongoDB")
+})
 var express =  require('express');
 var app = require('express')();
 var bodyParser = require('body-parser');
 app.use(cors())
+app.use(morgan('dev'))
 
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
@@ -21,6 +30,10 @@ app.use(bodyParser.urlencoded({   // to support URL-encoded bodies
     extended: true
 }));
 
+
+
+app.use('/api/admin', adminRoutes);
+app.use('/api/auth', authRoutes)
 app.get('/', function(req, res) {
 res.send('<body><head><link href="favicon.ico" rel="shortcut icon" />\
     </head><body><h1>Awesome!</h1><p>Your server is set up. \
