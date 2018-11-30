@@ -29,6 +29,7 @@
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.3.14",
     "morgan": "^1.9.1",
+    "node-uuid": "^1.4.8",
     "paystack": "^2.0.1",
     "socket.io": "^2.2.0"
   }
