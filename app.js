@@ -52,12 +52,14 @@ io.sockets.on('connection', (socket) =>{
         connectedSockets.push({id, socket});
         console.log(connectedSockets)
     })
+
+    io.sockets.on('disconnect', (socket)=>{
+        connectedSockets = connectedSockets.filter(element => element.socket !== socket)
+        console.log("Socket Disconnected")
+        console.log(connectedSockets)
+    })
 });
-io.sockets.on('disconnect', (socket)=>{
-    connectedSockets = connectedSockets.filter(element => element.socket !== socket)
-    console.log("Socket Disconnected")
-    console.log(connectedSockets)
-})
+
 
 app.use(function(req, res, next) {
     req.io = io;
