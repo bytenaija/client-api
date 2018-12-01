@@ -47,7 +47,7 @@ io.configure = () =>{
 
 io.sockets.on('connection', (socket) =>{
 
-    console.log("Socket Connected", socket)
+    console.log("Socket Connected")
     socket.on('id', (id)=>{
         connectedSockets.push({id, socket});
         console.log(connectedSockets)
@@ -55,6 +55,7 @@ io.sockets.on('connection', (socket) =>{
 });
 io.sockets.on('disconnect', (socket)=>{
     connectedSockets = connectedSockets.filter(element => element.socket !== socket)
+    console.log("Socket Disconnected")
     console.log(connectedSockets)
 })
 
