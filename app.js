@@ -35,10 +35,25 @@ app.use(express.urlencoded({   // to support URL-encoded bodies
 }));
 
 var server = http.createServer(app);
+server.listen(app.get('port'), function() {
+    console.log("Node app is running at localhost:" + app.get('port'))
+})
+
+let io = socket.listen(server);
+io.configure = () =>{
+  io.set("transports", ["xhr-polling"])
+  io.set("polling duration", 10)
+}
+
+console.log(io);
+io.sockets.on('connection', (socket) =>{
+
+    io.sockets.emit('notification', {title: 'An updated farm - Goat Farm Edo State 2010-2018 has just been created ...', date: '2018-12-01 12:00:00'})
+})
 
 
-app.use('/api/admin', adminRoutes);
-app.use('/api/auth', authRoutes)
+app.use('/api/admin', adminRoutes)(io);
+app.use('/api/auth', authRoutes)(io)
 app.get('/', function(req, res) {
 res.send('<body><head><link href="favicon.ico" rel="shortcut icon" />\
     </head><body><h1>Awesome!</h1><p>Your server is set up. \
@@ -114,18 +129,5 @@ app.get('/*', function(req, res){
         or GET /verify/{reference} is allowed');
 });
 
-server.listen(app.get('port'), function() {
-    console.log("Node app is running at localhost:" + app.get('port'))
-})
 
 
-let io = socket.listen(server);
-io.configure = () =>{
-  io.set("transports", ["xhr-polling"])
-  io.set("polling duration", 10)
-}
-
-console.log(io);
-io.sockets.on('connection', (socket) =>
-    socket.emit('notification', {title: 'An updated farm - Goat Farm Edo State 2010-2018 has just been created ...', date: '2018-12-01 12:00:00'})
-)
