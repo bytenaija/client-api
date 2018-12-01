@@ -1,15 +1,15 @@
 // Load Environment variables
 require('dotenv').load();
-let morgan = require('morgan')
+let morgan = require('morgan');
 let cors = require('cors');
-const mongoose = require('mongoose')
-let socket = require('socket.io')
+const mongoose = require('mongoose');
+let socket = require('socket.io');
 var http = require('http');
 
 
 
-let adminRoutes = require('./routes/admin/auth.js')
-let authRoutes = require('./routes/auth.js')
+let adminRoutes = require('./routes/admin/auth.js');
+let authRoutes = require('./routes/auth.js');
 // let adminRoute = require('./routes/admin/auth.js')
 // let adminRoute = require('./routes/admin/auth.js')
 var paystack = require('paystack')(process.env.PAYSTACK_SECRET_KEY);
@@ -18,13 +18,13 @@ var paystack = require('paystack')(process.env.PAYSTACK_SECRET_KEY);
 var uuid     = require('node-uuid');
 mongoose.connect('mongodb://root:rootUser1@ds123224.mlab.com:23224/goatti', (err, connect)=>{
   if(err) throw err
-  console.log("Connected to MongoDB")
-})
+  console.log("Connected to MongoDB");
+});
 var express =  require('express');
 var app = require('express')();
 app = module.exports.app = express();
-app.use(cors())
-app.use(morgan('dev'))
+app.use(cors());
+app.use(morgan('dev'));
 
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
@@ -37,23 +37,23 @@ app.use(express.urlencoded({   // to support URL-encoded bodies
 var server = http.createServer(app);
 server.listen(app.get('port'), function() {
     console.log("Node app is running at localhost:" + app.get('port'))
-})
+});
 
 let io = socket.listen(server);
 io.configure = () =>{
   io.set("transports", ["xhr-polling"])
   io.set("polling duration", 10)
-}
+};
 
 console.log(io);
 io.sockets.on('connection', (socket) =>{
 
     io.sockets.emit('notification', {title: 'An updated farm - Goat Farm Edo State 2010-2018 has just been created ...', date: '2018-12-01 12:00:00'})
-})
+});
 
 
 app.use('/api/admin', adminRoutes)(io);
-app.use('/api/auth', authRoutes)(io)
+app.use('/api/auth', authRoutes)(io);
 app.get('/', function(req, res) {
 res.send('<body><head><link href="favicon.ico" rel="shortcut icon" />\
     </head><body><h1>Awesome!</h1><p>Your server is set up. \
