@@ -1,0 +1,46 @@
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt')
+const moment = require('moment')
+
+const Schema = mongoose.Schema;
+
+const FarmSchema = new Schema({
+    numberOfGoats: {
+        type: Number,
+        required: true,
+    },
+    profitPercent: {
+        type: Number,
+        required: true,
+    },
+    userId: {
+        type: mongoose.SchemaTypes.ObjectId,
+        required: true,
+        ref: 'User'
+    },
+    amountInvested: {
+        type: Number,
+        required: true,
+    },
+    dateOfROI: {
+        type: mongoose.SchemaTypes.Date,
+        required: true,
+    },
+
+    status:{
+        type:String,
+        required: true
+    }
+
+}, {
+    timestamps: true
+})
+
+FarmSchema.pre('save', function (next) {
+    var farm = this;
+    farm.dateOfROI = moment().add(6, 'months').toISOString()
+});
+
+
+
+module.exports = Farm = mongoose.model('farms', FarmSchema)

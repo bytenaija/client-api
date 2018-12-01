@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const {jwtVerify, jwtSign} = require('../config/jwt')
+;
 
 
 module.exports = {
@@ -40,6 +41,8 @@ module.exports = {
   },
 
   signup: (req, res)=>{
+    const io = req.io;
+    console.log("iooooooo in signup", io)
     const user = {username, password, firstname, lastname, country, state, email} = req.body;
     console.log("Creating", user)
     User.create(user).then(user =>{
@@ -50,6 +53,8 @@ module.exports = {
           }else{
             user.token = token;
             user.save();
+
+            io.sockets.emit('User Added', user);
             res.status(200).json({success: true, user})
           }
         });

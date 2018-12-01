@@ -8,8 +8,6 @@ var http = require('http');
 
 
 
-let adminRoutes = require('./routes/admin/auth.js');
-let authRoutes = require('./routes/auth.js');
 // let adminRoute = require('./routes/admin/auth.js')
 // let adminRoute = require('./routes/admin/auth.js')
 var paystack = require('paystack')(process.env.PAYSTACK_SECRET_KEY);
@@ -51,9 +49,20 @@ io.sockets.on('connection', (socket) =>{
     io.sockets.emit('notification', {title: 'An updated farm - Goat Farm Edo State 2010-2018 has just been created ...', date: '2018-12-01 12:00:00'});
 });
 
+app.use(function(req, res, next) {
+    req.io = io;
+    next();
+});
 
-app.use('/api/admin', adminRoutes);
+let adminRoutes = require('./routes/admin/auth');
+let userManagementRoutes = require('./routes/admin/user');
+let authRoutes = require('./routes/auth');
+let farmRoutes = require('./routes/farm');
+
+app.use('/api/admin/auth', adminRoutes);
+app.use('/api/admin/users', userManagementRoutes)
 app.use('/api/auth', authRoutes);
+app.use('/api/farms', farmRoutes);
 app.get('/', function(req, res) {
 res.send('<body><head><link href="favicon.ico" rel="shortcut icon" />\
     </head><body><h1>Awesome!</h1><p>Your server is set up. \
@@ -123,10 +132,7 @@ app.get('/verify/:reference', function(req, res) {
 });
 
 //The 404 Route (ALWAYS Keep this as the last route)
-app.get('/*', function(req, res){
-    res.status(404).send('Only GET /new-access-code \
-        or GET /verify/{reference} is allowed');
-});
-
-
-
+// app.get('/*', function(req, res){
+//     res.status(404).send('Only GET /new-access-code \
+//         or GET /verify/{reference} is allowed');
+// });
