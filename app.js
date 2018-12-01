@@ -35,16 +35,6 @@ app.use(express.urlencoded({   // to support URL-encoded bodies
 }));
 
 var server = http.createServer(app);
-let io = socket.listen(server);
-io.configure = () =>{
-  io.set("transports", ["xhr-polling"])
-  io.set("polling duration", 10)
-}
-
-console.log(io);
-io.sockets.on('connection', (socket) =>
-    socket.emit('notification', {title: 'An updated farm - Goat Farm Edo State 2010-2018 has just been created ...', date: '2018-12-01 12:00:00'})
-)
 
 
 app.use('/api/admin', adminRoutes);
@@ -124,8 +114,18 @@ app.get('/*', function(req, res){
         or GET /verify/{reference} is allowed');
 });
 
-app.listen(app.get('port'), function() {
+server.listen(app.get('port'), function() {
     console.log("Node app is running at localhost:" + app.get('port'))
 })
 
 
+let io = socket.listen(server);
+io.configure = () =>{
+  io.set("transports", ["xhr-polling"])
+  io.set("polling duration", 10)
+}
+
+console.log(io);
+io.sockets.on('connection', (socket) =>
+    socket.emit('notification', {title: 'An updated farm - Goat Farm Edo State 2010-2018 has just been created ...', date: '2018-12-01 12:00:00'})
+)
