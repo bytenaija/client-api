@@ -45,15 +45,15 @@ io.configure = () =>{
   io.set("polling duration", 10)
 };
 
-console.log(io);
+
 io.sockets.on('connection', (socket) =>{
 
-    io.sockets.emit('notification', {title: 'An updated farm - Goat Farm Edo State 2010-2018 has just been created ...', date: '2018-12-01 12:00:00'})
+    io.sockets.emit('notification', {title: 'An updated farm - Goat Farm Edo State 2010-2018 has just been created ...', date: '2018-12-01 12:00:00'});
 });
 
 
-app.use('/api/admin', adminRoutes)(io);
-app.use('/api/auth', authRoutes)(io);
+app.use('/api/admin', adminRoutes);
+app.use('/api/auth', authRoutes);
 app.get('/', function(req, res) {
 res.send('<body><head><link href="favicon.ico" rel="shortcut icon" />\
     </head><body><h1>Awesome!</h1><p>Your server is set up. \
@@ -72,7 +72,6 @@ app.get('/new-access-code', function(req, res) {
         amountinkobo = 2500;
     }
     email = process.env.SAMPLE_EMAIL;
-
     // all fields supported by this call can be gleaned from
     // https://developers.paystack.co/reference#initialize-a-transaction
     paystack.transaction.initialize({
