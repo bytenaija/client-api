@@ -5,7 +5,7 @@ let cors = require('cors');
 const mongoose = require('mongoose');
 let socket = require('socket.io');
 var http = require('http');
-
+const connectedSockets = []
 
 
 
@@ -48,7 +48,15 @@ io.configure = () =>{
 io.sockets.on('connection', (socket) =>{
 
     console.log("Socket Connected", socket)
+    socket.on('id', (id)=>{
+        connectedSockets.push({id, socket});
+        console.log(connectedSockets)
+    })
 });
+io.sockets.on('disconnection', (socket)=>{
+    connectedSockets = connectedSockets.filter(element => element.socket !== socket)
+    console.log(connectedSockets)
+})
 
 app.use(function(req, res, next) {
     req.io = io;

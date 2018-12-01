@@ -51,7 +51,7 @@ module.exports = {
         return res.status(404).json({success: false, message: 'Sorry and error occured. We could not create your farm'})
       }else{
         io.sockets.emit('Farm Added', farm);
-        let notification = {title:`A new farm created (${moment().format('YYYY')} - ${moment().add(6, 'months').format('YYYY')}`, date: moment()};
+        let notification = {title:`A new farm created (${moment().format('YYYY')} - ${moment().add(6, 'months').format('YYYY')})`, date: moment()};
         io.sockets.emit('notification', notification)
         res.status(200).json({success: true, farm})
       }
