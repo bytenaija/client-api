@@ -3,9 +3,10 @@ require('dotenv').load();
 let morgan = require('morgan')
 let cors = require('cors');
 const mongoose = require('mongoose')
-let io = require('socket.io')
+let socket = require('socket.io')
+var http = require('http');
 
-console.log(io);
+
 
 let adminRoutes = require('./routes/admin/auth.js')
 let authRoutes = require('./routes/auth.js')
@@ -21,7 +22,7 @@ mongoose.connect('mongodb://root:rootUser1@ds123224.mlab.com:23224/goatti', (err
 })
 var express =  require('express');
 var app = require('express')();
-
+app = module.exports.app = express();
 app.use(cors())
 app.use(morgan('dev'))
 
@@ -33,13 +34,14 @@ app.use(express.urlencoded({   // to support URL-encoded bodies
     extended: true
 }));
 
-
-io = socket.listen(app);
+var server = http.createServer(app);
+let io = socket.listen(server);
 io.configure = () =>{
   io.set("transports", ["xhr-polling"])
   io.set("polling duration", 10)
 }
 
+console.log(io);
 io.sockets.on('connection', (socket) =>
     socket.emit('notification', {title: 'An updated farm - Goat Farm Edo State 2010-2018 has just been created ...', date: '2018-12-01 12:00:00'})
 )
