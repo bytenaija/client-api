@@ -42,7 +42,7 @@ module.exports = {
 
   signup: (req, res)=>{
     const io = req.io;
-    console.log("iooooooo in signup", io)
+    
     const user = {username, password, firstname, lastname, country, state, email} = req.body;
     console.log("Creating", user)
     User.create(user).then(user =>{

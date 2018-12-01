@@ -36,10 +36,10 @@ const FarmSchema = new Schema({
     timestamps: true
 })
 
-FarmSchema.pre('save', function (next) {
-    var farm = this;
-    farm.dateOfROI = moment().add(6, 'months').toISOString()
-});
+// FarmSchema.pre('save', function (next) {
+//     var farm = this;
+//     farm.dateOfROI = moment().add(6, 'months').toISOString()
+// });
 
 
 
