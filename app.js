@@ -3,6 +3,19 @@ require('dotenv').load();
 let morgan = require('morgan')
 let cors = require('cors');
 const mongoose = require('mongoose')
+let io = require('socket.io')
+
+console.log(io);
+
+io = socket.listen(app);
+io.configure = () =>{
+  io.set("transports", ["xhr-polling"])
+  io.set("polling duration", 10)
+}
+
+io.sockets.on('connection', (socket) =>
+    socket.emit('notification', {title: 'An updated farm - Goat Farm Edo State 2010-2018 has just been created ...', date: '2018-12-01 12:00:00'})
+)
 
 let adminRoutes = require('./routes/admin/auth.js')
 let authRoutes = require('./routes/auth.js')
@@ -112,3 +125,5 @@ app.get('/*', function(req, res){
 app.listen(app.get('port'), function() {
     console.log("Node app is running at localhost:" + app.get('port'))
 })
+
+
