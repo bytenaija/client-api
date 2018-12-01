@@ -53,7 +53,7 @@ io.sockets.on('connection', (socket) =>{
         console.log(connectedSockets)
     })
 });
-io.sockets.on('disconnection', (socket)=>{
+io.sockets.on('disconnect', (socket)=>{
     connectedSockets = connectedSockets.filter(element => element.socket !== socket)
     console.log(connectedSockets)
 })
