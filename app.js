@@ -47,7 +47,7 @@ io.configure = () =>{
 
 io.sockets.on('connection', (socket) =>{
 
-    io.sockets.emit('notification', {title: 'An updated farm - Goat Farm Edo State 2010-2018 has just been created ...', date: '2018-12-01 12:00:00'});
+    console.log("Socket Connected", socket)
 });
 
 app.use(function(req, res, next) {
