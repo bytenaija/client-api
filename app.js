@@ -21,10 +21,7 @@ mongoose.connect('mongodb://root:rootUser1@ds123224.mlab.com:23224/goatti', (err
   console.log("Connected to MongoDB");
 });
 
-var models_path = __dirname + '/models'
-fs.readdirSync(models_path).forEach(function (file) {
-  if (~file.indexOf('.js')) require(models_path + '/' + file)
-})
+
 var express =  require('express');
 var app = require('express')();
 app = module.exports.app = express();
