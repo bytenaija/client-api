@@ -43,8 +43,9 @@ module.exports = {
                     console.log(error)
                     reject(error)
                   }else{
-                      upload_res.push(result.url);
-                      console.log(upload_res)
+                      upload_res.push(result.secure_url);
+                    //   console.log(upload_res)
+                    //   console.log(result)
                   }
 
 
