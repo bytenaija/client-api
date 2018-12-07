@@ -24,6 +24,9 @@ var app = require('express')();
 app = module.exports.app = express();
 app.use(cors());
 app.use(morgan('dev'));
+// const formidable = require('express-formidable');
+
+// app.use(formidable());
 
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
@@ -46,18 +49,6 @@ io.configure = () =>{
 
 
 io.sockets.on('connection', (socket) =>{
-
-    console.log("Socket Connected")
-    socket.on('id', (id)=>{
-        connectedSockets.push({id, socket});
-        console.log(connectedSockets)
-    })
-
-    io.sockets.on('disconnect', (socket)=>{
-        connectedSockets = connectedSockets.filter(element => element.socket !== socket)
-        console.log("Socket Disconnected")
-        console.log(connectedSockets)
-    })
 });
 
 
@@ -70,9 +61,12 @@ let adminRoutes = require('./routes/admin/auth');
 let userManagementRoutes = require('./routes/admin/user');
 let authRoutes = require('./routes/auth');
 let farmRoutes = require('./routes/farm');
+let productRoutes = require('./routes/product');
+
 
 app.use('/api/admin/auth', adminRoutes);
 app.use('/api/admin/users', userManagementRoutes)
 app.use('/api/auth', authRoutes);
 app.use('/api/farms', farmRoutes);
+app.use('/api/products', productRoutes);
 

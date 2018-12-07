@@ -8,13 +8,12 @@ module.exports = {
     
     Farms.find({})
       .then(farms =>{
-        if(!farms){
-          return res.status(404).json({success: false, message: 'Invalid credentials'})
-        }else{
+        
           res.status(200).json({success: true, farms})
-        }
+        
       })
       .catch(err =>{
+        console.log(err)
         return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
       })
     
@@ -32,6 +31,7 @@ module.exports = {
         }
       })
       .catch(err =>{
+        console.log(err)
         return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
       })
   },
@@ -44,7 +44,7 @@ module.exports = {
       let farm = {numberOfGoats, profit, amountInvested} = req.body
       farm.userId = verification.user._id;
       farm.dateOfROI = moment().add(6, 'months').toISOString();
-      console.log("farmmmmmm",farm)
+     
   Farms.create(farm)
     .then(farm =>{
       if(!farm){
