@@ -1,9 +1,6 @@
 const jwt = require('jsonwebtoken');
 const {jwtKey} = require('./keys')
 module.exports ={
-  jwtVerify : (token) =>{
-    jwt.verify(token, jwtKey)
-  },
 
   jwtSign : (user, cb) =>{
     console.log("JWT", user)
@@ -32,7 +29,7 @@ verifyToken: (req, res, next)=> {
 },
 
 verify: (req, res, next) => {
-    //console.log("Logging " + req.token)
+    
     return jwt.verify(req.token, jwtKey, (err, authData) => {
         if (err) {
             return false

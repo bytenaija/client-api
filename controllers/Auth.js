@@ -20,9 +20,9 @@ module.exports = {
               if(err){
                   return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
               }else{
-                user.token = token;
+               
                 user.save();
-                res.status(200).json({success: true, user})
+                res.status(200).json({success: true, user,})
               }
             });
 

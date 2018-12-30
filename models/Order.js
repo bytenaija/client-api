@@ -23,6 +23,10 @@ const OrderSchema = new Schema({
         required: true,
         ref: 'Address'
     },
+    reference: {
+        type: String,
+        required: true
+    }
 }, {
     timestamps: true
 })
