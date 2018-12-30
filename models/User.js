@@ -34,11 +34,7 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  token: {
-    type: String,
-    default: null
-  },
-
+  
   carts: [{ type: Schema.Types.ObjectId, ref: 'Cart' }],
   farms: [{ type: Schema.Types.ObjectId, ref: 'Farm' }],
   adresses: [{ type: Schema.Types.ObjectId, ref: 'Address' }],

@@ -2,19 +2,19 @@ let Cart = require('../models/Cart');
 let Order = require('../models/Order');
 
 module.exports = {
-    saveCart = (req, res, next) =>{
+    saveCart : (req, res, next) =>{
 
     },
 
-    editCart = (req, res, next) =>{
+    editCart : (req, res, next) =>{
 
     },
 
-    deleteCart = (req, res, next) =>{
+    deleteCart : (req, res, next) =>{
 
     },
 
-    getCarts = (req, res, next) =>{
+    getCarts : (req, res, next) =>{
         Cart.find({})
         .populate('cartItems')
         .exec()
@@ -27,7 +27,7 @@ module.exports = {
         })
     },
 
-    getCart = (req, res, next) =>{
+    getCart : (req, res, next) =>{
 
     },
 }

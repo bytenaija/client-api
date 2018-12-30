@@ -1,3 +1,6 @@
+const Address = require('../models/Address')
+const Farm = require('../models/Farms')
+const Cart = require('../models/Cart')
 const User = require('../models/User');
 const {jwtVerify, jwtSign} = require('../config/jwt')
 ;
@@ -6,7 +9,7 @@ const {jwtVerify, jwtSign} = require('../config/jwt')
 module.exports = {
   login :  (req, res)=>{
     const {username, password} = req.body;
-    User.findOne({username})
+    User.findOne({username}).populate(['adresses', 'carts', 'farms'])
       .then(user =>{
         if(!user){
           return res.status(404).json({success: false, message: 'Invalid credentials'})
@@ -20,9 +23,8 @@ module.exports = {
               if(err){
                   return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
               }else{
-               
-                user.save();
-                res.status(200).json({success: true, user,})
+              
+                res.status(200).json({success: true, user, token})
               }
             });
 

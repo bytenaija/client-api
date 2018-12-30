@@ -32,4 +32,4 @@ CartSchema.pre('remove', function(next) {
     next();
 });
 
-module.exports = Cart = mongoose.model('carts', CartSchema)
+module.exports = mongoose.model('Cart', CartSchema)

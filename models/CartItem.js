@@ -8,11 +8,6 @@ const CartItemSchema = new Schema({
         required: true,
     },
 
-    cartId: {
-        type: mongoose.SchemaTypes.ObjectId,
-        required: true,
-        ref: 'Cart'
-    },
     productId: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
@@ -24,4 +19,4 @@ const CartItemSchema = new Schema({
 })
 
 
-module.exports = CartItem = mongoose.model('cartitems', CartItemSchema)
+module.exports = mongoose.model('CartItem', CartItemSchema)

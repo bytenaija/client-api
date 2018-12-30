@@ -43,4 +43,4 @@ FarmSchema.pre('save', function (next) {
 
 
 
-module.exports = Farm = mongoose.model('farms', FarmSchema)
+module.exports =  mongoose.model('Farm', FarmSchema)

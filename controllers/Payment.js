@@ -8,12 +8,16 @@ module.exports = {
      
         let verification = verify(req, res, next);
         if(verification){
-            let email = verification.email;
+            console.log(verification)
+            let email = verification.user.email;
             payment(number, cvv, expiry_month, expiry_year, amount, email, reference)
             .then(chargeResponse =>{
                 Order.find({reference}).then(order =>{
-                    order.status = 'Paid';
-                    order.save();
+                    if(order){
+                        order.status = 'Paid';
+                        order.save();
+                    }
+                    
                     res.status(200).json({success: true, message: 'Payment Successful'});
                 }).catch(err =>{
                     console.log(err);

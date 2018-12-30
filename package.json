@@ -22,6 +22,7 @@
   "author": "Everistus Olumese",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcrypt": "^3.0.2",
     "cloudinary": "^1.13.2",
     "cors": "^2.8.5",
