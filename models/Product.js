@@ -34,4 +34,4 @@ ProductSchema.pre('remove', function(next) {
     next();
 });
 
-module.exports = Product = mongoose.model('products', ProductSchema)
+module.exports =  mongoose.model('Product', ProductSchema)

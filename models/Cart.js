@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const CartItem = require('./CartItem')
+const User = require('./User')
 
 const Schema = mongoose.Schema;
 
@@ -17,7 +18,8 @@ const CartSchema = new Schema({
   
     status:{
         type:String,
-        required: true
+        required: true,
+        default: 'Uncomplete'
     },
 
     cartItems: [{ type: Schema.Types.ObjectId, ref: 'CartItem' }]

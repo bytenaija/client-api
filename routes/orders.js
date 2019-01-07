@@ -20,8 +20,9 @@ router.delete('/v1/new', verifyToken, OrderController.delete)
 
 // //cart operations
 // router.get('/v1/cart/:id', verifyToken, CartController.getCart)
-// router.post('/v1/cart', verifyToken, CartController.create)
-// router.put('/v1/cart/:id', verifyToken, CartController.update)
+router.post('/v1/cart', verifyToken, CartController.saveCart)
+router.put('/v1/cart/:id', verifyToken, CartController.editCart)
 // router.delete('/v1/cart/:id', verifyToken, CartController.delete)
+router.get('/v1/cart/all', verifyToken, CartController.getCarts)
 
 module.exports = router

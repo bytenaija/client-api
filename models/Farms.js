@@ -30,7 +30,12 @@ const FarmSchema = new Schema({
     status:{
         type:String,
         required: true
-    }
+    },
+
+    reference:{
+        type:String,
+        required: true
+    },
 
 }, {
     timestamps: true

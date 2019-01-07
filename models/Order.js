@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const User = require('./User'),
+Cart = require('./Cart'),
+Address = require('./Address')
 
 const Schema = mongoose.Schema;
 
@@ -19,11 +22,11 @@ const OrderSchema = new Schema({
         required: true,
         ref: 'User'
     },
-    addressId: {
-        type: mongoose.SchemaTypes.ObjectId,
-        required: true,
-        ref: 'Address'
-    },
+    // addressId: {
+    //     type: mongoose.SchemaTypes.ObjectId,
+    //     required: true,
+    //     ref: 'Address'
+    // },
     reference: {
         type: String,
         required: true
@@ -33,4 +36,4 @@ const OrderSchema = new Schema({
 })
 
 
-module.exports = Order = mongoose.model('orders', OrderSchema)
+module.exports =  mongoose.model('Order', OrderSchema)

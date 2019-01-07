@@ -1,10 +1,13 @@
 let {payment} = require('../services/paystack');
 let {verify} = require('../config/jwt')
 let Order = require('../models/Order')
+let Cart = require('../models/Cart')
+let Farm = require('../models/Farms')
 
 module.exports = {
     paystackPayment: (req, res, next) =>{
-        let {number, cvv, expiry_month, expiry_year, amount, reference, orderNumber} = req.body
+        const io = req.io;
+        let {number, cvv, expiry_month, expiry_year, amount, reference, farm} = req.body
      
         let verification = verify(req, res, next);
         if(verification){
@@ -12,18 +15,40 @@ module.exports = {
             let email = verification.user.email;
             payment(number, cvv, expiry_month, expiry_year, amount, email, reference)
             .then(chargeResponse =>{
-                Order.find({reference}).then(order =>{
-                    if(order){
-                        order.status = 'Paid';
-                        order.save();
-                    }
-                    
-                    res.status(200).json({success: true, message: 'Payment Successful'});
-                }).catch(err =>{
-                    console.log(err);
-                    res.status(200).json({success: true, message: 'Payment Successful'});
-                })
+                if(farm){
+                      Farm.findOne({reference}).then(farm =>{
+                        if(farm){
+                            farm.status = 'Paid';
+                            farm.save();
+                            
+                                io.sockets.emit('Farm Payment', farm);
+                          
+                        }
+                        
+                        res.status(200).json({success: true, message: 'Payment Successful'});
+                    }).catch(err =>{
+                        console.log(err);
+                        res.status(200).json({success: true, message: 'Payment Successful'});
+                    })
+                }else{
+                    Order.findOne({reference}).then(order =>{
+                        if(order){
+                            order.status = 'Paid';
+                            order.save();
+                            Cart.findOneAndUpdate({_id: order.cartId}, {status: 'Paid'}).exec().then(cart =>{
+                                console.log(cart);
+                                io.sockets.emit('Order Payment', order);
+                            })
+                        }
+                        
+                        res.status(200).json({success: true, message: 'Payment Successful'});
+                    }).catch(err =>{
+                        console.log(err);
+                        res.status(200).json({success: true, message: 'Payment Successful'});
+                    })
+                }
                 
+               
             }).catch(err =>{
                 res.status(500).json({success: false, message: 'Payment not successful'});
             })

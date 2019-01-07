@@ -9,11 +9,11 @@ module.exports = {
         if(verification){
             let {cartId, addressId} = req.body;
             let reference = uuid() + Date.now();
-            let email = verification.user.email;
-            Order.create({cartId, addressId, reference, email})
+            let userId = verification.user._id;
+            Order.create({cartId, addressId, reference, userId})
             .then(order =>{
                 if(order){
-                    res.status(200).json({success: true, message: 'Order Placed Successful'});
+                    res.status(200).json({success: true, message: 'Order Placed Successful', order});
                 }else{
                     res.status(500).json({success: false, message: 'Order could not be processed. Try again please'});
                 }
@@ -77,6 +77,11 @@ module.exports = {
     edit: (req, res)=>{
         Order.findByIdAndUpdate(req.params.id, req.body)
         .then(order => { if(order){
+            if(order.status = "Paid"){
+                Cart.findOneAndUpdate(order.cartId, {status: 'Paid'}).exec().then(cart =>{
+                    console.log(cart);
+                })
+            }
             res.status(200).json({success: true, message: "Successfully updated order"});
         }else{
             res.status(200).json({success: false, message: `Could not update order. Please try again`}); 
