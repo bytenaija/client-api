@@ -25,9 +25,9 @@ module.exports = {
               }else{
                 user.token = token;
                 user.save();
-                User.findById(user._id).then(user =>{
+                  console.log("Token", token)
                   res.status(200).json({success: true, user, token})
-                })
+            
                 
               }
             });
