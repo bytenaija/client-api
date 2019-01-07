@@ -8,6 +8,7 @@ const {jwtVerify, jwtSign} = require('../config/jwt')
 
 module.exports = {
   login :  (req, res)=>{
+    console.log("Logingngngngnn")
     const {username, password} = req.body;
     User.findOne({username}).populate(['adresses', 'carts', 'farms'])
       .then(user =>{
