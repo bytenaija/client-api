@@ -3,18 +3,20 @@ let {verify} = require('../config/jwt')
 let Order = require('../models/Order')
 let Cart = require('../models/Cart')
 let Farm = require('../models/Farms')
+let Transaction = require('../models/Transaction')
 
 module.exports = {
-    paystackPayment: (req, res, next) =>{
+    paystackPayment:  (req, res, next) =>{
         const io = req.io;
         let {number, cvv, expiry_month, expiry_year, amount, reference, farm} = req.body
      
         let verification = verify(req, res, next);
         if(verification){
-            console.log(verification)
+         
             let email = verification.user.email;
             payment(number, cvv, expiry_month, expiry_year, amount, email, reference)
-            .then(chargeResponse =>{
+            .then(async chargeResponse =>{
+                await Transaction.create({reference, amount, from: verification.firstname + " " +  verification.lastname, to: 'Goatti.ng', email})
                 if(farm){
                       Farm.findOne({reference}).then(farm =>{
                         if(farm){
