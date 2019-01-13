@@ -16,7 +16,7 @@ module.exports = {
             let email = verification.user.email;
             payment(number, cvv, expiry_month, expiry_year, amount, email, reference)
             .then(async chargeResponse =>{
-                await Transaction.create({reference, amount, from: verification.firstname + " " +  verification.lastname, to: 'Goatti.ng', email})
+                await Transaction.create({reference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
                 if(farm){
                       Farm.findOne({reference}).then(farm =>{
                         if(farm){
