@@ -51,6 +51,7 @@ module.exports = {
 
     editCart : (req, res, next) =>{
         let {id} = req.params;
+        console.log("Req.body", req.body)
             Cart.findOneAndUpdate({_id: id}, req.body).then(async mainCart =>{
               await  req.body.cartitems.forEach(cItem =>{
                     CartItem.findOne({productId: cItem.productId, cartId: id }).then(cart =>{
@@ -62,6 +63,7 @@ module.exports = {
                             CartItem.create(cItem)
                             .then(cart =>{
                                 mainCart.cartItems.push(cart._id);
+                                mainCart.save();
                             })
                         }
                     })
