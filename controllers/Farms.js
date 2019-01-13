@@ -1,4 +1,5 @@
 const Farms = require('../models/Farms');
+const User = require('../models/User');
 const moment = require('moment')
 let uuid = require('node-uuid')
 const {verify} = require('../config/jwt')
@@ -52,6 +53,10 @@ module.exports = {
       if(!farm){
         return res.status(404).json({success: false, message: 'Sorry and error occured. We could not create your farm'})
       }else{
+        User.findOne({email: verification.user.email}).then(user =>{
+          user.farms.push(farm._id);
+          user.save();
+        })
         io.sockets.emit('Farm Added', farm);
         let notification = {title:`A new farm created (${moment().format('YYYY')} - ${moment().add(6, 'months').format('YYYY')})`, date: moment()};
         io.sockets.emit('notification', notification)

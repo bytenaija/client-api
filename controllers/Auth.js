@@ -9,20 +9,19 @@ const uuid = require('uuid/v5')
 const EmailService = require('../services/EmailService')
 const url = require('url');
 const {jwtKey} = require('../config/keys')
+const jwt = require('jsonwebtoken');
 
 
 module.exports = {
   login :  (req, res)=>{
-    console.log("Logingngngngnn")
+    
     const {username, password} = req.body;
     User.findOne({username}).populate(['adresses', 'carts', 'farms'])
       .then(user =>{
         if(!user){
           return res.status(404).json({success: false, message: 'Invalid credentials'})
         }else{
-        //  console.dir(user)
-        user.token = null;
-        user.save();
+      
         user.comparePassword(user.password, password, (err, isMatch)=>{
           if(isMatch){
             jwtSign(user, (err, token)=>{
@@ -150,7 +149,21 @@ module.exports = {
 
   });
 
-  console.log(user)
+  User.findOne({email: user.user.email}).populate(['adresses', 'carts', 'farms'])
+  .then(user =>{
+    if(!user){
+      return res.status(404).json({success: false, message: 'Invalid token'})
+    }else{
+            user.token = token;
+            user.save();
+              console.log("Token", token)
+              res.status(200).json({success: true, user, token})
+          }
+  }).catch(err =>{
+    console.dir(err);
+
+    return res.status(404).json({success: false, message: 'Invalid token'})
+  })
 
   }
 }
