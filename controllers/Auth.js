@@ -8,6 +8,7 @@ const generator = require('generate-password')
 const uuid = require('uuid/v5')
 const EmailService = require('../services/EmailService')
 const url = require('url');
+const {jwtKey} = require('../config/keys')
 
 
 module.exports = {
@@ -133,6 +134,24 @@ module.exports = {
       console.dir(err)
       res.status(500).json({success: false, message: 'An error occured. Please try again later'})
     })
+  },
+
+  getUserByToken: (req, res, next) =>{
+    let {token} = req.query;
+
+    let user =  jwt.verify(token, jwtKey, (err, authData) => {
+      if (err) {
+          return false
+      } else {
+
+          return authData;
+      }
+
+
+  });
+
+  console.log(user)
+
   }
 }
 
