@@ -1,6 +1,6 @@
 const Farms = require('../models/Farms');
 const moment = require('moment')
-
+let uuid = require('node-uuid')
 const {verify} = require('../config/jwt')
 
 module.exports = {
@@ -41,7 +41,9 @@ module.exports = {
     const verification = verify(req, res, next);
     console.log(verification)
     if (verification) {
+      
       let farm = {numberOfGoats, profit, amountInvested} = req.body
+      farm.reference = uuid() + Date.now();
       farm.userId = verification.user._id;
       farm.dateOfROI = moment().add(6, 'months').toISOString();
      
