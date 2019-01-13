@@ -40,6 +40,8 @@ module.exports = {
                             Cart.findOneAndUpdate({_id: order.cartId}, {status: 'Paid'}).exec().then(cart =>{
                                 console.log(cart);
                                 io.sockets.emit('Order Payment', order);
+
+                                
                             })
                         }
                         

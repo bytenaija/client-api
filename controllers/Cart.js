@@ -56,7 +56,7 @@ module.exports = {
                     CartItem.findOne({productId: cItem.productId, cartId: id }).then(cart =>{
                         console.log("cartddddddddd",cart);
                         if(cart){
-                            cart.quantity = cItem.quantity;
+                            cart.quantity += cItem.quantity;
                             cart.save();
                         }else{
                             CartItem.create(cItem)
