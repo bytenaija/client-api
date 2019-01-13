@@ -29,7 +29,8 @@ const FarmSchema = new Schema({
 
     status:{
         type:String,
-        required: true
+        required: true,
+        default: 'unpaid'
     },
 
     reference:{
