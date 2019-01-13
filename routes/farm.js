@@ -5,7 +5,8 @@ const FarmController = require('../controllers/Farms')
 
 
 
-router.get('/v1/getallfarms', FarmController.getAllFarms)
-router.post('/v1/createfarm', verifyToken, FarmController.createFarm)
+router.get('/v1/', FarmController.getAllFarms)
+router.post('/v1/', verifyToken, FarmController.createFarm)
+router.patch('/v1/:id', verifyToken, FarmController.editFarm)
 
 module.exports = router

@@ -3,7 +3,7 @@ const {jwtKey} = require('./keys')
 module.exports ={
 
   jwtSign : (user, cb) =>{
-    console.log("JWT", user)
+    // console.log("JWT", user)
     jwt.sign({user}, jwtKey, (err, token)=>{
       if(err){
         cb(err)
@@ -17,7 +17,7 @@ module.exports ={
 
 verifyToken: (req, res, next)=> {
     const bearerHeader = req.headers['authorization'];
-    console.log(bearerHeader);
+    // console.log(bearerHeader);
     if (typeof bearerHeader != 'undefined') {
         const bearer = bearerHeader.split(" ");
         const bearerToken = bearer[1];

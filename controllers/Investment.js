@@ -2,6 +2,25 @@ let Investment = require('../models/Investment')
 let {verify} = require('../config/jwt')
 
 module.exports = {
+
+    createInvestment: (req, res, next) =>{
+        let verification = verify(req, res, next);
+        if(verification){
+            Investment.create(req.body).then(investments =>{
+                if(investments){
+
+                    res.status(200).json({success: true, investments})
+                }else{
+                    res.status(200).json({success: false, message: 'An error occured. Please try again later'})
+                }
+            }).catch(err =>{
+                console.log(err)
+                res.status(200).json({success: false, message: 'An error occured. Please try again later'})
+            })
+        }else{
+            res.status(401).json({success: false, message: 'Authentication Required'});
+        }
+    },
     getInvestments: (req, res, next) => {
         let verification = verify(req, res, next);
         if(verification){

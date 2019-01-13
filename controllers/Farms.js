@@ -71,4 +71,14 @@ module.exports = {
     return res.status(403).json({success: false, message: 'You are not authorised to access this resource'})
   }
 },
+
+editFarm: (req, res)=>{
+  let {id} = req.params;
+
+  Farms.findOneById(id).then(farm =>{
+    farm.save(req.body).then(farm =>{
+      res.status(200).json({success: true, farm})
+    })
+  })
+}
 }
