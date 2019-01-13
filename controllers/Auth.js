@@ -149,6 +149,8 @@ module.exports = {
 
   });
 
+  console.log("user", user)
+if(user){
   User.findOne({email: user.user.email}).populate(['adresses', 'carts', 'farms'])
   .then(user =>{
     if(!user){
@@ -164,6 +166,11 @@ module.exports = {
 
     return res.status(404).json({success: false, message: 'Invalid token'})
   })
+}else{
+  
+  return res.status(404).json({success: false, message: 'Invalid token'})
+}
+  
 
   }
 }
