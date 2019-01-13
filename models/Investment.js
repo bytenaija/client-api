@@ -31,6 +31,11 @@ const InvestmentSchema = new Schema({
         type:String,
         required: true,
         default: 'inActive'
+    },
+
+    unitPrice: {
+        type: Number,
+        required: true,
     }
 
 }, {

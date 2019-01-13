@@ -67,6 +67,8 @@ let farmRoutes = require('./routes/farm');
 let productRoutes = require('./routes/product');
 let orderRoutes = require('./routes/orders');
 let transactionRoutes = require('./routes/transactions');
+let notificationRoutes = require('./routes/notifications');
+let investmentRoutes = require('./routes/investment');
 
 
 app.use('/api/admin/auth', adminRoutes);
@@ -76,4 +78,6 @@ app.use('/api/farms', farmRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/investments', investmentRoutes);
 
