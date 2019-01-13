@@ -2,8 +2,12 @@ const Address = require('../models/Address')
 const Farm = require('../models/Farms')
 const Cart = require('../models/Cart')
 const User = require('../models/User');
-const {jwtVerify, jwtSign} = require('../config/jwt')
-;
+const {jwtVerify, jwtSign} = require('../config/jwt');
+const ForgotPassword = require('../models/ForgotPassword')
+const generator = require('generate-password')
+const uuid = require('uuid/v5')
+const EmailService = require('../services/EmailService')
+const url = require('url');
 
 
 module.exports = {
@@ -78,5 +82,57 @@ module.exports = {
 
   getUserByToken: (req, res) =>{
    User.getUserByToken(req.body.token)
+  },
+
+  forgotPassword:  (req, res)=>{
+    User.findOne({email: req.body.email})
+    .then(async user =>{
+      if(user){
+        let code = generator.generate({
+          length: 300,
+          numbers: true,
+          uppercase: true
+        });
+
+        console.log(code)
+        console.log(user.email)
+
+       await  ForgotPassword.findOneAndRemove({email: user.email});
+
+        ForgotPassword.create({email: user.email, code}).then(async response =>{
+          let link = `http://localhost:5000/api/auth/v1/password-recovery/?code=${code}`
+          await EmailService.email(response.email, link, user.firstname, "ForgotPassword");
+          res.status(200).json({success: true});
+        }).catch(err =>{
+          console.dir(err);
+          res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+        })
+      }
+    }).catch(
+      err =>{
+        console.dir(err);
+        res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+      }
+    )
+  },
+
+  passwordRecovery : (req, res)=>{
+    let {code} = req.query;
+    ForgotPassword.findOne({code})
+    .then(user =>{
+      if(user){
+        User.findOneAndUpdate({email: user.email}, {password: req.body.password})
+        .then(user =>{
+          res.status(200).json({success: true, message: 'Password Successfully Changed'})
+        }).catch(err =>{
+          console.dir(err)
+          res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+        })
+      }
+    }).catch(err =>{
+      console.dir(err)
+      res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+    })
   }
 }
+

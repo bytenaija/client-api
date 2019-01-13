@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
+const _ = require('lodash')
 
 const Schema = mongoose.Schema;
 
@@ -62,6 +63,22 @@ UserSchema.pre('save', function (next) {
       next();
     });
   });
+});
+
+UserSchema.pre('findOneAndUpdate', function(next) {
+  console.log("this .update", this.getUpdate())
+  const update = this.getUpdate();
+  if (!_.isEmpty(update.password)) {
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(update.password, salt, (err, hash) => {
+        this.getUpdate().password = hash;
+        console.log(this.getUpdate())
+        next();
+      })
+    })
+  } else {
+    next();
+  }
 });
 
 UserSchema.methods.comparePassword = (userPassword, password, cb) => {
