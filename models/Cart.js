@@ -33,5 +33,13 @@ CartSchema.pre('remove', function(next) {
     CartItem.remove({cartId: this._id}).exec();
     next();
 });
+CartSchema.pre('findAndRemoveMany', function(next) {
+    CartItem.remove({cartId: this._id}).exec();
+    next();
+});
 
+CartSchema.pre('findOneAndRemove', function(next) {
+    CartItem.remove({cartId: this._id}).exec();
+    next();
+});
 module.exports = mongoose.model('Cart', CartSchema)

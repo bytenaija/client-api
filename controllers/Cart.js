@@ -1,14 +1,19 @@
 let Cart = require('../models/Cart');
+let Product = require('../models/Product');
 let Order = require('../models/Order');
 let CartItem = require('../models/CartItem')
 let User = require('../models/User')
 let {verify} = require('../config/jwt')
 
 module.exports = {
-    saveCart : (req, res, next) =>{
+    saveCart : async (req, res, next) =>{
         let verification = verify(req, res, next);
         if(verification){
-            
+            User.findById(verification.user._id).populate('carts').then(user =>{
+                console.log(user)
+            })
+            // await Cart.findAndRemoveMany({userId: verification.user._id, status: 'Uncomplete'})
+
             req.body.userId = verification.user._id;
             Cart.create(req.body).then(cart =>{
                 let cartitems = []
@@ -141,31 +146,32 @@ module.exports = {
     deleteProduct: (req, res) =>{
         let {id, productId} =  req.params;
         console.log(id, productId)
-        CartItem.findOne({cartId: id, productId}).then(cItem => console.log("C - Item", cItem));
-        Cart.findById(id).then(cart =>{
-            console.log(cart)
-            let idx = cart.cartItems.findIndex(element => {
-                console.log(element, productId)
-                return element == productId
-            });
-            console.log("index", idx)
-            if(idx != -1){
-                CartItem.findOneAndRemove(id).then(cItem =>{
-                    console.log("Item to be removed", cItem);
-                    cart.totalCost -= (cItem.price * cItem.quantity)
-                    cart.cartitems.splice(idx, 1);
-                    cart.save();
-                    res.status(200).json({success: true, message: "Product Deleted"})
-                }).catch(err =>{
-                    console.dir(err)
-                    res.status(500).json({success: false, message: "Failed to delete products"})
-                })
-            }else{
-                res.status(200).json({success: false, message: "Failed to delete products"})
-            }
-        }).catch(err =>{
-            console.dir(err)
-            res.status(500).json({success: false, message: "Failed to delete products"})
-        })
+        CartItem.findOne({cartId: id, productId}).populate('productId').then(cItem => {
+            console.log("citem",cItem)
+            Cart.findById(id).then(async cart =>{
+                console.log(cart)
+                let idx = cart.cartItems.findIndex(element => {
+                    console.log(element.toString(), cItem._id.toString())
+                    return element.toString() === cItem._id.toString()
+                });
+                console.log("index", idx)
+                if(idx != -1){
+                        cart.totalCost -= (cItem.productId.price * cItem.quantity)
+                        
+                        cart.cartItems.splice(idx, 1);
+                        
+                        cart.save();
+                        await CartItem.findOneAndRemove({cartId: id, productId})
+                        res.status(200).json({success: true, message: "Product Deleted"})
+                   
+                }else{
+                    res.status(200).json({success: false, message: "Failed to delete products"})
+                }
+            }).catch(err =>{
+                console.dir(err)
+                res.status(500).json({success: false, message: "Failed to delete products"})
+            })
+        });
+        
     }
 }
