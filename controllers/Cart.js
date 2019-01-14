@@ -140,6 +140,7 @@ module.exports = {
 
     deleteProduct: (req, res) =>{
         let {id, productId} =  req.params;
+        console.log(id, productId)
         Cart.findById(id).then(cart =>{
             let idx = cart.cartitems.findIndex(element => element == productId);
             if(idx != -1){
