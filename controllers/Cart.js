@@ -142,6 +142,7 @@ module.exports = {
         let {id, productId} =  req.params;
         console.log(id, productId)
         Cart.findById(id).then(cart =>{
+            console.log(cart)
             let idx = cart.cartitems.findIndex(element => element == productId);
             if(idx != -1){
                 CartItem.findOneAndRemove(id).then(cItem =>{
