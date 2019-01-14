@@ -9,19 +9,27 @@ module.exports = {
     saveCart : async (req, res, next) =>{
         let verification = verify(req, res, next);
         if(verification){
-            let incompleteCarts = await User.findById(verification.user._id).populate('carts').then(user =>{
+           await User.findById(verification.user._id).then(user =>{
                 console.log("incomplete", user, "incomplete")
-               return  user.carts.filter(cart => cart.status == 'Uncomplete' || cart.status == undefined)
-            })
+               let incomplete =  [] 
+            //    user.carts.filter(cart => cart.status == 'Uncomplete' || cart.status == undefined)
+                user.carts.forEach(cart =>{
+                   Cart.findById(cart).then(c =>{
+                       if(c){
+                           if(c.status == 'Uncomplete'){
+                               c.delete()
+                            //    incomplete.push(c)
+                           }
+                       }else{
+                       user.carts.splice(user.carts.indexOf(cart), 1)
+                       }
+                   })
+                })
 
-            console.log("incomplete", incompleteCarts, "incomplete")
-            // incompleteCarts.forEach(async cart => {
-                // if(cart._id){
-                //    await Cart.findByIdAndRemove(cart._id)
-                // }
-       
-            // })
-            // await 
+                user.save()
+             
+            })
+     
 
             req.body.userId = verification.user._id;
             Cart.create(req.body).then(cart =>{
