@@ -11,7 +11,7 @@ module.exports = {
         if(verification){
             let incompleteCarts = await User.findById(verification.user._id).populate('carts').then(user =>{
                 console.log("incomplete", user, "incomplete")
-               return  user.carts.find(cart => cart.status == 'Uncomplete' || cart.status == undefined)
+               return  user.carts.map(cart => cart.status == 'Uncomplete' || cart.status == undefined)
             })
 
             console.log("incomplete", incompleteCarts, "incomplete")
