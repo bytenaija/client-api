@@ -10,7 +10,7 @@ module.exports = {
         let verification = verify(req, res, next);
         if(verification){
             let incompleteCarts = await User.findById(verification.user._id).populate('carts').then(user =>{
-                
+                console.log("incomplete", user, "incomplete")
                return  user.carts.find(cart => cart.status == 'Uncomplete' || cart.status == undefined)
             })
 
