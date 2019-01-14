@@ -143,7 +143,7 @@ module.exports = {
         console.log(id, productId)
         Cart.findById(id).then(cart =>{
             console.log(cart)
-            let idx = cart.cartitems.findIndex(element => element == productId);
+            let idx = cart.cartItems.findIndex(element => element == productId);
             if(idx != -1){
                 CartItem.findOneAndRemove(id).then(cItem =>{
                     console.log("Item to be removed", cItem);
