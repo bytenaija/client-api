@@ -14,8 +14,10 @@ module.exports = {
                let incomplete =  [] 
             //    user.carts.filter(cart => cart.status == 'Uncomplete' || cart.status == undefined)
                 user.carts.forEach(cart =>{
+                    console.log("cgdgdgdgdggdgdgdg", cart)
                    Cart.findById(cart).then(c =>{
                        if(c){
+                           console.log("cccccccccccccccccccccccccccc", c)
                            if(c.status == 'Uncomplete'){
                                c.delete()
                             //    incomplete.push(c)
@@ -32,6 +34,7 @@ module.exports = {
      
 
             req.body.userId = verification.user._id;
+            console.log("Request.body", req.body)
             Cart.create(req.body).then(cart =>{
                 let cartitems = []
                 req.body.cartitems.forEach(cartItem =>{
