@@ -141,6 +141,7 @@ module.exports = {
     deleteProduct: (req, res) =>{
         let {id, productId} =  req.params;
         console.log(id, productId)
+        CartItem.findOne({cartId: id, productId}).then(cItem => console.log("C - Item", cItem));
         Cart.findById(id).then(cart =>{
             console.log(cart)
             let idx = cart.cartItems.findIndex(element => {
