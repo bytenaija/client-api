@@ -144,6 +144,7 @@ module.exports = {
         Cart.findById(id).then(cart =>{
             console.log(cart)
             let idx = cart.cartItems.findIndex(element => element == productId);
+            console.log("index", idx)
             if(idx != -1){
                 CartItem.findOneAndRemove(id).then(cItem =>{
                     console.log("Item to be removed", cItem);
@@ -155,6 +156,8 @@ module.exports = {
                     console.dir(err)
                     res.status(500).json({success: false, message: "Failed to delete products"})
                 })
+            }else{
+                res.status(500).json({success: false, message: "Failed to delete products"})
             }
         }).catch(err =>{
             console.dir(err)
