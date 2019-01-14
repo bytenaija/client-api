@@ -10,11 +10,15 @@ module.exports = {
         let verification = verify(req, res, next);
         if(verification){
             let incompleteCarts = await User.findById(verification.user._id).populate('carts').then(user =>{
+                
                return  user.carts.find(cart => cart.status == 'Uncomplete')
             })
 
-            console.log(incompleteCarts)
-            // await Cart.findAndRemoveMany({userId: verification.user._id, status: 'Uncomplete'})
+            console.log("incomplete", incompleteCarts, "incomplete")
+            // incompleteCarts.forEach(async cart => {
+            //    await Cart.findByIdAndRemove(cart._id)
+            // })
+            // await 
 
             req.body.userId = verification.user._id;
             Cart.create(req.body).then(cart =>{
