@@ -9,45 +9,58 @@ module.exports = {
     saveCart : async (req, res, next) =>{
         let verification = verify(req, res, next);
         if(verification){
-           await User.findById(verification.user._id).then(user =>{
-                console.log("incomplete", user, "incomplete")
-               let incomplete =  [] 
-            //    user.carts.filter(cart => cart.status == 'Uncomplete' || cart.status == undefined)
-                user.carts.forEach(cart =>{
-                    console.log("cgdgdgdgdggdgdgdg", cart)
-                   Cart.findById(cart).then(c =>{
-                       if(c){
-                           console.log("cccccccccccccccccccccccccccc", c)
+            function saveUser(user){
+                console.log("User carts", user.carts)
+                user.save()
+            }
+            User.findById(verification.user._id).then(user =>{
+           
+               let incomplete =  0;
+                let length = user.carts.length;
+                 user.carts.forEach( (cart, index, array) =>{
+                   
+                  Cart.findById(cart).then( c =>{
+                       if(c){   
                            if(c.status == 'Uncomplete'){
                                c.delete()
-                            //    incomplete.push(c)
+                               user.carts.splice(user.carts.indexOf(c._id), 1)
+                               console.log("uncomplete", user.carts)
                            }
                        }else{
-                       user.carts.splice(user.carts.indexOf(cart), 1)
+                           console.log("Here now")
+                           console.log(cart)
+                        user.carts.splice(user.carts.indexOf(cart), 1)
+                       
+                    
                        }
+                       incomplete++
+                       console.log("Incomplete", incomplete, length)
+                       if (incomplete === length) {
+                        saveUser(user);
+                    }
                    })
+                   
                 })
-
-                user.save()
-             
+                          
             })
+        
      
 
             req.body.userId = verification.user._id;
-            console.log("Request.body", req.body)
+            //console.log("Request.body", req.body)
             Cart.create(req.body).then(cart =>{
                 let cartitems = []
                 req.body.cartitems.forEach(cartItem =>{
                     cartItem.cartId = cart._id;
                     cartitems.push(cartItem)
                 })
-                console.log("Cart items", cartitems)
+                //console.log("Cart items", cartitems)
 
                 CartItem.insertMany(cartitems).then(cItems =>{
                     cItems.forEach(cItem => {
                         cart.cartItems.push(cItem._id);
                     });
-                   console.log("Cart: ", cart)
+                   //console.log("Cart: ", cart)
                     cart.save();
                     User.findById(cart.userId).then(user =>{
                         user.carts.push(cart._id);
@@ -62,13 +75,13 @@ module.exports = {
                         res.status(200).json({success: true, cart})   
                        })
                 }).catch(err =>{
-                    console.log(err)
+                    //console.log(err)
                     return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
                 })
                 // res.status(200).json({success: true, cart})
             })
             .catch(err =>{
-                console.log(err)
+                //console.log(err)
                 return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
             })
         }
@@ -76,11 +89,11 @@ module.exports = {
 
     editCart : (req, res, next) =>{
         let {id} = req.params;
-        console.log("Req.body", req.body)
+        //console.log("Req.body", req.body)
             Cart.findOneAndUpdate({_id: id}, req.body).then(async mainCart =>{
               await  req.body.cartitems.forEach(cItem =>{
                     CartItem.findOne({productId: cItem.productId, cartId: id }).then(cart =>{
-                        console.log("cartddddddddd",cart);
+                        //console.log("cartddddddddd",cart);
                         if(cart){
                             cart.quantity += cItem.quantity;
                             cart.save();
@@ -106,13 +119,13 @@ module.exports = {
                
                    
                 }).catch(err =>{
-                    console.log(err)
+                    //console.log(err)
                     return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
                 })
                 // res.status(200).json({success: true, cart})
           
             .catch(err =>{
-                console.log(err)
+                //console.log(err)
                 return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
             })
         
@@ -122,7 +135,7 @@ module.exports = {
         Cart.findOneAndDelete(req.params.id).then(cart =>{
             return res.status(500).json({success: true, message: 'Cart successfully deleted'})
         }).catch(err =>{
-            console.log(err)
+            //console.log(err)
             return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
         })
     },
@@ -140,7 +153,7 @@ module.exports = {
             res.status(200).json({success: true, carts})
         })
         .catch(err =>{
-            console.log(err)
+            //console.log(err)
             return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
         })
     },
@@ -158,23 +171,23 @@ module.exports = {
             res.status(200).json({success: true, cart})
         })
         .catch(err =>{
-            console.log(err)
+            //console.log(err)
             return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
         })
     },
 
     deleteProduct: (req, res) =>{
         let {id, productId} =  req.params;
-        console.log(id, productId)
+        //console.log(id, productId)
         CartItem.findOne({cartId: id, productId}).populate('productId').then(cItem => {
-            console.log("citem",cItem)
+            //console.log("citem",cItem)
             Cart.findById(id).then(async cart =>{
-                console.log(cart)
+                //console.log(cart)
                 let idx = cart.cartItems.findIndex(element => {
-                    console.log(element.toString(), cItem._id.toString())
+                    //console.log(element.toString(), cItem._id.toString())
                     return element.toString() === cItem._id.toString()
                 });
-                console.log("index", idx)
+                //console.log("index", idx)
                 if(idx != -1){
                         cart.totalCost -= (cItem.productId.price * cItem.quantity)
                         
@@ -188,7 +201,7 @@ module.exports = {
                     res.status(200).json({success: false, message: "Failed to delete products"})
                 }
             }).catch(err =>{
-                console.dir(err)
+                //console.dir(err)
                 res.status(500).json({success: false, message: "Failed to delete products"})
             })
         });
