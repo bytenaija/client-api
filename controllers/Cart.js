@@ -140,10 +140,10 @@ module.exports = {
 
     deleteProduct: (req, res) =>{
         let {id, productId} =  req.params;
-        Cart.findOneById(id).then(cart =>{
+        Cart.findById(id).then(cart =>{
             let idx = cart.cartitems.findIndex(element => element == productId);
             if(idx != -1){
-                CartItem.findOneAndDelete(id).then(cItem =>{
+                CartItem.findOneAndRemove(id).then(cItem =>{
                     console.log("Item to be removed", cItem);
                     cart.totalCost -= (cItem.price * cItem.quantity)
                     cart.cartitems.splice(idx, 1);
