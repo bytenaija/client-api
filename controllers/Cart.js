@@ -143,9 +143,11 @@ module.exports = {
         Cart.findOneById(id).then(cart =>{
             let idx = cart.cartitems.findIndex(element => element == productId);
             if(idx != -1){
-                cart.cartitems.splice(idx, 1);
-                cart.save();
                 CartItem.findOneAndDelete(id).then(cItem =>{
+                    console.log("Item to be removed", cItem);
+                    cart.totalCost -= (cItem.price * cItem.quantity)
+                    cart.cartitems.splice(idx, 1);
+                    cart.save();
                     res.status(200).json({success: true, message: "Product Deleted"})
                 }).catch(err =>{
                     console.dir(err)
