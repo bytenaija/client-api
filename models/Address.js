@@ -27,7 +27,18 @@ const AddressSchema = new Schema({
         type:String,
         required: true
     },
+    phoneNumber: {
+        type:String,
+        required: true
+    },
+    email:{
+        type:String,
+        required: true
+    },
+    default:{
+        type:Boolean,
 
+    },
 })
 
 
