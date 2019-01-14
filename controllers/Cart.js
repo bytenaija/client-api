@@ -10,7 +10,7 @@ module.exports = {
         let verification = verify(req, res, next);
         if(verification){
             User.findById(verification.user._id).populate('carts').then(user =>{
-                console.log(user)
+                console.log("User Id", user)
             })
             // await Cart.findAndRemoveMany({userId: verification.user._id, status: 'Uncomplete'})
 
