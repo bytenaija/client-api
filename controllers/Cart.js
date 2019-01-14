@@ -9,9 +9,11 @@ module.exports = {
     saveCart : async (req, res, next) =>{
         let verification = verify(req, res, next);
         if(verification){
-            User.findById(verification.user._id).populate('carts').then(user =>{
-                console.log("User Id", user)
+            let incompleteCarts = await User.findById(verification.user._id).populate('carts').then(user =>{
+               return  user.carts.find(cart => cart.status == 'Uncomplete')
             })
+
+            console.log(incompleteCarts)
             // await Cart.findAndRemoveMany({userId: verification.user._id, status: 'Uncomplete'})
 
             req.body.userId = verification.user._id;
