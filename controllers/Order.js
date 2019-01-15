@@ -7,10 +7,10 @@ module.exports = {
     create: (req, res, next)=>{
         let verification = verify(req, res, next);
         if(verification){
-            let {cartId, addressId} = req.body;
+            let {cartId, addressId, tax, totalCost} = req.body;
             let reference = uuid() + Date.now();
             let userId = verification.user._id;
-            Order.create({cartId, addressId, reference, userId})
+            Order.create({cartId, addressId, reference, userId, tax, totalCost})
             .then(order =>{
                 if(order){
                     res.status(200).json({success: true, message: 'Order Placed Successful', order});

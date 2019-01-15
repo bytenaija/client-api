@@ -22,11 +22,21 @@ const OrderSchema = new Schema({
         required: true,
         ref: 'User'
     },
-    // addressId: {
-    //     type: mongoose.SchemaTypes.ObjectId,
-    //     required: true,
-    //     ref: 'Address'
-    // },
+    addressId: {
+        type: mongoose.SchemaTypes.ObjectId,
+        required: true,
+        ref: 'Address'
+    },
+    tax: {
+        type: Number,
+        required: true,
+        
+    },
+
+    totalCost: {
+        type: Number,
+        required: true,  
+    },
     reference: {
         type: String,
         required: true
