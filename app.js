@@ -12,7 +12,10 @@ var ioredis = require('socket.io-redis'); //Adapter
 var url = require('url');
 const REDIS_URL = process.env.REDIS_URL || 'redis://h:p8e15aeba426fb276116439f8d2c91f30d4bf9fafa7bb6874e7a572fc9dd5d96b@ec2-52-5-188-199.compute-1.amazonaws.com:18599'
 // var redisURL = url.parse(REDIS_URL);
-
+var kue = require('kue')
+ , queue = kue.createQueue({
+    redis: REDIS_URL
+  });
 const redisClient = redis.createClient({
     url: REDIS_URL
 });
@@ -124,6 +127,7 @@ io.on('connection', (socket) => {
 app.use(function (req, res, next) {
     req.io = io;
     req.redisClient = redisClient;
+    req.queue = queue;
     next();
 });
 
