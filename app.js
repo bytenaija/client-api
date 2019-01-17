@@ -11,17 +11,20 @@ var redis = require('redis');
 var ioredis = require('socket.io-redis'); //Adapter
 var url = require('url'); 
 const REDIS_URL =  process.env.REDIS_URL || 'redis://h:p8e15aeba426fb276116439f8d2c91f30d4bf9fafa7bb6874e7a572fc9dd5d96b@ec2-52-5-188-199.compute-1.amazonaws.com:18599'
-var redisURL = url.parse(REDIS_URL);
+// var redisURL = url.parse(REDIS_URL);
 
+const redisClient = redis.createClient({url: REDIS_URL});
+
+console.dir(redisClient)
 
 const clients = [];
 
 // let adminRoute = require('./routes/admin/auth.js')
 // let adminRoute = require('./routes/admin/auth.js')
-var paystack = require('paystack')(process.env.PAYSTACK_SECRET_KEY);
+
 
 // uuid module is required to create a random reference number
-var uuid     = require('node-uuid');
+
 mongoose.connect('mongodb://root:rootUser1@ds123224.mlab.com:23224/goatti', { useNewUrlParser: true }, (err, connect)=>{
   if(err) throw err
   console.log("Connected to MongoDB");
@@ -33,9 +36,7 @@ var app = require('express')();
 app = module.exports.app = express();
 app.use(cors());
 app.use(morgan('dev'));
-// const formidable = require('express-formidable');
 
-// app.use(formidable());
 
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
@@ -57,23 +58,23 @@ io.configure = () =>{
   io.set("polling duration", 10)
 };
 
-var pub = redis.createClient(redisURL.port, redisURL.hostname, {return_buffers: true});
-var sub = redis.createClient(redisURL.port, redisURL.hostname, {return_buffers: true});
-pub.auth(redisURL.auth.split(":")[1]);
-sub.auth(redisURL.auth.split(":")[1]);
+// var pub = redis.createClient(redisURL.port, redisURL.hostname, {return_buffers: true});
+// var sub = redis.createClient(redisURL.port, redisURL.hostname, {return_buffers: true});
+// pub.auth(redisURL.auth.split(":")[1]);
+// sub.auth(redisURL.auth.split(":")[1]);
 
-console.log(redisURL)
+// console.log(redisURL)
 
-var redisOptions = {
-  pubClient: pub,
-  subClient: sub,
-  host: redisURL.hostname,
-  port: redisURL.port
-};
+// var redisOptions = {
+//   pubClient: pub,
+//   subClient: sub,
+//   host: redisURL.hostname,
+//   port: redisURL.port
+// };
 
-io.adapter(ioredis(redisOptions));
+// io.adapter(ioredis(redisOptions));
 
-io.of("/").on('connection', (socket) =>{
+io.on('connection', (socket) =>{
     console.log("fhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
         socket.on('storeClientInfo', function (data) {
 
@@ -85,7 +86,7 @@ io.of("/").on('connection', (socket) =>{
             console.log("Clientsssssssssssss", clients)
 
             console.log("iooooooooooooooooooooooooooo", io)
-            io.of("/").adapter.set(data.userId, socket.id);
+           redisClient.set(data.userId, socket.id);
         });
 
         socket.on('disconnect', function (data) {
