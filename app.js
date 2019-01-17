@@ -73,7 +73,8 @@ var redisOptions = {
 
 io.adapter(ioredis(redisOptions));
 
-io.of("/").sockets.on('connection', (socket) =>{
+io.of("/").on('connection', (socket) =>{
+    console.log("fhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
         socket.on('storeClientInfo', function (data) {
 
             var clientInfo = new Object();
