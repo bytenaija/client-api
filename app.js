@@ -90,7 +90,7 @@ io.on('connection', (socket) =>{
         });
 
         socket.on('disconnect', async (data) => {
-            for (let element of mySet.entries()){
+            for (let element of clients.entries()){
                 if(element.clientId == socket.id){
                     clients.delete(element)
 
