@@ -75,7 +75,7 @@ io.configure = () =>{
 // io.adapter(ioredis(redisOptions));
 
 io.on('connection', (socket) =>{
-    console.log("fhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+    
         socket.on('storeClientInfo', function (data) {
 
             var clientInfo = new Object();
@@ -89,7 +89,7 @@ io.on('connection', (socket) =>{
            redisClient.set(data.userId, socket.id);
         });
 
-        socket.on('disconnect', function async (data) {
+        socket.on('disconnect', async (data) => {
             for (let element of mySet.entries()){
                 if(element.clientId == socket.id){
                     clients.delete(element)
