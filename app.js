@@ -74,7 +74,7 @@ var redisOptions = {
 io.adapter(ioredis(redisOptions));
 
 io.sockets.on('connection', (socket) =>{
-
+    console.dir("iooooooooooooooooooooooooooo", io)
 
         socket.on('storeClientInfo', function (data) {
 
