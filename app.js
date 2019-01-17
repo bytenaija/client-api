@@ -73,9 +73,7 @@ var redisOptions = {
 
 io.adapter(ioredis(redisOptions));
 
-io.sockets.on('connection', (socket) =>{
-    
-
+io.of("/").sockets.on('connection', (socket) =>{
         socket.on('storeClientInfo', function (data) {
 
             var clientInfo = new Object();
