@@ -77,11 +77,8 @@ io.configure = () =>{
 io.on('connection', (socket) =>{
     
         socket.on('storeClientInfo', function (data) {
-
-            var clientInfo = new Object();
-            clientInfo.userId         = data.userId;
-            clientInfo.clientId     = socket.id;
-            clients.add(clientInfo);
+             
+            clients.add({userId: data.userId, clientId: socket.id});
 
            redisClient.set(data.userId, socket.id);
 
@@ -89,6 +86,7 @@ io.on('connection', (socket) =>{
         });
 
         socket.on('disconnect', async (data) => {
+            console.log("erheehehhhhhhhhhhhhhhhhhhhhhhhhh", clients.entries())
             for (let element of clients.entries()){
                 console.log("Elementnenenenenene", element)
                 console.log("elelelelelelelele", socket.id, element.clientId == socket.id)
