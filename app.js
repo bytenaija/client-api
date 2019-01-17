@@ -17,7 +17,7 @@ const redisClient = redis.createClient({url: REDIS_URL});
 
 console.dir(redisClient)
 
-const clients = [];
+const clients = new Set();
 
 // let adminRoute = require('./routes/admin/auth.js')
 // let adminRoute = require('./routes/admin/auth.js')
@@ -81,7 +81,7 @@ io.on('connection', (socket) =>{
             var clientInfo = new Object();
             clientInfo.userId         = data.userId;
             clientInfo.clientId     = socket.id;
-            clients.push(clientInfo);
+            clients.add(clientInfo);
 
             console.log("Clientsssssssssssss", clients)
 
@@ -90,15 +90,13 @@ io.on('connection', (socket) =>{
         });
 
         socket.on('disconnect', function (data) {
-            console.log("disconnecting")
-            for( var i=0, len=clients.length; i<len; ++i ){
-                var c = clients[i];
-
-                if(c.clientId == socket.id){
-                    clients.splice(i,1);
-                    break;
+            for (let element of mySet.entries()){
+                if(element.clientId == socket.id){
+                    clients.delete(element)
                 }
+                
             }
+          
 
         });
    
