@@ -9,11 +9,13 @@ let fs = require('fs')
 
 var redis = require('redis');
 var ioredis = require('socket.io-redis'); //Adapter
-var url = require('url'); 
-const REDIS_URL =  process.env.REDIS_URL || 'redis://h:p8e15aeba426fb276116439f8d2c91f30d4bf9fafa7bb6874e7a572fc9dd5d96b@ec2-52-5-188-199.compute-1.amazonaws.com:18599'
+var url = require('url');
+const REDIS_URL = process.env.REDIS_URL || 'redis://h:p8e15aeba426fb276116439f8d2c91f30d4bf9fafa7bb6874e7a572fc9dd5d96b@ec2-52-5-188-199.compute-1.amazonaws.com:18599'
 // var redisURL = url.parse(REDIS_URL);
 
-const redisClient = redis.createClient({url: REDIS_URL});
+const redisClient = redis.createClient({
+    url: REDIS_URL
+});
 
 
 
@@ -25,13 +27,15 @@ const clients = new Set();
 
 // uuid module is required to create a random reference number
 
-mongoose.connect('mongodb://root:rootUser1@ds123224.mlab.com:23224/goatti', { useNewUrlParser: true }, (err, connect)=>{
-  if(err) throw err
-  console.log("Connected to MongoDB");
+mongoose.connect('mongodb://root:rootUser1@ds123224.mlab.com:23224/goatti', {
+    useNewUrlParser: true
+}, (err, connect) => {
+    if (err) throw err
+    console.log("Connected to MongoDB");
 });
 
 
-var express =  require('express');
+var express = require('express');
 var app = require('express')();
 app = module.exports.app = express();
 app.use(cors());
@@ -41,21 +45,21 @@ app.use(morgan('dev'));
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 
-app.use(express.json());       // to support JSON-encoded bodies
-app.use(express.urlencoded({   // to support URL-encoded bodies
+app.use(express.json()); // to support JSON-encoded bodies
+app.use(express.urlencoded({ // to support URL-encoded bodies
     extended: true
 }));
 
 var server = http.createServer(app);
-server.listen(app.get('port'), function() {
+server.listen(app.get('port'), function () {
     console.log("Node app is running at localhost:" + app.get('port'))
 });
 
 let io = socket.listen(server);
 
-io.configure = () =>{
-  io.set("transports", ["xhr-polling"])
-  io.set("polling duration", 10)
+io.configure = () => {
+    io.set("transports", ["xhr-polling"])
+    io.set("polling duration", 10)
 };
 
 // var pub = redis.createClient(redisURL.port, redisURL.hostname, {return_buffers: true});
@@ -74,40 +78,50 @@ io.configure = () =>{
 
 // io.adapter(ioredis(redisOptions));
 
-io.on('connection', (socket) =>{
-    
-        socket.on('storeClientInfo', function (data) {
-             
-            clients.add({userId: data.userId, clientId: socket.id});
+io.on('connection', (socket) => {
 
-           redisClient.set(data.userId, socket.id);
+    socket.on('storeClientInfo', function (data) {
 
-           console.log("Reddddddddddddddddddddddddddddddddddddddddddd",redisClient)
+        clients.add({
+            userId: data.userId,
+            clientId: socket.id
         });
 
-        socket.on('disconnect', async (data) => {
-            console.log("erheehehhhhhhhhhhhhhhhhhhhhhhhhh", clients.entries())
-            for (let element of clients.entries()){
-                console.log("Elementnenenenenene", element)
-                console.log("elelelelelelelele", socket.id, element[0].clientId == socket.id)
-                if(element[0].clientId == socket.id){
+        redisClient.set(data.userId, socket.id);
 
-                    clients.delete(element)
+        console.log("Reddddddddddddddddddddddddddddddddddddddddddd", redisClient)
+    });
 
-                   await redisClient.del(element.userId)
-                    break;
+    socket.on('disconnect', async (data) => {
+        console.log("erheehehhhhhhhhhhhhhhhhhhhhhhhhh", clients.entries())
+        for (let element of clients.entries()) {
+            console.log("Elementnenenenenene", element)
+            console.log("elelelelelelelele", socket.id, element[0].clientId == socket.id)
+            if (element[0].clientId == socket.id) {
 
-                }
-                
+                clients.delete(element)
+
+                redisClient.del(element.userId, (err, result) => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(result)
+                    }
+
+                })
+                break;
+
             }
-            
-            
-        });
-   
+
+        }
+
+
+    });
+
 });
 
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     req.io = io;
     req.redisClient = redisClient;
     next();
@@ -135,4 +149,3 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/investments', investmentRoutes);
-
