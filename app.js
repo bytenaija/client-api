@@ -14,7 +14,7 @@ const REDIS_URL =  process.env.REDIS_URL || 'redis://h:p8e15aeba426fb276116439f8
 var redisURL = url.parse(REDIS_URL);
 
 
-
+const clients = [];
 
 // let adminRoute = require('./routes/admin/auth.js')
 // let adminRoute = require('./routes/admin/auth.js')
