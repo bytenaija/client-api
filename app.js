@@ -93,10 +93,9 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', async (data) => {
-        console.log("erheehehhhhhhhhhhhhhhhhhhhhhhhhh", clients.entries())
         for (let element of clients.entries()) {
-            console.log("Elementnenenenenene", element)
-            console.log("elelelelelelelele", socket.id, element[0].clientId == socket.id)
+         
+            console.log(socket.id, element[0].clientId == socket.id)
             if (element[0].clientId == socket.id) {
 
                 clients.delete(element)
