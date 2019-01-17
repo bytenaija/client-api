@@ -15,7 +15,7 @@ const REDIS_URL =  process.env.REDIS_URL || 'redis://h:p8e15aeba426fb276116439f8
 
 const redisClient = redis.createClient({url: REDIS_URL});
 
-console.dir(redisClient)
+
 
 const clients = new Set();
 
@@ -87,6 +87,8 @@ io.on('connection', (socket) =>{
 
             console.log("iooooooooooooooooooooooooooo", io)
            redisClient.set(data.userId, socket.id);
+
+           console.dir("Reddddddddddddddddddddddddddddddddddddddddddd",redisClient)
         });
 
         socket.on('disconnect', async (data) => {
