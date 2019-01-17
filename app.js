@@ -102,9 +102,9 @@ io.on('connection', (socket) => {
 
                 redisClient.del(element.userId, (err, result) => {
                     if (err) {
-                        console.log(err)
+                        console.log("erororoorororo",err)
                     } else {
-                        console.log(result)
+                        console.log("Deleteeeeeee redis:", result)
                     }
 
                 })
