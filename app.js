@@ -89,8 +89,8 @@ io.on('connection', (socket) =>{
             console.log("erheehehhhhhhhhhhhhhhhhhhhhhhhhh", clients.entries())
             for (let element of clients.entries()){
                 console.log("Elementnenenenenene", element)
-                console.log("elelelelelelelele", socket.id, element.clientId == socket.id)
-                if(element.clientId == socket.id){
+                console.log("elelelelelelelele", socket.id, element[0].clientId == socket.id)
+                if(element[0].clientId == socket.id){
 
                     clients.delete(element)
 
