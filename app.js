@@ -98,9 +98,9 @@ io.on('connection', (socket) => {
             console.log(socket.id, element[0].clientId == socket.id)
             if (element[0].clientId == socket.id) {
 
-                clients.delete(element)
-
-                redisClient.del(element.userId, (err, result) => {
+               
+                console.log(element[0].userId)
+                redisClient.del(element[0].userId, (err, result) => {
                     if (err) {
                         console.log("erororoorororo",err)
                     } else {
@@ -108,7 +108,8 @@ io.on('connection', (socket) => {
                     }
 
                 })
-                break;
+                clients.delete(element)
+             
 
             }
 
