@@ -89,15 +89,19 @@ io.on('connection', (socket) =>{
            redisClient.set(data.userId, socket.id);
         });
 
-        socket.on('disconnect', function (data) {
+        socket.on('disconnect', function async (data) {
             for (let element of mySet.entries()){
                 if(element.clientId == socket.id){
                     clients.delete(element)
+
+                   await redisClient.del(element.userId)
+                    break;
+
                 }
                 
             }
-          
-
+            
+            
         });
    
 });
