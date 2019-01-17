@@ -83,18 +83,16 @@ io.on('connection', (socket) =>{
             clientInfo.clientId     = socket.id;
             clients.add(clientInfo);
 
-            console.log("Clientsssssssssssss", clients)
-
-            console.log("iooooooooooooooooooooooooooo", io)
            redisClient.set(data.userId, socket.id);
 
-           console.dir("Reddddddddddddddddddddddddddddddddddddddddddd",redisClient)
+           console.log("Reddddddddddddddddddddddddddddddddddddddddddd",redisClient)
         });
 
         socket.on('disconnect', async (data) => {
             for (let element of clients.entries()){
-                console.log("elelelelelelelele", element)
+                console.log("elelelelelelelele", element, socket.id, element.clientId == socket.id)
                 if(element.clientId == socket.id){
+
                     clients.delete(element)
 
                    await redisClient.del(element.userId)
