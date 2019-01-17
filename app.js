@@ -6,7 +6,13 @@ const mongoose = require('mongoose');
 let socket = require('socket.io');
 var http = require('http');
 let fs = require('fs')
-const connectedSockets = []
+
+var redis = require('redis');
+var ioredis = require('socket.io-redis'); //Adapter
+var url = require('url'); 
+const REDIS_URL =  process.env.REDIS_URL || 'redis://h:p8e15aeba426fb276116439f8d2c91f30d4bf9fafa7bb6874e7a572fc9dd5d96b@ec2-52-5-188-199.compute-1.amazonaws.com:18599'
+var redisURL = url.parse(REDIS_URL);
+
 
 
 
@@ -45,13 +51,56 @@ server.listen(app.get('port'), function() {
 });
 
 let io = socket.listen(server);
+
 io.configure = () =>{
   io.set("transports", ["xhr-polling"])
   io.set("polling duration", 10)
 };
 
+var pub = redis.createClient(redisURL.port, redisURL.hostname, {return_buffers: true});
+var sub = redis.createClient(redisURL.port, redisURL.hostname, {return_buffers: true});
+pub.auth(redisURL.auth.split(":")[1]);
+sub.auth(redisURL.auth.split(":")[1]);
+
+console.log(redisURL)
+
+var redisOptions = {
+  pubClient: pub,
+  subClient: sub,
+  host: redisURL.hostname,
+  port: redisURL.port
+};
+
+io.adapter(ioredis(redisOptions));
 
 io.sockets.on('connection', (socket) =>{
+
+
+        socket.on('storeClientInfo', function (data) {
+
+            var clientInfo = new Object();
+            clientInfo.userId         = data.userId;
+            clientInfo.clientId     = socket.id;
+            clients.push(clientInfo);
+
+            console.dir("Clientsssssssssssss", clients)
+
+            console.dir("iooooooooooooooooooooooooooo", io)
+        });
+
+        socket.on('disconnect', function (data) {
+
+            for( var i=0, len=clients.length; i<len; ++i ){
+                var c = clients[i];
+
+                if(c.clientId == socket.id){
+                    clients.splice(i,1);
+                    break;
+                }
+            }
+
+        });
+   
 });
 
 
