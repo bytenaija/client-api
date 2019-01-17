@@ -74,7 +74,7 @@ var redisOptions = {
 io.adapter(ioredis(redisOptions));
 
 io.sockets.on('connection', (socket) =>{
-    console.dir("iooooooooooooooooooooooooooo", io)
+    console.log("iooooooooooooooooooooooooooo", io)
 
         socket.on('storeClientInfo', function (data) {
 
@@ -83,9 +83,9 @@ io.sockets.on('connection', (socket) =>{
             clientInfo.clientId     = socket.id;
             clients.push(clientInfo);
 
-            console.dir("Clientsssssssssssss", clients)
+            console.log("Clientsssssssssssss", clients)
 
-            console.dir("iooooooooooooooooooooooooooo", io)
+            console.log("iooooooooooooooooooooooooooo", io)
         });
 
         socket.on('disconnect', function (data) {
