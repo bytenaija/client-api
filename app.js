@@ -90,7 +90,7 @@ io.on('connection', (socket) =>{
         });
 
         socket.on('disconnect', function (data) {
-
+            console.log("disconnecting")
             for( var i=0, len=clients.length; i<len; ++i ){
                 var c = clients[i];
 
@@ -107,6 +107,7 @@ io.on('connection', (socket) =>{
 
 app.use(function(req, res, next) {
     req.io = io;
+    req.redisClient = redisClient;
     next();
 });
 
