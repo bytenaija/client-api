@@ -52,7 +52,7 @@ module.exports = {
         let verification = verify(req, res, next);
         if (verification) {
             SavedItem.find({
-                userId: verification.user._id
+                user: verification.user._id
             }).populate({
                 path: 'product',
                 populate: {
