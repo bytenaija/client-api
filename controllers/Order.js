@@ -73,7 +73,12 @@ module.exports = {
                             model: 'CartItem',
                                     populate: {
                                         path: 'productId',
-                                        model: 'Product'
+                                        model: 'Product',
+                                        populate: {
+                                            path: 'images',
+                                            model: 'ProductImage'
+                                        }
+
                                     } }
             }).then(orders =>{ if(orders){
                 console.log(orders)
