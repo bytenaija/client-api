@@ -48,7 +48,7 @@ module.exports = {
     },
 
 
-    getSavedItem: (req, res, next) => {
+    getSavedItems: (req, res, next) => {
         let verification = verify(req, res, next);
         if (verification) {
             SavedItem.find({
