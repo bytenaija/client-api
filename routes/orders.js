@@ -14,6 +14,7 @@ router.post('/v1/payment', verifyToken, PaymentController.paystackPayment)
 // //orders operations
 router.post('/v1', verifyToken, OrderController.create)
 router.get('/v1', verifyToken, OrderController.getAllOrders)
+router.get('/v1/user', verifyToken, OrderController.getAllOrdersForAUser)
 router.get('/v1/:id', verifyToken, OrderController.getOrder)
 router.put('/v1/:id', verifyToken, OrderController.edit)
 router.delete('/v1/new', verifyToken, OrderController.delete)

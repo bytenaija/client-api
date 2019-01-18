@@ -90,7 +90,7 @@ module.exports = {
               user.farms.push(farm._id);
               user.save();
               QueueJobs.createFeedJobs(queue, io, redisClient.get(user._id.toString()));
-              QueueJobs.createEmailJob(queue, user.email, user.password, user.firstname, 'ForgotPassword' )
+              // QueueJobs.createEmailJob(queue, user.email, user.password, user.firstname, 'ForgotPassword' )
             })    
             io.sockets.emit('Farm Added', farm);
             let notification = {

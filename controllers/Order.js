@@ -21,6 +21,8 @@ module.exports = {
                     console.log(err);
                     res.status(500).json({success: false, message: 'Order could not be processed. Try again please'});
                 })
+        }else{
+            res.status(401).json({success: false, message: 'User must be authenticated'});
         }
 
 
@@ -60,6 +62,26 @@ module.exports = {
         })
         }
     },
+
+
+    getAllOrdersForAUser: (req, res, next)=>{
+        let verification = verify(req, res, next);
+        if(verification){
+            Order.find({userId: verification.user._id}).then(orders =>{ if(orders){
+                res.status(200).json({success: true, orders});
+            }else{
+                res.status(200).json({success: false, message: `Could not get all orders`}); 
+            }
+        }).catch(err =>{
+            console.error(err);
+            res.status(200).json({success: false, message: `Could not get all orders`}); 
+        })
+    }else{
+        res.status(401).json({success: false, message: 'User must be authenticated'});
+    }
+        
+    },
+
 
     getOrder: (req, res)=>{
         Order.findById(req.params.id)
