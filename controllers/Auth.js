@@ -105,7 +105,7 @@ module.exports = {
                 io.sockets.emit('User Added', user);
                 res.status(200).json({
                   success: true,
-                  user
+                  user, token
                 })
               }
             });
