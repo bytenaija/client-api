@@ -70,7 +70,7 @@ module.exports = {
             Order.find({userId: verification.user._id, status: 'Paid'}).populate({
                 path: 'cartId',
                 populate: { path:'cartItems',
-                            model: 'CartItems',
+                            model: 'CartItem',
                                     populate: {
                                         path: 'productId',
                                         model: 'Product'
