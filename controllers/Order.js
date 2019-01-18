@@ -67,7 +67,7 @@ module.exports = {
     getAllOrdersForAUser: (req, res, next)=>{
         let verification = verify(req, res, next);
         if(verification){
-            Order.find({userId: verification.user._id}).populate('cartId').then(orders =>{ if(orders){
+            Order.find({userId: verification.user._id, status: 'Paid'}).populate('cartId').then(orders =>{ if(orders){
                 console.log(orders)
                 res.status(200).json({success: true, orders});
             }else{
