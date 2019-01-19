@@ -19,11 +19,21 @@ module.exports = {
                 })
                 .then(savedItem => {
                     if (savedItem) {
+                        SavedItem.findById(savedItem._id)
+                    .populate({
+                        path: 'product',
+                        populate: {
+                            path: 'images',
+                            model: 'ProductImage',
+                        }
+                    }).then(saveItem => {
                         res.status(200).json({
                             success: true,
                             message: 'SavedItem Placed Successful',
                             savedItem
                         });
+                    })
+
                     } else {
                         res.status(500).json({
                             success: false,
