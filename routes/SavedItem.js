@@ -10,7 +10,7 @@ const SavedItemController = require('../controllers/SavedItem')
 router.post('/v1', verifyToken, SavedItemController.saveItem)
 router.get('/v1/', verifyToken, SavedItemController.getSavedItems)
 router.put('/v1/:id', verifyToken, SavedItemController.editSavedItem)
-router.delete('/v1/', verifyToken, SavedItemController.deleteSavedItem)
+router.delete('/v1/:id', verifyToken, SavedItemController.deleteSavedItem)
 
 
 
