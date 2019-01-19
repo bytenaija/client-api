@@ -118,7 +118,7 @@ module.exports = {
             })
     },
 
-    deleteSavedItem: (req, res) => {
+    deleteSavedItem: (req, res, next) => {
         let verification = verify(req, res, next);
         if (verification) {
         SavedItem.findOneAndDelete({product: req.params.id, user: verification.user._id})
