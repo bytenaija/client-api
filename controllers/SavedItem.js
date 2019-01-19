@@ -19,7 +19,7 @@ module.exports = {
                 })
                 .then(savedItem => {
                     if (savedItem) {
-                        SavedItem.findOneById(savedItem._id)
+                        SavedItem.findById(savedItem._id)
                     .populate({
                         path: 'product',
                         populate: {
