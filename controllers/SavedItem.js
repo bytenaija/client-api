@@ -26,7 +26,7 @@ module.exports = {
                             path: 'images',
                             model: 'ProductImage',
                         }
-                    }).then(saveItem => {
+                    }).then(savedItem => {
                         res.status(200).json({
                             success: true,
                             message: 'SavedItem Placed Successful',
