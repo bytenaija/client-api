@@ -119,7 +119,9 @@ module.exports = {
     },
 
     deleteSavedItem: (req, res) => {
-        SavedItem.findByIdAndRemove(req.params.id)
+        let verification = verify(req, res, next);
+        if (verification) {
+        SavedItem.findOneAndDelete({product: req.params.id, user: verification.user._id})
             .then(savedItem => {
                 if (savedItem) {
                     res.status(200).json({
@@ -139,6 +141,12 @@ module.exports = {
                     message: `Could not delete savedItem. Please try again`
                 });
             })
+        }else{
+            res.status(401).json({
+                success: false,
+                message: 'User must be authenticated'
+            }); 
+        }
     }
 
 }
