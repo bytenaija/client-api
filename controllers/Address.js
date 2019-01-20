@@ -16,10 +16,15 @@ module.exports = {
                 if(address){
                     console.log("Verification", verification.user._id)
                     User.findOneB({_id: verification.user._id}).then(user =>{
-                        console.log("usususususus", user)
-                        user.addresses.push(address._id);
-                        user.save()
-                        res.status(200).json({success: true, message: 'Address created Successful', address});
+                        if(user){
+                            console.log("usususususus", user)
+                            user.addresses.push(address._id);
+                            user.save()
+                            res.status(200).json({success: true, message: 'Address created Successful', address});
+                        }else{
+                            res.status(500).json({success: false, message: 'Address not created Successful'});
+                        }
+                  
                     })
                     
                 }else{
