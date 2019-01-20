@@ -192,7 +192,7 @@ module.exports = {
 }
 
 const unFavouriteFeed = (id, user) => {
-    return new Promise((reject, resolve) =>{
+    return new Promise((resolve, reject) =>{
         Feed.findById(id).then(feed => {
             feed.favourites -= 1;
             let fav = feed.favouritedBy.filter(favourite => favourite.toString() !== user.toString())
@@ -210,7 +210,7 @@ const unFavouriteFeed = (id, user) => {
 }
 
 const favouriteFeed = (id, user) => {
-    return new Promise((reject, resolve) =>{
+    return new Promise((resolve, reject) =>{
     Feed.findById(id).then(feed => {
         feed.favourites += 1;
         feed.favouritedBy.push(user);
@@ -220,14 +220,15 @@ const favouriteFeed = (id, user) => {
         })
     })
 
-    }).catch(err => {
+    .catch(err => {
         console.log(err);
         reject(false);
     })
+})
 }
 
 const dislikeFeed = (id, user) => {
-    return new Promise((reject, resolve) =>{
+    return new Promise((resolve, reject) =>{
     Feed.findById(id).then(feed => {
         feed.likes -= 1;
         feed.dislikedBy.push(user);
@@ -240,15 +241,16 @@ const dislikeFeed = (id, user) => {
             }
 
         )
-        })
+       
     }).catch(err => {
         console.log(err);
         reject(false);
     })
+})
 }
 
 const likeFeed = (id, user) => {
-    return new Promise((reject, resolve) =>{
+    return new Promise((resolve, reject) =>{
     Feed.findById(id).then(feed => {
         feed.likes += 1;
         feed.likedBy.push(user);
@@ -259,11 +261,12 @@ const likeFeed = (id, user) => {
         Feed.find({}).then(feeds => {
             resolve(feeds)
         })
-    })
+  
     }).catch(err => {
         console.log(err);
         reject(false);
     })
+})
 }
 
 const extractuserId = (req, res, next) => {
