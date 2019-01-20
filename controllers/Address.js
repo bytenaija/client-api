@@ -15,7 +15,7 @@ module.exports = {
             .then(address =>{
                 if(address){
                     console.log("Verification", verification.user._id)
-                    User.findOneB({_id: verification.user._id}).then(user =>{
+                    User.findOne({_id: verification.user._id}).then(user =>{
                         if(user){
                             console.log("usususususus", user)
                             user.addresses.push(address._id);
