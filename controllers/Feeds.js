@@ -94,6 +94,7 @@ module.exports = {
 
     getFeeds : (req, res, next) => {
         Feed.find({}).populate('image').then(feeds => {
+            console.log(feeds)
             res.status(200).json({
                 success: true,
                 feeds
