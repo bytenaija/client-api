@@ -254,7 +254,7 @@ const dislikeFeed = (id, user) => {
            return favourite.toString() != user.toString()
         })
         console.log("liked fav in disliked", fav)
-        feed.liked = fav;
+        feed.likedBy = fav;
         feed.save();
         Feed.find({}).populate('image').then(feeds => {
                 resolve(feeds)
