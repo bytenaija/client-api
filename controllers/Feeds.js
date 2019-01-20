@@ -26,7 +26,7 @@ module.exports = {
         })
         form.on('end', async function () {
             // console.log('done');
-            // console.log(files, "files")
+            console.log(files, "files")
 
             let upload_len = files.length,
                 upload_res = new Array();
@@ -73,7 +73,7 @@ module.exports = {
                 })
             });
 
-            /*waits until promise is resolved before sending back response to user*/
+            /*waits until promise is resolved before sending back feeds to user*/
 
             Feed.create(feed).then(feed => {
                 feed.update({
@@ -107,11 +107,12 @@ module.exports = {
             type
         } = req.query;
         if (type == 'dislike') {
-            let response = dislikeFeed(req.params.id, extractuserId(req, res, next))
-            if (response) {
+            let feeds = dislikeFeed(req.params.id, extractuserId(req, res, next))
+            if (feeds) {
                 res.status(200).json({
                     success: true,
-                    message: 'Successfully dislike feed'
+                    message: 'Successfully dislike feed',
+                    feeds
                 })
             } else {
                 res.status(500).json({
@@ -120,11 +121,12 @@ module.exports = {
                 })
             }
         } else if (type == 'like') {
-            let response = likeFeed(req.params.id, extractuserId(req, res, next))
-            if (response) {
+            let feeds = likeFeed(req.params.id, extractuserId(req, res, next))
+            if (feeds) {
                 res.status(200).json({
                     success: true,
-                    message: 'Successfully like feed'
+                    message: 'Successfully like feed',
+                    feeds
                 })
             } else {
                 res.status(500).json({
@@ -134,11 +136,12 @@ module.exports = {
             }
         }
         if (type == 'unfavourite') {
-            let response = unFavouriteFeed(req.params.id, extractuserId(req, res, next))
-            if (response) {
+            let feeds = unFavouriteFeed(req.params.id, extractuserId(req, res, next))
+            if (feeds) {
                 res.status(200).json({
                     success: true,
-                    message: 'Successfully unfavourite feed'
+                    message: 'Successfully unfavourite feed',
+                    feeds
                 })
             } else {
                 res.status(500).json({
@@ -148,11 +151,12 @@ module.exports = {
             }
         }
         if (type == 'favourite') {
-            let response = favouriteFeed(req.params.id, extractuserId(req, res, next))
-            if (response) {
+            let feeds = favouriteFeed(req.params.id, extractuserId(req, res, next))
+            if (feeds) {
                 res.status(200).json({
                     success: true,
-                    message: 'Successfully favourite feed'
+                    message: 'Successfully favourite feed',
+                    feeds
                 })
             } else {
                 res.status(500).json({
@@ -167,13 +171,12 @@ module.exports = {
 }
 
 const unFavouriteFeed = (id, user) => {
-    Feed.findById(id).then(feed => {
+  return  Feed.findById(id).then(feed => {
         feed.favourites -= 1;
         let fav = feed.favouritedBy.filter(favourite => favourite.toString() !== user.toString())
         feed.favouritedBy = fav;
         feed.save()
-
-        return true
+        Feed.find({}).then(feeds => feeds)
     }).catch(err => {
         console.log(err);
         return false;
@@ -181,11 +184,12 @@ const unFavouriteFeed = (id, user) => {
 }
 
 const favouriteFeed = (id, user) => {
-    Feed.findById(id).then(feed => {
+   return Feed.findById(id).then(feed => {
         feed.favourites += 1;
         feed.favouritedBy.push(user);
         feed.save()
-        return true
+        Feed.find({}).then(feeds => feeds)
+       
     }).catch(err => {
         console.log(err);
         return false;
@@ -193,14 +197,14 @@ const favouriteFeed = (id, user) => {
 }
 
 const dislikeFeed = (id, user) => {
-    Feed.findById(id).then(feed => {
+  return  Feed.findById(id).then(feed => {
         feed.likes -= 1;
         feed.dislikedBy.push(user);
         feed.disLikes += 1;
         let fav = feed.likedBy.filter(favourite => favourite.toString() !== user.toString())
         feed.liked = fav;
         feed.save();
-        return true
+        Feed.find({}).then(feeds => feeds)
     }).catch(err => {
         console.log(err);
         return false;
@@ -208,14 +212,14 @@ const dislikeFeed = (id, user) => {
 }
 
 const likeFeed = (id, user) => {
-    Feed.findById(id).then(feed => {
+   return Feed.findById(id).then(feed => {
         feed.likes += 1;
         feed.likedBy.push(user);
         feed.disLikes -= 1;
         let fav = feed.dislikedBy.filter(favourite => favourite.toString() !== user.toString())
         feed.dislikedBy = fav;
         feed.save();
-        return true
+        Feed.find({}).then(feeds => feeds)
     }).catch(err => {
         console.log(err);
         return false;
