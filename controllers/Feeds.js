@@ -3,6 +3,9 @@ let FeedImage = require('../models/FeedImage');
 let config = require('../config/cloudinary').cloudinary;
 let cloudinary = require('cloudinary')
 let formidable = require('formidable')
+const {
+    verify
+  } = require('../config/jwt')
 
 /*configure our cloudinary*/
 cloudinary.config({
