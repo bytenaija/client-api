@@ -79,8 +79,10 @@ module.exports = {
                 feed.update({
                     image: imageIds
                 }).then(feed => {
-                    console.log("feeeeeedd",feed);
-                    res.json(feed)
+                    Feed.find({}).then(feeds =>{
+                        res.status(200).json({success: true, feeds})
+                    })
+                    
                 }).catch(err => {
                     console.log(err)
                 })
