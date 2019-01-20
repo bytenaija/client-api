@@ -7,9 +7,9 @@ module.exports = {
     createAddress: (req, res, next)=>{
         let verification = verify(req, res, next);
         if(verification){
-            if(req.body.fullname == undefined){
-                req.body.userId = verification.user._id;
-            }  
+          
+            req.body.userId = verification.user._id;
+            
           
             Address.create(req.body)
             .then(address =>{
