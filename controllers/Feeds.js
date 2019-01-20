@@ -202,7 +202,7 @@ module.exports = {
             }
         })
         }else if (type == 'undislike') {
-        favouriteFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
+            unDislikeFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
             console.log("dislike", feeds);
             if (feeds) {
                 res.status(200).json({
@@ -223,23 +223,7 @@ module.exports = {
 
 }
 
-const unFavouriteFeed = (id, user) => {
-    return new Promise((resolve, reject) =>{
-        Feed.findById(id).then(feed => {
-            feed.favourites -= 1;
-            let fav = feed.favouritedBy.filter(favourite => favourite.toString() !== user.toString())
-            feed.favouritedBy = fav;
-            feed.save()
-            Feed.find({}).populate('image').then(feeds => {
-                resolve(feeds)
-            })
-        }).catch(err => {
-            console.log(err);
-            reject(false);
-        })
-    })
-   
-}
+
 
 const favouriteFeed = (id, user) => {
     return new Promise((resolve, reject) =>{
@@ -356,6 +340,27 @@ const unDislikeFeed = (id, user) => {
     })
 })
 }
+
+
+const unFavouriteFeed = (id, user) => {
+    console.log("ididididididid", id, user)
+    return new Promise((resolve, reject) =>{
+        Feed.findById(id).then(feed => {
+            feed.favourites -= 1;
+            let fav = feed.favouritedBy.filter(favourite => favourite.toString() !== user.toString())
+            feed.favouritedBy = fav;
+            feed.save()
+            Feed.find({}).populate('image').then(feeds => {
+                resolve(feeds)
+            })
+        }).catch(err => {
+            console.log(err);
+            reject(false);
+        })
+    })
+   
+}
+
 
 const extractuserId = (req, res, next) => {
     let verification = verify(req, res, next);
