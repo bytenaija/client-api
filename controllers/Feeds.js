@@ -5,7 +5,7 @@ let cloudinary = require('cloudinary')
 let formidable = require('formidable')
 const {
     verify
-  } = require('../config/jwt')
+} = require('../config/jwt')
 
 /*configure our cloudinary*/
 cloudinary.config({
@@ -60,7 +60,7 @@ module.exports = {
                 resolve(upload_res)
             })
 
-            console.log("Fiisisisisisisisisis",fields)
+            console.log("Fiisisisisisisisisis", fields)
             let upload = await multipleUpload;
             let imageIds = {},
                 feed = {}
@@ -82,10 +82,13 @@ module.exports = {
                 feed.update({
                     image: imageIds
                 }).then(feed => {
-                    Feed.find({}).populate('image').then(feeds =>{
-                        res.status(200).json({success: true, feeds})
+                    Feed.find({}).populate('image').then(feeds => {
+                        res.status(200).json({
+                            success: true,
+                            feeds
+                        })
                     })
-                    
+
                 }).catch(err => {
                     console.log(err)
                 })
@@ -95,20 +98,23 @@ module.exports = {
         form.parse(req);
     },
 
-    getFeeds : (req, res, next) => {
+    getFeeds: (req, res, next) => {
         Feed.find({}).populate('image').then(feeds => {
             console.log(feeds)
             res.status(200).json({
                 success: true,
                 feeds
             })
-        }).catch(err =>{
+        }).catch(err => {
             console.log(err)
-            res.status(500).json({success: false, message: 'An error occurred. Please try again later.'})
+            res.status(500).json({
+                success: false,
+                message: 'An error occurred. Please try again later.'
+            })
         })
     },
 
-    editFeed : (req, res, next) => {
+    editFeed: (req, res, next) => {
         let {
             type
         } = req.query;
@@ -177,12 +183,14 @@ module.exports = {
 }
 
 const unFavouriteFeed = (id, user) => {
-  return  Feed.findById(id).then(feed => {
+    Feed.findById(id).then(feed => {
         feed.favourites -= 1;
         let fav = feed.favouritedBy.filter(favourite => favourite.toString() !== user.toString())
         feed.favouritedBy = fav;
         feed.save()
-        Feed.find({}).then(feeds => feeds)
+        Feed.find({}).then(feeds =>{
+            return feeds
+        } )
     }).catch(err => {
         console.log(err);
         return false;
@@ -190,12 +198,15 @@ const unFavouriteFeed = (id, user) => {
 }
 
 const favouriteFeed = (id, user) => {
-   return Feed.findById(id).then(feed => {
+    Feed.findById(id).then(feed => {
         feed.favourites += 1;
         feed.favouritedBy.push(user);
         feed.save()
-        Feed.find({}).then(feeds => feeds)
-       
+        Feed.find({}).then(feeds => {
+            return feeds
+        }
+            )
+
     }).catch(err => {
         console.log(err);
         return false;
@@ -203,14 +214,18 @@ const favouriteFeed = (id, user) => {
 }
 
 const dislikeFeed = (id, user) => {
-  return  Feed.findById(id).then(feed => {
+    Feed.findById(id).then(feed => {
         feed.likes -= 1;
         feed.dislikedBy.push(user);
         feed.dislikes += 1;
         let fav = feed.likedBy.filter(favourite => favourite.toString() !== user.toString())
         feed.liked = fav;
         feed.save();
-        Feed.find({}).then(feeds => feeds)
+        Feed.find({}).then(feeds => {
+                return feeds
+            }
+
+        )
     }).catch(err => {
         console.log(err);
         return false;
@@ -218,14 +233,16 @@ const dislikeFeed = (id, user) => {
 }
 
 const likeFeed = (id, user) => {
-   return Feed.findById(id).then(feed => {
+    Feed.findById(id).then(feed => {
         feed.likes += 1;
         feed.likedBy.push(user);
         feed.dislikes -= 1;
         let fav = feed.dislikedBy.filter(favourite => favourite.toString() !== user.toString())
         feed.dislikedBy = fav;
         feed.save();
-        Feed.find({}).then(feeds => feeds)
+        Feed.find({}).then(feeds => {
+            return feeds
+        })
     }).catch(err => {
         console.log(err);
         return false;
