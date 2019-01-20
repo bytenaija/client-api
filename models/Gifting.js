@@ -52,7 +52,7 @@ const GiftingSchema = new Schema({
     },
 
         
-    recepientAddress: {
+    status: {
         type: Boolean,
         required: true,
        default: 'Incomplete'
