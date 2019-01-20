@@ -60,7 +60,7 @@ module.exports = {
                 resolve(upload_res)
             })
 
-            console.log("Fiisisisisisisisisis", fields)
+            
             let upload = await multipleUpload;
             let imageIds = {},
                 feed = {}
@@ -119,7 +119,7 @@ module.exports = {
             type
         } = req.query;
         if (type == 'dislike') {
-            let feeds = dislikeFeed(req.params.id, extractuserId(req, res, next))
+           dislikeFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
             console.log("ffeeeedd", feeds);
             if (feeds) {
                 res.status(200).json({
@@ -133,10 +133,12 @@ module.exports = {
                     message: 'Could not dislike feed'
                 })
             }
+           })
+           
         } else if (type == 'like') {
-            let feeds = likeFeed(req.params.id, extractuserId(req, res, next))
-            console.log("ffeeeedd", feeds);
-            if (feeds) {
+            let feeds = likeFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
+                console.log("ffeeeedd", feeds);
+                if (feeds) {
                 res.status(200).json({
                     success: true,
                     message: 'Successfully like feed',
@@ -148,9 +150,10 @@ module.exports = {
                     message: 'Could not like feed'
                 })
             }
+        })
         }
         if (type == 'unfavourite') {
-            let feeds = unFavouriteFeed(req.params.id, extractuserId(req, res, next))
+            let feeds = unFavouriteFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
             console.log("ffeeeedd", feeds);
             if (feeds) {
                 res.status(200).json({
@@ -164,9 +167,10 @@ module.exports = {
                     message: 'Could not unfavourite feed'
                 })
             }
+        })
         }
         if (type == 'favourite') {
-            let feeds = favouriteFeed(req.params.id, extractuserId(req, res, next))
+            let feeds = favouriteFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
             console.log("ffeeeedd", feeds);
             if (feeds) {
                 res.status(200).json({
@@ -180,6 +184,7 @@ module.exports = {
                     message: 'Could not favourite feed'
                 })
             }
+        })
         }
 
     },
@@ -187,36 +192,42 @@ module.exports = {
 }
 
 const unFavouriteFeed = (id, user) => {
-    Feed.findById(id).then(feed => {
-        feed.favourites -= 1;
-        let fav = feed.favouritedBy.filter(favourite => favourite.toString() !== user.toString())
-        feed.favouritedBy = fav;
-        feed.save()
-        Feed.find({}).then(feeds => {
-            return feeds
+    return new Promise((reject, resolve) =>{
+        Feed.findById(id).then(feed => {
+            feed.favourites -= 1;
+            let fav = feed.favouritedBy.filter(favourite => favourite.toString() !== user.toString())
+            feed.favouritedBy = fav;
+            feed.save()
+            Feed.find({}).then(feeds => {
+                resolve(feeds)
+            })
+        }).catch(err => {
+            console.log(err);
+            reject(false);
         })
-    }).catch(err => {
-        console.log(err);
-        return false;
     })
+   
 }
 
 const favouriteFeed = (id, user) => {
+    return new Promise((reject, resolve) =>{
     Feed.findById(id).then(feed => {
         feed.favourites += 1;
         feed.favouritedBy.push(user);
         feed.save()
         Feed.find({}).then(feeds => {
-            return feeds
+            resolve(feeds)
         })
+    })
 
     }).catch(err => {
         console.log(err);
-        return false;
+        reject(false);
     })
 }
 
 const dislikeFeed = (id, user) => {
+    return new Promise((reject, resolve) =>{
     Feed.findById(id).then(feed => {
         feed.likes -= 1;
         feed.dislikedBy.push(user);
@@ -225,17 +236,19 @@ const dislikeFeed = (id, user) => {
         feed.liked = fav;
         feed.save();
         Feed.find({}).then(feeds => {
-                return feeds
+                resolve(feeds)
             }
 
         )
+        })
     }).catch(err => {
         console.log(err);
-        return false;
+        reject(false);
     })
 }
 
 const likeFeed = (id, user) => {
+    return new Promise((reject, resolve) =>{
     Feed.findById(id).then(feed => {
         feed.likes += 1;
         feed.likedBy.push(user);
@@ -244,11 +257,12 @@ const likeFeed = (id, user) => {
         feed.dislikedBy = fav;
         feed.save();
         Feed.find({}).then(feeds => {
-            return feeds
+            resolve(feeds)
         })
+    })
     }).catch(err => {
         console.log(err);
-        return false;
+        reject(false);
     })
 }
 
