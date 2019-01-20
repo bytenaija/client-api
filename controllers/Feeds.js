@@ -251,7 +251,7 @@ const dislikeFeed = (id, user) => {
         feed.dislikes += 1;
         let fav = feed.likedBy.filter(favourite => {
             console.log("favourite", favourite, user)
-           return favourite.toString() !== user.toString()
+           return favourite.toString() != user.toString()
         })
         console.log("liked fav in disliked", fav)
         feed.liked = fav;
@@ -276,7 +276,7 @@ const unlikeFeed = (id, user) => {
         feed.likes -= 1;
         let fav = feed.likedBy.filter(favourite => {
             console.log("favourite", favourite, user)
-           return favourite.toString() !== user.toString()
+           return favourite.toString() != user.toString()
         })
         console.log("liked fav in unliked", fav)
         feed.liked = fav;
@@ -302,7 +302,7 @@ const likeFeed = (id, user) => {
         feed.dislikes -= 1;
         let fav = feed.dislikedBy.filter(favourite => {
             console.log("favourite", favourite, user)
-           return favourite.toString() !== user.toString()
+           return favourite.toString() != user.toString()
         })
         console.log("dislined fav in liked", fav)
         feed.dislikedBy = fav;
@@ -325,7 +325,7 @@ const unDislikeFeed = (id, user) => {
         feed.dislikes -= 1;
         let fav = feed.dislikedBy.filter(favourite => {
             console.log("favourite", favourite, user)
-           return favourite.toString() !== user.toString()
+           return favourite.toString() != user.toString()
         })
         console.log("dislined fav in liked", fav)
         feed.dislikedBy = fav;
@@ -347,7 +347,7 @@ const unFavouriteFeed = (id, user) => {
     return new Promise((resolve, reject) =>{
         Feed.findById(id).then(feed => {
             feed.favourites -= 1;
-            let fav = feed.favouritedBy.filter(favourite => favourite.toString() !== user.toString())
+            let fav = feed.favouritedBy.filter(favourite => favourite.toString() != user.toString())
             feed.favouritedBy = fav;
             feed.save()
             Feed.find({}).populate('image').then(feeds => {
