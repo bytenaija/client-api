@@ -1,4 +1,4 @@
-let Feed = require('../models/Feed');
+let Feed = require('../models/Feeds');
 let FeedImage = require('../models/FeedImage');
 let config = require('../config/cloudinary').cloudinary;
 let cloudinary = require('cloudinary')
@@ -90,7 +90,7 @@ module.exports = {
         form.parse(req);
     },
 
-    getFeeds = (req, res, next) => {
+    getFeeds : (req, res, next) => {
         Feed.find({}).then(feeds => {
             res.status(200).json({
                 success: true,
@@ -102,7 +102,7 @@ module.exports = {
         })
     },
 
-    editFeed = (req, res, next) => {
+    editFeed : (req, res, next) => {
         let {
             type
         } = req.query;

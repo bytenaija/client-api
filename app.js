@@ -141,6 +141,7 @@ let transactionRoutes = require('./routes/transactions');
 let notificationRoutes = require('./routes/notifications');
 let investmentRoutes = require('./routes/investment');
 let SavedItemRoutes = require('./routes/SavedItem');
+let feedRoutes = require('./routes/feeds');
 
 
 app.use('/api/admin/auth', adminRoutes);
@@ -154,3 +155,4 @@ app.use('/api/transactions', transactionRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/investments', investmentRoutes);
 app.use('/api/saveditems', SavedItemRoutes);
+app.use('/api/feeds', feedRoutes);
