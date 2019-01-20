@@ -15,7 +15,8 @@ module.exports = {
             .then(address =>{
                 if(address){
                     console.log("Verification", verification.user._id)
-                    User.findById(verification.user._id).then(user =>{
+                    User.findOneB({_id: verification.user._id}).then(user =>{
+                        console.log("usususususus", user)
                         user.addresses.push(address._id);
                         user.save()
                         res.status(200).json({success: true, message: 'Address created Successful', address});
