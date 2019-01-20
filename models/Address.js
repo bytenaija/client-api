@@ -7,7 +7,8 @@ const AddressSchema = new Schema({
 
     userId: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: false
     },
 
     fullname: {
