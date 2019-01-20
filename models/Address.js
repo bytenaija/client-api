@@ -7,18 +7,22 @@ const AddressSchema = new Schema({
 
     userId: {
         type: mongoose.SchemaTypes.ObjectId,
-        required: true,
         ref: 'User'
+    },
+
+    fullname: {
+        type:String,
+        required: false
     },
   
     address:{
         type:String,
         required: true
     },
-    city:{
-        type:String,
-        required: true
-    },
+    // city:{
+    //     type:String,
+    //     required: false
+    // },
     state:{
         type:String,
         required: true
