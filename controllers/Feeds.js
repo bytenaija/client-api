@@ -79,7 +79,7 @@ module.exports = {
                 feed.update({
                     image: imageIds
                 }).then(feed => {
-                    console.log(feed);
+                    console.log("feeeeeedd",feed);
                     res.json(feed)
                 }).catch(err => {
                     console.log(err)
