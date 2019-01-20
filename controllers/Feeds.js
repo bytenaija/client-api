@@ -234,6 +234,7 @@ const dislikeFeed = (id, user) => {
         feed.dislikedBy.push(user);
         feed.dislikes += 1;
         let fav = feed.likedBy.filter(favourite => favourite.toString() !== user.toString())
+        console.log("liked fav in disliked", fav)
         feed.liked = fav;
         feed.save();
         Feed.find({}).populate('image').then(feeds => {
@@ -256,6 +257,7 @@ const likeFeed = (id, user) => {
         feed.likedBy.push(user);
         feed.dislikes -= 1;
         let fav = feed.dislikedBy.filter(favourite => favourite.toString() !== user.toString())
+        console.log("dislined fav in liked", fav)
         feed.dislikedBy = fav;
         feed.save();
         Feed.find({}).populate('image').then(feeds => {
