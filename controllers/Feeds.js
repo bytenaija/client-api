@@ -79,7 +79,7 @@ module.exports = {
                 feed.update({
                     image: imageIds
                 }).then(feed => {
-                    Feed.find({}).then(feeds =>{
+                    Feed.find({}).populate('image').then(feeds =>{
                         res.status(200).json({success: true, feeds})
                     })
                     
@@ -93,7 +93,7 @@ module.exports = {
     },
 
     getFeeds : (req, res, next) => {
-        Feed.find({}).then(feeds => {
+        Feed.find({}).populate('image').then(feeds => {
             res.status(200).json({
                 success: true,
                 feeds
