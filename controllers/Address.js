@@ -17,6 +17,7 @@ module.exports = {
                     console.log("Verification", verification.user._id)
                     User.findOne({_id: verification.user._id}).then(user =>{
                         if(user){
+                            
                             console.log("usususususus", user)
                             user.addresses.push(address._id);
                             user.save()
