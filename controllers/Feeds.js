@@ -198,7 +198,7 @@ const unFavouriteFeed = (id, user) => {
             let fav = feed.favouritedBy.filter(favourite => favourite.toString() !== user.toString())
             feed.favouritedBy = fav;
             feed.save()
-            Feed.find({}).then(feeds => {
+            Feed.find({}).populate('image').then(feeds => {
                 resolve(feeds)
             })
         }).catch(err => {
@@ -215,7 +215,7 @@ const favouriteFeed = (id, user) => {
         feed.favourites += 1;
         feed.favouritedBy.push(user);
         feed.save()
-        Feed.find({}).then(feeds => {
+        Feed.find({}).populate('image').then(feeds => {
             resolve(feeds)
         })
     })
@@ -236,7 +236,7 @@ const dislikeFeed = (id, user) => {
         let fav = feed.likedBy.filter(favourite => favourite.toString() !== user.toString())
         feed.liked = fav;
         feed.save();
-        Feed.find({}).then(feeds => {
+        Feed.find({}).populate('image').then(feeds => {
                 resolve(feeds)
             }
 
@@ -258,7 +258,7 @@ const likeFeed = (id, user) => {
         let fav = feed.dislikedBy.filter(favourite => favourite.toString() !== user.toString())
         feed.dislikedBy = fav;
         feed.save();
-        Feed.find({}).then(feeds => {
+        Feed.find({}).populate('image').then(feeds => {
             resolve(feeds)
         })
   
