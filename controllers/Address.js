@@ -7,11 +7,14 @@ module.exports = {
     createAddress: (req, res, next)=>{
         let verification = verify(req, res, next);
         if(verification){
-            if(req.body.fullname == undefined)   req.body.userId = verification.user._id;
+            if(req.body.fullname == undefined){
+                req.body.userId = verification.user._id;
+            }  
           
             Address.create(req.body)
             .then(address =>{
                 if(address){
+                    console.log("Verification", verification.user._id)
                     User.findById(verification.user._id).then(user =>{
                         user.addresses.push(address._id);
                         user.save()
