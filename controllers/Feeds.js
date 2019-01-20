@@ -206,7 +206,7 @@ const dislikeFeed = (id, user) => {
   return  Feed.findById(id).then(feed => {
         feed.likes -= 1;
         feed.dislikedBy.push(user);
-        feed.disLikes += 1;
+        feed.dislikes += 1;
         let fav = feed.likedBy.filter(favourite => favourite.toString() !== user.toString())
         feed.liked = fav;
         feed.save();
@@ -221,7 +221,7 @@ const likeFeed = (id, user) => {
    return Feed.findById(id).then(feed => {
         feed.likes += 1;
         feed.likedBy.push(user);
-        feed.disLikes -= 1;
+        feed.dislikes -= 1;
         let fav = feed.dislikedBy.filter(favourite => favourite.toString() !== user.toString())
         feed.dislikedBy = fav;
         feed.save();
