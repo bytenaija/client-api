@@ -57,7 +57,7 @@ module.exports = {
                 resolve(upload_res)
             })
 
-            console.log(fields)
+            console.log("Fiisisisisisisisisis",fields)
             let upload = await multipleUpload;
             let imageIds = {},
                 feed = {}
