@@ -41,13 +41,43 @@ module.exports = {
                     let totalNumberOfGoats = getNumberOfGoats(user.farms);
                     if (totalNumberOfGoats > req.body.number) {
                         var success = false;
+
+                        //sort user.farms
+                        user.farms.sort((a, b) => a.numberOfGoats - b.numberOfGoats);
+                       
+                        let numberToSend = req.body.number;
+                        let numberRemaining = numberToSend;
+                        //if number reduced is > than number needed reduce it by number needed and save
+                        
                       for(farm of user.farms){
-                            if(farm.numberOfGoats > req.body.number){
-                                farm.numberOfGoats -= req.body.number;
-                                farm.amountInvested -= req.body.number * 50000;
+                            if(farm.numberOfGoats > numberToSend){
+                                let amount = numberToSend * 50000;
+                                farm.numberOfGoats -= numberToSend;
+                                farm.amountInvested -= amount;
                                 farm.save()
                                 success = true;
                                break;  
+                            }else{
+                                 //go through each and reduce the number by half
+                                 if(numberRemaining > 0){
+                                    let half = farm.numberOfGoats / 2;
+                                    if(numberRemaining >= half){
+                                        let amount = half * 50000;
+                                        farm.numberOfGoats -= half;
+                                        farm.amountInvested -= amount;
+                                        numberRemaining -=  half;
+                                        farm.save();
+                                    }else{
+                                        let amount = numberRemaining * 50000;
+                                        farm.numberOfGoats -= numberRemaining;
+                                        farm.amountInvested -= amount;
+                                        numberRemaining -=  numberRemaining;
+                                        farm.save();
+                                    }
+                                    
+                                 }
+
+
                             }
                         }
                         if(success == false){
