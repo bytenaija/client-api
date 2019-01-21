@@ -65,7 +65,7 @@ emailService
     name
   }
 })
-.then()
+.then(console.log)
 .catch(console.error);
 
 }

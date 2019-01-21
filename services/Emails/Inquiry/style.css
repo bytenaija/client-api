@@ -4,7 +4,8 @@ body{
     font-family: 'Raleway';
     font-size: 1rem;
     width: 900px;
-    border: solid black 1px
+    border: solid black 1px;
+    padding: 1rem;
 }
 
 button{
