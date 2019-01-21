@@ -44,6 +44,7 @@ module.exports = {
                       for(farm of user.farms){
                             if(farm.numberOfGoats > req.body.number){
                                 farm.numberOfGoats -= req.body.number;
+                                farm.amountInvested -= req.body.number * 50000;
                                 farm.save()
                                 success = true;
                                break;  

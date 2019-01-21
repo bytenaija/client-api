@@ -24,28 +24,28 @@ const GiftingSchema = new Schema({
     },
 
     
-    recepientName: {
+    recipientName: {
         type: String,
         required: true,
        
     },
 
     
-    recepientEmail: {
+    recipientEmail: {
         type: String,
         required: true,
        
     },
 
     
-    recepientPhoneNumber: {
+    recipientPhoneNumber: {
         type: String,
         required: true,
        
     },
 
     
-    recepientAddress: {
+    recipientAddress: {
         type: String,
         required: true,
        
