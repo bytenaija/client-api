@@ -30,6 +30,7 @@ module.exports = {
 
     },
     addGifting: (req, res, next) => {
+        try{
         let sender = extractuserId(req, res, next);
         if (sender) {
 
@@ -37,8 +38,7 @@ module.exports = {
 
                 if (user) {
                     console.log("Ususususu", user)
-                    let totalNumberOfGoats = 0;
-                    totalNumberOfGoats = getNumberOfGoats(user.farms);
+                    let totalNumberOfGoats = getNumberOfGoats(user.farms);
                     if (totalNumberOfGoats > req.body.number) {
                         var success = false;
                       for(farm of user.farms){
@@ -82,6 +82,12 @@ module.exports = {
                 message: 'User must be authenticated.'
             })
         }
+    }catch(err){
+        res.status(500).json({
+            success: false,
+            message: 'An error occured. Please try again later.'
+        })
+    }
     },
     editGifting: (req, res, next) => {
         let sender = extractuserId(req, res, next);
