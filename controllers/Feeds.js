@@ -29,7 +29,7 @@ module.exports = {
         })
         form.on('end', async function () {
             // console.log('done');
-            console.log(files, "files")
+           // console.log(files, "files")
 
             let upload_len = files.length,
                 upload_res = new Array();
@@ -100,7 +100,7 @@ module.exports = {
 
     getFeeds: (req, res, next) => {
         Feed.find({}).populate('image').then(feeds => {
-            console.log(feeds)
+           // console.log(feeds)
             res.status(200).json({
                 success: true,
                 feeds
@@ -120,7 +120,7 @@ module.exports = {
         } = req.query;
         if (type == 'dislike') {
            dislikeFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
-            console.log("ffeeeedd", feeds);
+           // console.log("ffeeeedd", feeds);
             if (feeds) {
                 res.status(200).json({
                     success: true,
@@ -137,7 +137,7 @@ module.exports = {
            
         } else if (type == 'like') {
             let feeds = likeFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
-                console.log("ffeeeedd", feeds);
+              //  console.log("ffeeeedd", feeds);
                 if (feeds) {
                 res.status(200).json({
                     success: true,
@@ -154,7 +154,7 @@ module.exports = {
         }
         else if (type == 'unfavourite') {
             let feeds = unFavouriteFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
-            console.log("ffeeeedd", feeds);
+           // console.log("ffeeeedd", feeds);
             if (feeds) {
                 res.status(200).json({
                     success: true,
@@ -171,7 +171,7 @@ module.exports = {
         }
        else if (type == 'favourite') {
             let feeds = favouriteFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
-            console.log("ffeeeedd", feeds);
+          //  console.log("ffeeeedd", feeds);
             if (feeds) {
                 res.status(200).json({
                     success: true,
@@ -187,7 +187,7 @@ module.exports = {
         })
         }else if (type == 'unlike') {
             unlikeFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
-            console.log("unlike", feeds);
+           // console.log("unlike", feeds);
             if (feeds) {
                 res.status(200).json({
                     success: true,
@@ -203,7 +203,7 @@ module.exports = {
         })
         }else if (type == 'undislike') {
             unDislikeFeed(req.params.id, extractuserId(req, res, next)).then(feeds =>{
-            console.log("dislike", feeds);
+           // console.log("dislike", feeds);
             if (feeds) {
                 res.status(200).json({
                     success: true,
@@ -250,10 +250,10 @@ const dislikeFeed = (id, user) => {
         feed.dislikedBy.push(user);
         feed.dislikes += 1;
         let fav = feed.likedBy.filter(favourite => {
-            console.log("favourite", favourite, user)
+         //   console.log("favourite", favourite, user)
            return favourite.toString() != user.toString()
         })
-        console.log("liked fav in disliked", fav)
+       // console.log("liked fav in disliked", fav)
         feed.likedBy = fav;
         feed.save();
         Feed.find({}).populate('image').then(feeds => {
@@ -275,10 +275,10 @@ const unlikeFeed = (id, user) => {
     Feed.findById(id).then(feed => {
         feed.likes -= 1;
         let fav = feed.likedBy.filter(favourite => {
-            console.log("favourite", favourite, user)
+         //   console.log("favourite", favourite, user)
            return favourite.toString() != user.toString()
         })
-        console.log("liked fav in unliked", fav)
+       // console.log("liked fav in unliked", fav)
         feed.likedBy = fav;
         feed.save();
         Feed.find({}).populate('image').then(feeds => {
@@ -304,7 +304,7 @@ const likeFeed = (id, user) => {
             console.log("favourite", favourite, user)
            return favourite.toString() != user.toString()
         })
-        console.log("dislined fav in liked", fav)
+       // console.log("dislined fav in liked", fav)
         feed.dislikedBy = fav;
         feed.save();
         Feed.find({}).populate('image').then(feeds => {
@@ -324,10 +324,10 @@ const unDislikeFeed = (id, user) => {
     Feed.findById(id).then(feed => {
         feed.dislikes -= 1;
         let fav = feed.dislikedBy.filter(favourite => {
-            console.log("favourite", favourite, user)
+          //  console.log("favourite", favourite, user)
            return favourite.toString() != user.toString()
         })
-        console.log("dislined fav in liked", fav)
+       // console.log("dislined fav in liked", fav)
         feed.dislikedBy = fav;
         feed.save();
         Feed.find({}).populate('image').then(feeds => {
@@ -343,7 +343,7 @@ const unDislikeFeed = (id, user) => {
 
 
 const unFavouriteFeed = (id, user) => {
-    console.log("ididididididid", id, user)
+    //console.log("ididididididid", id, user)
     return new Promise((resolve, reject) =>{
         Feed.findById(id).then(feed => {
             feed.favourites -= 1;

@@ -64,7 +64,7 @@ module.exports = {
     const queue = req.queue;
     const redisClient = req.redisClient
     const verification = verify(req, res, next);
-    console.log(verification)
+   // console.log(verification)
     if (verification) {
 
       let farm = {

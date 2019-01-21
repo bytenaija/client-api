@@ -81,7 +81,7 @@ module.exports = {
         duration = moment.duration(few.diff(now));
         few = duration.asMilliseconds();
 
-        console.log("Fewwwwwwwwwwwwwwwwwwwwwwwww", few);
+       // console.log("Fewwwwwwwwwwwwwwwwwwwwwwwww", few);
 
         var feedsSixMonths = queue.create('feeds-sixMonths' + few, {
             emailAddress,

@@ -46,7 +46,7 @@ module.exports = {
                   } else {
                     user.token = token;
                     user.save();
-                    console.log("Token", token)
+                    //console.log("Token", token)
                     res.status(200).json({
                       success: true,
                       user,
@@ -89,7 +89,7 @@ module.exports = {
         state,
         email
       } = req.body;
-      console.log("Creating", user)
+    //  console.log("Creating", user)
       User.create(user).then(user => {
           if (user) {
             jwtSign(user, (err, token) => {
@@ -142,8 +142,8 @@ module.exports = {
               uppercase: true
             });
 
-            console.log(code)
-            console.log(user.email)
+           // console.log(code)
+           // console.log(user.email)
 
             await ForgotPassword.findOneAndRemove({
               email: user.email
@@ -229,7 +229,7 @@ module.exports = {
 
       });
 
-      console.log("user", user)
+      //console.log("user", user)
       if (user) {
         User.findOne({
             email: user.user.email
@@ -250,7 +250,7 @@ module.exports = {
                     } else {
                       user.token = token;
                       user.save();
-                      console.log("Token", token)
+                     // console.log("Token", token)
                       res.status(200).json({
                         success: true,
                         user,

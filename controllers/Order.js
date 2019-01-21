@@ -30,11 +30,11 @@ module.exports = {
 
     getAllOrders: (req, res, next)=>{
         let {dateFrom, dateTo} = req.query;
-        console.log("params", req.query)
+        //console.log("params", req.query)
         if(dateFrom || dateTo){
             dateFrom = moment(dateFrom).format();
             dateTo =  moment(dateTo).format()
-            console.log(dateFrom, dateTo)
+            //(dateFrom, dateTo)
             Order.find({
                 created_at: {
                     $gte: dateFrom,
@@ -81,7 +81,7 @@ module.exports = {
 
                                     } }
             }).then(orders =>{ if(orders){
-                console.log(orders)
+                //console.log(orders)
                 res.status(200).json({success: true, orders});
             }else{
                 res.status(200).json({success: false, message: `Could not get all orders`}); 
@@ -115,7 +115,7 @@ module.exports = {
         .then(order => { if(order){
             if(order.status = "Paid"){
                 Cart.findOneAndUpdate(order.cartId, {status: 'Paid'}).exec().then(cart =>{
-                    console.log(cart);
+                 //   console.log(cart);
                 })
             }
             res.status(200).json({success: true, message: "Successfully updated order"});

@@ -2,7 +2,7 @@ const axios = require('axios')
 
 module.exports = {
     payment: (number, cvv, expiry_month, expiry_year, amount, email, reference) => {
-        console.log("email", email)
+       // console.log("email", email)
         return new Promise((resolve, reject) => {
 
             axios.defaults.headers.post['Authorization'] = 'Bearer sk_test_dce12f10f109e0a79d04e8f1615610e9d89c240e';
@@ -21,11 +21,11 @@ module.exports = {
                 card
             }
 
-            console.log(transaction)
+            //console.log(transaction)
 
             axios.post(`https://api.paystack.co/charge`, transaction)
                 .then(chargeResponse => {
-                    console.log(chargeResponse.data)
+                   // console.log(chargeResponse.data)
 
                     if (chargeResponse.data.status) {
                         resolve(chargeResponse)

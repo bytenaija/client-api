@@ -15,7 +15,7 @@ auth: {
 
 exports.email = (emailAddress, password, name, template) =>{
 
-    console.log(__dirname)
+   // console.log(__dirname)
 const templateDir = path.join(__dirname, 'Emails')
  
 const emailService = new Email({
@@ -44,7 +44,7 @@ emailService
 
 exports.emailInquiry = (emailAddress,  name, template) =>{
 
-  console.log(__dirname)
+ // console.log(__dirname)
 const templateDir = path.join(__dirname, 'Emails')
 
 const emailService = new Email({
@@ -65,7 +65,7 @@ emailService
     name
   }
 })
-.then(console.log)
+.then()
 .catch(console.error);
 
 }

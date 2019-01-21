@@ -66,13 +66,13 @@ UserSchema.pre('save', function (next) {
 });
 
 UserSchema.pre('findOneAndUpdate', function(next) {
-  console.log("this .update", this.getUpdate())
+ // console.log("this .update", this.getUpdate())
   const update = this.getUpdate();
   if (!_.isEmpty(update.password)) {
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(update.password, salt, (err, hash) => {
         this.getUpdate().password = hash;
-        console.log(this.getUpdate())
+       // console.log(this.getUpdate())
         next();
       })
     })
@@ -86,7 +86,7 @@ UserSchema.methods.comparePassword = (userPassword, password, cb) => {
   console.dir(password)
   // console.log(this.password)
   bcrypt.compare(password, userPassword, (err, isMatch) => {
-    console.log("ismat", isMatch)
+  //  console.log("ismat", isMatch)
     if (err) {
       cb(err)
     } else {

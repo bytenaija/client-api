@@ -5,7 +5,7 @@ module.exports = {
     getTransactions: (req, res, next) => {
         let verification = verify(req, res, next);
         if(verification){
-            console.log(verification)
+           // console.log(verification)
             Transaction.find({email: verification.user.email}).then(transactions =>{
                 res.status(200).json({success: true, transactions});
             }).catch(err =>{

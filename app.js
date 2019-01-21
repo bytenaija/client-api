@@ -97,16 +97,16 @@ io.on('connection', (socket) => {
     socket.on('disconnect', async (data) => {
         for (let element of clients.entries()) {
          
-            console.log(socket.id, element[0].clientId == socket.id)
+            //console.log(socket.id, element[0].clientId == socket.id)
             if (element[0].clientId == socket.id) {
 
                
-                console.log(element[0].userId)
+               // console.log(element[0].userId)
                 redisClient.del(element[0].userId, (err, result) => {
                     if (err) {
-                        console.log("erororoorororo",err)
+                       // console.log("erororoorororo",err)
                     } else {
-                        console.log("Deleteeeeeee redis:", result)
+                      //  console.log("Deleteeeeeee redis:", result)
                     }
 
                 })

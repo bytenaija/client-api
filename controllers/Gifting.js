@@ -37,7 +37,7 @@ module.exports = {
             User.findById(sender).populate('farms').then(user => {
 
                 if (user) {
-                    console.log("Ususususu", user)
+                   // console.log("Ususususu", user)
                     let totalNumberOfGoats = getNumberOfGoats(user.farms);
                     if (totalNumberOfGoats > req.body.number) {
                         var success = false;

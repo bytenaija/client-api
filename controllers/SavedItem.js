@@ -71,7 +71,7 @@ module.exports = {
                 }
             }).then(savedItems => {
                 if (savedItems) {
-                    console.log(savedItems)
+                   // console.log(savedItems)
                     res.status(200).json({
                         success: true,
                         savedItems

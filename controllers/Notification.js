@@ -5,7 +5,7 @@ module.exports = {
     getNotifications: (req, res, next) => {
         let verification = verify(req, res, next);
         if(verification){
-            console.log(verification)
+          //  console.log(verification)
             Notification.find({userId: verification.user.email}).then(transactions =>{
                 res.status(200).json({success: true, transactions});
             }).catch(err =>{
