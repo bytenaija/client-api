@@ -41,3 +41,31 @@ emailService
   .catch(console.error);
 
 }
+
+exports.emailInquiry = (emailAddress,  name, template) =>{
+
+  console.log(__dirname)
+const templateDir = path.join(__dirname, 'Emails')
+
+const emailService = new Email({
+views: { root: templateDir },
+
+send: true,
+transport: transport,
+
+});
+
+emailService
+.send({
+  template: template,
+  message: {
+    to: emailAddress
+  },
+  locals: {
+    name
+  }
+})
+.then()
+.catch(console.error);
+
+}

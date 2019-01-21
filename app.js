@@ -143,6 +143,7 @@ let investmentRoutes = require('./routes/investment');
 let SavedItemRoutes = require('./routes/SavedItem');
 let feedRoutes = require('./routes/feeds');
 let giftRoutes = require('./routes/gifting');
+let inquiryRoutes = require('./routes/inquiry');
 
 
 app.use('/api/admin/auth', adminRoutes);
@@ -158,3 +159,4 @@ app.use('/api/investments', investmentRoutes);
 app.use('/api/saveditems', SavedItemRoutes);
 app.use('/api/feeds', feedRoutes);
 app.use('/api/gifts', giftRoutes);
+app.use('/api/inquiries', inquiryRoutes);

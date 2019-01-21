@@ -1,0 +1,33 @@
+body{
+    background: white;
+    color: #933D47;
+    font-family: 'Raleway';
+    font-size: 1rem;
+    width: 900px;
+    border: solid black 1px
+}
+
+button{
+    background: #820513;
+    width: 170px;
+    height: 40px;
+    border-radius: 30px;
+    font-family: 'Raleway';
+    color:white;
+    font-size: 1rem;
+
+}
+
+button:hover{
+    background: blue;
+    font-family: 'Raleway'
+}
+
+p{
+    color: #933D47;
+    font-family: 'Raleway'
+}
+
+a{
+    color: #933D47;
+}
