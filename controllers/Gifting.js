@@ -37,7 +37,7 @@ module.exports = {
 
                 if (user) {
                     let totalNumberOfGoats = 0;
-                    totalNumberOfGoats = numberOfGoats(user.farms);
+                    totalNumberOfGoats = getNumberOfGoats(user.farms);
                     if (totalNumberOfGoats > req.body.number) {
                         var success = false;
                       for(farm of user.farms){
