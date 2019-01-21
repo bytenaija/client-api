@@ -42,7 +42,7 @@ module.exports = {
                     if (totalNumberOfGoats > req.body.number) {
                         var success = false;
                       for(farm of user.farms){
-                            if(farms.numberOfGoats > req.body.number){
+                            if(farm.numberOfGoats > req.body.number){
                                 farm.numberOfGoats -= req.body.number;
                                 farm.save()
                                 success = true;
