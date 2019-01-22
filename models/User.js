@@ -39,6 +39,7 @@ const UserSchema = new Schema({
   carts: [{ type: Schema.Types.ObjectId, ref: 'Cart' }],
   farms: [{ type: Schema.Types.ObjectId, ref: 'Farm' }],
   addresses: [{ type: Schema.Types.ObjectId, ref: 'Address' }],
+  gifts: [{ type: Schema.Types.ObjectId, ref: 'Gifting' }],
 
 }, {
   timestamps: true

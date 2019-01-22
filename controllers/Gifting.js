@@ -40,9 +40,7 @@ module.exports = {
                    // console.log("Ususususu", user)
                     let totalNumberOfGoats = getNumberOfGoats(user.farms);
                     if (totalNumberOfGoats > req.body.number) {
-                        var success = false;
-
-                        //sort user.farms
+                                              //sort user.farms
                         user.farms.sort((a, b) => a.numberOfGoats - b.numberOfGoats);
                        
                         let numberToSend = req.body.number;
@@ -80,11 +78,11 @@ module.exports = {
 
                             }
                         }
-                        if(success == false){
-
-                        }
+                       
                         req.body.sender = sender;
                         Gifting.create(req.body).then(gift => {
+                            user.gifts.push(gift._id);
+                            user.save();
                             res.status(200).json({
                                 success: true,
                                 gift
