@@ -37,7 +37,7 @@ module.exports = {
 
             user.comparePassword(user.password, password, (err, isMatch) => {
               if (isMatch) {
-                jwtSign(user, (err, token) => {
+                jwtSign(user._id, (err, token) => {
                   if (err) {
                     return res.status(500).json({
                       success: false,
@@ -92,7 +92,7 @@ module.exports = {
     //  console.log("Creating", user)
       User.create(user).then(user => {
           if (user) {
-            jwtSign(user, (err, token) => {
+            jwtSign(user._id, (err, token) => {
               if (err) {
                 return res.status(500).json({
                   success: false,
@@ -239,7 +239,7 @@ module.exports = {
                   message: 'Invalid token'
                 })
               } else {
-                jwtSign(user, (err, token) => {
+                jwtSign(user._id, (err, token) => {
                     if (err) {
                       return res.status(500).json({
                         success: false,
