@@ -216,6 +216,8 @@ module.exports = {
         token
       } = req.body;
 
+      console.log(token)
+
       let user = jwt.verify(token, jwtKey, (err, authData) => {
         if (err) {
           return false
