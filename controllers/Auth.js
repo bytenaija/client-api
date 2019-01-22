@@ -126,9 +126,7 @@ module.exports = {
         })
     },
 
-    getUserByToken: (req, res) => {
-      User.getUserByToken(req.body.token)
-    },
+
 
     forgotPassword: (req, res) => {
       User.findOne({
@@ -233,7 +231,7 @@ module.exports = {
       if (user) {
         User.findOne({
             email: user.user.email
-          }).populate(['adresses', 'carts', 'farms'])
+          }).populate(['adresses', 'carts', 'farms', 'gifts'])
           .then(user => {
               if (!user) {
                 return res.status(404).json({
