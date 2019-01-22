@@ -40,7 +40,7 @@ module.exports = {
                 let body = {_id: user._id, email: user.email};
 
                 console.log("JWT Body", body);
-                jwtSign({body}, (err, token) => {
+                jwtSign({user: body}, (err, token) => {
                   if (err) {
                     return res.status(500).json({
                       success: false,
