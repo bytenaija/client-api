@@ -240,6 +240,7 @@ module.exports = {
                 })
               } else {
                 jwtSign(user._id, (err, token) => {
+                  console.log("Tojejejejejeje", token)
                     if (err) {
                       return res.status(500).json({
                         success: false,
