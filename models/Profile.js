@@ -30,7 +30,7 @@ const ProfileSchema = new Schema({
 
     },
 
-    sender: {
+    user: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
         ref: 'User'
