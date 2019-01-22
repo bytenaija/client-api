@@ -261,7 +261,7 @@ module.exports = {
                   })
                 }
               }).catch(err => {
-              console.dir(err);
+              console.log("Erroror", err);
 
               return res.status(404).json({
                 success: false,
