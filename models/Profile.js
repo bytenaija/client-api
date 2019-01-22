@@ -7,7 +7,7 @@ const ProfileSchema = new Schema({
   
     gender: {
         type: String,
-        required: true,
+        required: false,
     
     },
 
@@ -19,11 +19,14 @@ const ProfileSchema = new Schema({
 
     profilePic: {
         type: String,
-        required: true,
+        required: false,
        
     },
 
-    
+    profession: {
+        type: String,
+        required: false,
+    }
 }, {
     timestamps: true
 })
