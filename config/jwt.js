@@ -4,7 +4,7 @@ module.exports ={
 
   jwtSign : (user, cb) =>{
     // console.log("JWT", user)
-    jwt.sign({user: user._id}, jwtKey, (err, token)=>{
+    jwt.sign({user}, jwtKey, (err, token)=>{
       if(err){
         cb(err)
       } else{

@@ -37,7 +37,7 @@ module.exports = {
 
             user.comparePassword(user.password, password, (err, isMatch) => {
               if (isMatch) {
-                jwtSign(user._id, (err, token) => {
+                jwtSign({user: {_id: user._id, email: user.email}}, (err, token) => {
                   if (err) {
                     return res.status(500).json({
                       success: false,
@@ -92,7 +92,7 @@ module.exports = {
     //  console.log("Creating", user)
       User.create(user).then(user => {
           if (user) {
-            jwtSign(user._id, (err, token) => {
+            jwtSign({user: {_id: user._id, email: user.email}}, (err, token) => {
               if (err) {
                 return res.status(500).json({
                   success: false,
@@ -232,7 +232,7 @@ module.exports = {
       //console.log("user", user)
       if (user) {
         User.findOne({
-            _id: user.user._id
+            email: user.user.email
           }).populate('addresses').populate('carts').populate('farms').populate('gifts').populate('profile')
           .then(user => {
               if (!user) {
@@ -241,7 +241,7 @@ module.exports = {
                   message: 'Invalid token'
                 })
               } else {
-                jwtSign(user._id, (err, token) => {
+                jwtSign({user: {_id: user._id, email: user.email}}, (err, token) => {
                   console.log("Tojejejejejeje", token)
                     if (err) {
                       return res.status(500).json({
