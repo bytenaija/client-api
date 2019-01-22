@@ -37,16 +37,17 @@ module.exports = {
 
             user.comparePassword(user.password, password, (err, isMatch) => {
               if (isMatch) {
-                jwtSign({user: {_id: user._id, email: user.email}}, (err, token) => {
+                let body = {_id: user._id, email: user.email};
+
+                console.log("JWT Body", body);
+                jwtSign({user: body}, (err, token) => {
                   if (err) {
                     return res.status(500).json({
                       success: false,
                       message: 'An error occured. Please try again later'
                     })
                   } else {
-                    user.token = token;
-                    user.save();
-                    //console.log("Token", token)
+                    
                     res.status(200).json({
                       success: true,
                       user,
@@ -92,16 +93,16 @@ module.exports = {
     //  console.log("Creating", user)
       User.create(user).then(user => {
           if (user) {
-            jwtSign({user: {_id: user._id, email: user.email}}, (err, token) => {
+            let body = {_id: user._id, email: user.email};
+
+            jwtSign({user: body}, (err, token) => {
               if (err) {
                 return res.status(500).json({
                   success: false,
                   message: 'An error occured. Please try again later'
                 })
               } else {
-                user.token = token;
-                user.save();
-
+               
                 io.sockets.emit('User Added', user);
                 res.status(200).json({
                   success: true,
@@ -229,7 +230,8 @@ module.exports = {
 
       });
 
-      //console.log("user", user)
+
+      console.log("user", user)
       if (user) {
         User.findOne({
             email: user.user.email
@@ -263,7 +265,7 @@ module.exports = {
               }).catch(err => {
               console.log("Erroror", err);
 
-              return res.status(404).json({
+              return res.status(401).json({
                 success: false,
                 message: 'Invalid token'
               })
