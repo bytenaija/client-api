@@ -231,7 +231,7 @@ module.exports = {
       if (user) {
         User.findOne({
             email: user.user.email
-          }).populate('addresses').populate('carts').populate('farms').populate('gifts')
+          }).populate('addresses').populate('carts').populate('farms').populate('gifts').populate('profile')
           .then(user => {
               if (!user) {
                 return res.status(404).json({

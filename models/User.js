@@ -40,6 +40,7 @@ const UserSchema = new Schema({
   farms: [{ type: Schema.Types.ObjectId, ref: 'Farm' }],
   addresses: [{ type: Schema.Types.ObjectId, ref: 'Address' }],
   gifts: [{ type: Schema.Types.ObjectId, ref: 'Gifting' }],
+  profile: { type: Schema.Types.ObjectId, ref: 'Profile' },
 
 }, {
   timestamps: true
