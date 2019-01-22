@@ -8,6 +8,7 @@ module.exports ={
       if(err){
         cb(err)
       } else{
+          console.log(token)
         cb(null, token)
       }
 
