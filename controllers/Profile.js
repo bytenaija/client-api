@@ -1,4 +1,5 @@
 let Profile = require('../models/Profile');
+
 const {
     verify
 } = require('../config/jwt')
