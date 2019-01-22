@@ -232,7 +232,7 @@ module.exports = {
       //console.log("user", user)
       if (user) {
         User.findOne({
-            email: user.user.email
+            _id: user.user._id
           }).populate('addresses').populate('carts').populate('farms').populate('gifts').populate('profile')
           .then(user => {
               if (!user) {
