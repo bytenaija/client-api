@@ -42,7 +42,7 @@ module.exports = {
                 console.log("JWT Body", body);
                 jwtSign({user: body}, (err, token) => {
                   if (err) {
-                    return res.status(500).json({
+                    return res.status(442).json({
                       success: false,
                       message: 'An error occured. Please try again later'
                     })
@@ -71,7 +71,7 @@ module.exports = {
         })
         .catch(err => {
           console.dir(err)
-          return res.status(500).json({
+          return res.status(442).json({
             success: false,
             message: 'An error occured. Please try again later'
           })
@@ -97,7 +97,7 @@ module.exports = {
 
             jwtSign({user: body}, (err, token) => {
               if (err) {
-                return res.status(500).json({
+                return res.status(442).json({
                   success: false,
                   message: 'An error occured. Please try again later'
                 })
@@ -120,7 +120,7 @@ module.exports = {
         })
         .catch(err => {
           console.dir(err)
-          return res.status(500).json({
+          return res.status(442).json({
             success: false,
             message: 'An error occured. Please try again later'
           })
@@ -159,7 +159,7 @@ module.exports = {
               });
             }).catch(err => {
               console.dir(err);
-              res.status(500).json({
+              res.status(442).json({
                 success: false,
                 message: 'An error occured. Please try again later'
               })
@@ -168,7 +168,7 @@ module.exports = {
         }).catch(
           err => {
             console.dir(err);
-            res.status(500).json({
+            res.status(442).json({
               success: false,
               message: 'An error occured. Please try again later'
             })
@@ -197,7 +197,7 @@ module.exports = {
                 })
               }).catch(err => {
                 console.dir(err)
-                res.status(500).json({
+                res.status(442).json({
                   success: false,
                   message: 'An error occured. Please try again later'
                 })
@@ -205,7 +205,7 @@ module.exports = {
           }
         }).catch(err => {
           console.dir(err)
-          res.status(500).json({
+          res.status(442).json({
             success: false,
             message: 'An error occured. Please try again later'
           })
@@ -246,7 +246,7 @@ module.exports = {
                 jwtSign({user: {_id: user._id, email: user.email}}, (err, token) => {
                   console.log("Tojejejejejeje", token)
                     if (err) {
-                      return res.status(500).json({
+                      return res.status(442).json({
                         success: false,
                         message: 'An error occured. Please try again later'
                       })

@@ -76,13 +76,13 @@ module.exports = {
                        })
                 }).catch(err =>{
                     //console.log(err)
-                    return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+                    return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
                 })
                 // res.status(200).json({success: true, cart})
             })
             .catch(err =>{
                 //console.log(err)
-                return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+                return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
             })
         }
     },
@@ -120,23 +120,23 @@ module.exports = {
                    
                 }).catch(err =>{
                     //console.log(err)
-                    return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+                    return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
                 })
                 // res.status(200).json({success: true, cart})
           
             .catch(err =>{
                 //console.log(err)
-                return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+                return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
             })
         
     },
 
     deleteCart : (req, res, next) =>{
         Cart.findOneAndDelete(req.params.id).then(cart =>{
-            return res.status(500).json({success: true, message: 'Cart successfully deleted'})
+            return res.status(442).json({success: true, message: 'Cart successfully deleted'})
         }).catch(err =>{
             //console.log(err)
-            return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+            return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
         })
     },
 
@@ -154,7 +154,7 @@ module.exports = {
         })
         .catch(err =>{
             //console.log(err)
-            return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+            return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
         })
     },
 
@@ -172,7 +172,7 @@ module.exports = {
         })
         .catch(err =>{
             //console.log(err)
-            return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+            return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
         })
     },
 
@@ -202,7 +202,7 @@ module.exports = {
                 }
             }).catch(err =>{
                 //console.dir(err)
-                res.status(500).json({success: false, message: "Failed to delete products"})
+                res.status(442).json({success: false, message: "Failed to delete products"})
             })
         });
         

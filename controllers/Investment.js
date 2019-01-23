@@ -28,7 +28,7 @@ module.exports = {
             Investment.find({}).then(investments =>{
                 res.status(200).json({success: true, investments});
             }).catch(err =>{
-                return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+                return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
             })
         }else{
             res.status(401).json({success: false, message: 'Authentication Required'});
@@ -41,7 +41,7 @@ module.exports = {
             Investment.find({_id: req.params.id}).then(investment =>{
                 res.status(200).json({success: true, investment});
             }).catch(err =>{
-                return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+                return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
             })
         }else{
             res.status(401).json({success: false, message: 'Authentication Required'});

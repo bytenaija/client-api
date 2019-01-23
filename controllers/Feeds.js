@@ -107,7 +107,7 @@ module.exports = {
             })
         }).catch(err => {
             console.log(err)
-            res.status(500).json({
+            res.status(442).json({
                 success: false,
                 message: 'An error occurred. Please try again later.'
             })
@@ -128,7 +128,7 @@ module.exports = {
                     feeds
                 })
             } else {
-                res.status(500).json({
+                res.status(442).json({
                     success: false,
                     message: 'Could not dislike feed'
                 })
@@ -145,7 +145,7 @@ module.exports = {
                     feeds
                 })
             } else {
-                res.status(500).json({
+                res.status(442).json({
                     success: false,
                     message: 'Could not like feed'
                 })
@@ -162,7 +162,7 @@ module.exports = {
                     feeds
                 })
             } else {
-                res.status(500).json({
+                res.status(442).json({
                     success: false,
                     message: 'Could not unfavourite feed'
                 })
@@ -179,7 +179,7 @@ module.exports = {
                     feeds
                 })
             } else {
-                res.status(500).json({
+                res.status(442).json({
                     success: false,
                     message: 'Could not favourite feed'
                 })
@@ -195,7 +195,7 @@ module.exports = {
                     feeds
                 })
             } else {
-                res.status(500).json({
+                res.status(442).json({
                     success: false,
                     message: 'Could not favourite feed'
                 })
@@ -211,7 +211,7 @@ module.exports = {
                     feeds
                 })
             } else {
-                res.status(500).json({
+                res.status(442).json({
                     success: false,
                     message: 'Could not favourite feed'
                 })
