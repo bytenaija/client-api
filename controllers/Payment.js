@@ -47,13 +47,14 @@ module.exports = {
                         
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     }).catch(err =>{
-                        console.log(err);
+                        console.log("Payment Error", err);
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     })
                 }
                 
                
             }).catch(err =>{
+                console.log("Errror from payment", err)
                 res.status(500).json({success: false, message: 'Payment not successful', err});
             })
         }else{
