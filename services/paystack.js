@@ -24,8 +24,7 @@ module.exports = {
             }
 
             //console.log(transaction)
-            try {
-                
+
             axios.post(`https://api.paystack.co/charge`, transaction)
                 .then(chargeResponse => {
                    // console.log(chargeResponse.data)
@@ -36,15 +35,12 @@ module.exports = {
                         reject(false)
                     }
                 }).catch(err => {
-                    console.error("Payment Error", err.response.data)
-                    reject(err.response.data)
+                    console.error("Payment Error", err)
+                    reject(err)
                 })
 
-            }catch(err){
-                reject(err.response.data)
-            }
-        }) 
-    
+
+        })
 
     }
 }

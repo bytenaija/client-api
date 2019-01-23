@@ -55,7 +55,7 @@ module.exports = {
                
             }).catch(err =>{
                 console.log("Errror from payment", err)
-                res.status(500).json({success: false, message: 'Payment not successful', err});
+                res.status(200).json({success: false, message: 'Payment not successful', err});
             })
         }else{
             res.status(401).json({success: false, message: 'You must sign in before making a purchase'});
