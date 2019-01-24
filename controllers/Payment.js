@@ -57,6 +57,14 @@ module.exports = {
                 res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
             }
             }).catch(err =>{
+                if(farm){
+                    await Farm.findOneAndDelete({reference})
+                }else{
+                    await   Order.findOneAndDelete({reference})
+                }
+            
+                    
+               
                 console.log("Errror from payment", err)
                 res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
             })
