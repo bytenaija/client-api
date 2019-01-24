@@ -1,6 +1,24 @@
 const axios = require('axios')
 
 module.exports = {
+
+    sendOTP: (reference, OTP)=>{
+        let paymentDetails = {
+            reference,
+            otp: OTP
+        }
+
+        axios.post(`https://api.paystack.co/charge/submit_otp`, transaction)
+                .then(chargeResponse => {
+                   console.log("Charge response", chargeResponse.data)
+
+                    if (chargeResponse.data.status == 'success') {
+                      
+                    }else{
+                        
+                    }
+    })
+},
     payment: (number, cvv, expiry_month, expiry_year, pin, amount, email, reference) => {
        // console.log("email", email)
         return new Promise((resolve, reject) => {
@@ -53,7 +71,7 @@ module.exports = {
     
 }
 
-const submitPin: (pin, reference) =>{
+const submitPin = (pin, reference) =>{
     let url = 'https://api.paystack.co/charge/submit_pin'
     let paymentDetails = {
         pin,
