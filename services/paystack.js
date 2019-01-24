@@ -35,7 +35,7 @@ module.exports = {
                         reject(false)
                     }
                 }).catch(err => {
-                    console.error("Payment Error response", err.response.data)
+                    console.log("Payment Error response", err.response.data)
                     reject(err)
                 })
 
