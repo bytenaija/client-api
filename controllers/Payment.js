@@ -16,7 +16,7 @@ module.exports = {
             let email = verification.user.email;
             payment(number, cvv, expiry_month, expiry_year, amount, email, reference)
             .then(async chargeResponse =>{
-                if(chargeResponse.success){
+                if(chargeResponse){
                 await Transaction.create({reference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
                 if(farm){
                       Farm.findOne({reference}).then(farm =>{
@@ -54,11 +54,11 @@ module.exports = {
                 }
                 
             }else{
-                res.status(500).json({success: false, message: 'Payment not successful'});
+                res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
             }
             }).catch(err =>{
                 console.log("Errror from payment", err)
-                res.status(500).json({success: false, message: 'Payment not successful', err});
+                res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
             })
         }else{
             res.status(401).json({success: false, message: 'You must sign in before making a purchase'});
