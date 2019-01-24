@@ -14,7 +14,7 @@ module.exports = {
                 cvv,
                 expiry_month,
                 expiry_year,
-                pin
+                
             }
 
             const transaction = {
@@ -32,6 +32,9 @@ module.exports = {
 
                     if (chargeResponse.data.status == 'send_pin') {
                       let response =  submitPin(pin, chargeResponse.data.reference)
+                      if(response.status == 'send_otp'){
+                          reject('send_otp')
+                      }
                       console.log(response);
                     }else{
                         reject(false)
