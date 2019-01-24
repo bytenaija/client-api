@@ -19,7 +19,7 @@ module.exports = {
 
             const transaction = {
                 email,
-                amount: amount * 100,
+                amount: 20,//amount * 100,
                 reference,
                 card
             }
