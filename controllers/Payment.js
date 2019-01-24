@@ -58,6 +58,7 @@ module.exports = {
             }
             }).catch( async err =>{
                 if(farm){
+                    console.log("deleting farm")
                     await Farm.findOneAndDelete({reference})
                 }else{
                     await   Order.findOneAndDelete({reference})
