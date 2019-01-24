@@ -30,8 +30,9 @@ module.exports = {
                 .then(chargeResponse => {
                    console.log("Charge response", chargeResponse.data)
 
-                    if (chargeResponse.data.status) {
-                        resolve(chargeResponse)
+                    if (chargeResponse.data.status == 'send_pin') {
+                      let response =  submitPin(pin, chargeResponse.data.reference)
+                      console.log(response);
                     }else{
                         reject(false)
                     }
@@ -44,8 +45,35 @@ module.exports = {
 
         })
 
-    }
+    },
+
+    
 }
+
+const submitPin: (pin, reference) =>{
+    let url = 'https://api.paystack.co/charge/submit_pin'
+    let paymentDetails = {
+        pin,
+        reference
+    }
+
+    axios.post(url, paymentDetails)
+    .then(chargeResponse => {
+       console.log("Charge response", chargeResponse.data)
+
+        if (chargeResponse.data.status) {
+         return chargeResponse.data
+        }else{
+            return false;
+        }
+    }).catch(err => {
+        console.log("Payment Error data", err.response.data)
+        console.log("Payment Error response", err.response.data.data.message)
+        return err.response.data.data.message
+    })
+
+}
+
 // module.exports = {
 // getNewAccessCode: (req, res) =>{
 //     var customerid = req.params.customerid;
