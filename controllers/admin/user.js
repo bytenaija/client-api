@@ -12,7 +12,7 @@ module.exports = {
         }
       })
       .catch(err =>{
-        return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
+        return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
       })
   },
 }

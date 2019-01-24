@@ -31,7 +31,7 @@ module.exports = {
                     })
                 }).catch(err => {
                     console.log(err)
-                    res.status(442).json({
+                    res.status(500).json({
                         success: false,
                         message: 'An error occured. Please try again later.'
                     })
@@ -122,7 +122,7 @@ module.exports = {
                
             }).catch(err => {
                 console.log(err)
-                res.status(442).json({
+                res.status(500).json({
                     success: false,
                     message: 'An error occured. Please try again later.'
                 })
@@ -141,7 +141,7 @@ module.exports = {
             })
         }
     }catch(err){
-        res.status(442).json({
+        res.status(500).json({
             success: false,
             message: 'An error occured. Please try again later.'
         })
@@ -216,7 +216,7 @@ module.exports = {
                 })
             }).catch(err => {
                 console.log(err)
-                res.status(442).json({
+                res.status(500).json({
                     success: false,
                     message: 'An error occured. Please try again later.'
                 })
@@ -235,7 +235,7 @@ module.exports = {
             })
         }
     }catch(err){
-        res.status(442).json({
+        res.status(500).json({
             success: false,
             message: 'An error occured. Please try again later.'
         })

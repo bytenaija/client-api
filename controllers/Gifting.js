@@ -16,7 +16,7 @@ module.exports = {
                 })
             }).catch(err => {
                 console.log(err)
-                res.status(442).json({
+                res.status(500).json({
                     success: false,
                     message: 'An error occured. Please try again later.'
                 })
@@ -89,13 +89,13 @@ module.exports = {
                             })
                         }).catch(err => {
                             console.log(err)
-                            res.status(442).json({
+                            res.status(500).json({
                                 success: false,
                                 message: 'An error occured. Please try again later.'
                             })
                         })
                     }else{
-                        res.status(442).json({
+                        res.status(500).json({
                             success: false,
                             message: 'You do not have sufficient investment to gift.'
                         })
@@ -112,7 +112,7 @@ module.exports = {
             })
         }
     }catch(err){
-        res.status(442).json({
+        res.status(500).json({
             success: false,
             message: 'An error occured. Please try again later.'
         })
@@ -129,7 +129,7 @@ module.exports = {
                 })
             }).catch(err => {
                 console.log(err)
-                res.status(442).json({
+                res.status(500).json({
                     success: false,
                     message: 'An error occured. Please try again later.'
                 })
@@ -152,7 +152,7 @@ module.exports = {
                 })
             }).catch(err => {
                 console.log(err)
-                res.status(442).json({
+                res.status(500).json({
                     success: false,
                     message: 'An error occured. Please try again later.'
                 })

@@ -9,7 +9,7 @@ module.exports = {
             Notification.find({userId: verification.user.email}).then(transactions =>{
                 res.status(200).json({success: true, transactions});
             }).catch(err =>{
-                return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
+                return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
             })
         }else{
             res.status(401).json({success: false, message: 'Authentication Required'});
@@ -22,7 +22,7 @@ module.exports = {
             Notification.find({email: verification.email, _id: req.params.id}).then(transaction =>{
                 res.status(200).json({success: true, transaction});
             }).catch(err =>{
-                return res.status(442).json({success: false, message: 'An error occured. Please try again later'})
+                return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
             })
         }else{
             res.status(401).json({success: false, message: 'Authentication Required'});

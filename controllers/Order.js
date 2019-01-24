@@ -15,11 +15,11 @@ module.exports = {
                 if(order){
                     res.status(200).json({success: true, message: 'Order Placed Successful', order});
                 }else{
-                    res.status(442).json({success: false, message: 'Order could not be processed. Try again please'});
+                    res.status(500).json({success: false, message: 'Order could not be processed. Try again please'});
                 }
                 }).catch(err =>{
                     console.log(err);
-                    res.status(442).json({success: false, message: 'Order could not be processed. Try again please'});
+                    res.status(500).json({success: false, message: 'Order could not be processed. Try again please'});
                 })
         }else{
             res.status(401).json({success: false, message: 'User must be authenticated'});

@@ -21,17 +21,17 @@ module.exports = {
                             user.save()
                             res.status(200).json({success: true, message: 'Address created Successful', address});
                         }else{
-                            res.status(442).json({success: false, message: 'Address not created Successful'});
+                            res.status(500).json({success: false, message: 'Address not created Successful'});
                         }
                   
                     })
                     
                 }else{
-                    res.status(442).json({success: false, message: 'Address could not be created. Try again please'});
+                    res.status(500).json({success: false, message: 'Address could not be created. Try again please'});
                 }
                 }).catch(err =>{
                     console.log(err);
-                    res.status(442).json({success: false, message: 'Address could not be created. Try again please'});
+                    res.status(500).json({success: false, message: 'Address could not be created. Try again please'});
                 })
         }else{
             res.status(401).json({success: false, message: 'User must be authenticated'});

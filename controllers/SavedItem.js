@@ -35,14 +35,14 @@ module.exports = {
                     })
 
                     } else {
-                        res.status(442).json({
+                        res.status(500).json({
                             success: false,
                             message: 'SavedItem could not be processed. Try again please'
                         });
                     }
                 }).catch(err => {
                     console.log(err);
-                    res.status(442).json({
+                    res.status(500).json({
                         success: false,
                         message: 'SavedItem could not be processed. Try again please'
                     });
