@@ -12,9 +12,9 @@ module.exports = {
      
         let verification = verify(req, res, next);
         if(verification){
-         
+         let paymentReference = Date.now();
             let email = verification.user.email;
-            payment(number, cvv, expiry_month, expiry_year, amount, email, reference)
+            payment(number, cvv, expiry_month, expiry_year, amount, email, paymentReference)
             .then(async chargeResponse =>{
                 if(chargeResponse){
                 await Transaction.create({reference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
