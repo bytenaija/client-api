@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 module.exports = {
-    payment: (number, cvv, expiry_month, expiry_year, amount, email, reference) => {
+    payment: (number, cvv, expiry_month, expiry_year, pin, amount, email, reference) => {
        // console.log("email", email)
         return new Promise((resolve, reject) => {
 
@@ -13,7 +13,8 @@ module.exports = {
                 number,
                 cvv,
                 expiry_month,
-                expiry_year
+                expiry_year,
+                pin
             }
 
             const transaction = {

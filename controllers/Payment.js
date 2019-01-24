@@ -8,13 +8,13 @@ let Transaction = require('../models/Transaction')
 module.exports = {
     paystackPayment:  (req, res, next) =>{
         const io = req.io;
-        let {number, cvv, expiry_month, expiry_year, amount, reference, farm} = req.body
+        let {number, cvv, expiry_month, expiry_year, amount, reference, farm, pin} = req.body
      
         let verification = verify(req, res, next);
         if(verification){
          let paymentReference = Date.now();
             let email = verification.user.email;
-            payment(number, cvv, expiry_month, expiry_year, amount, email, paymentReference)
+            payment(number, cvv, expiry_month, expiry_year, pin, amount, email, paymentReference)
             .then(async chargeResponse =>{
                 if(chargeResponse){
                 await Transaction.create({reference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
