@@ -27,7 +27,7 @@ module.exports = {
 
             axios.post(`https://api.paystack.co/charge`, transaction)
                 .then(chargeResponse => {
-                   // console.log(chargeResponse.data)
+                   console.log("Charge response", chargeResponse.data)
 
                     if (chargeResponse.data.status) {
                         resolve(chargeResponse)
