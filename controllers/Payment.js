@@ -61,14 +61,21 @@ module.exports = {
             }
             }).catch( async err =>{
                 console.log("Erororororororor from snedoing pin", err);
-                if(farm){
-                 
-                    await Farm.findOneAndDelete({reference})
+                if(err.status == 'send_otp'){
+                    res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
                 }else{
-                    await   Order.findOneAndDelete({reference})
+                    if(farm){
+                 
+                        await Farm.findOneAndDelete({reference})
+                    }else{
+                        await   Order.findOneAndDelete({reference})
+                    }
+
+                    res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
                 }
+               
               
-                res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
+               
             })
         }else{
             res.status(401).json({success: false, message: 'You must sign in before making a purchase'});
