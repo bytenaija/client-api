@@ -112,7 +112,7 @@ module.exports = {
                 }
                 
             }else{
-               
+                console.log("Just checking",  err,  farm? true: false,  reference)
                 res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err, farm : farm? true: false, chargeReference: reference});
             }
             }).catch( async err =>{
