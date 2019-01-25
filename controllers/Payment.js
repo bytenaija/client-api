@@ -8,7 +8,7 @@ let Transaction = require('../models/Transaction')
 module.exports = {
     sendOTP: (req, res, next) =>{
         let {otp, reference, farm, chargeReference } = req.body;
-        payment.sendOTP(reference, otp).then(message =>{
+        payment.sendOTP(reference, otp).then(chargeResponse =>{
             if(chargeResponse){
                 await Transaction.create({reference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
                 if(farm){
