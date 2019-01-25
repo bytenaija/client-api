@@ -6,6 +6,9 @@ let Farm = require('../models/Farms')
 let Transaction = require('../models/Transaction')
 
 module.exports = {
+    sendOTP: (req, res, next) =>{
+        let 
+    },
     paystackPayment:  (req, res, next) =>{
         const io = req.io;
         let {number, cvv, expiry_month, expiry_year, amount, reference, farm, pin} = req.body
