@@ -49,10 +49,11 @@ module.exports = {
 
             axios.post(`https://api.paystack.co/charge`, transaction)
                 .then( async chargeResponse => {
+                    let {data} = chargeResponse.data
                    console.log("Charge response data data", chargeResponse.data.data)
 
-                    if (chargeResponse.data.status == 'send_pin') {
-                      let response =  await submitPin(pin, chargeResponse.data.reference)
+                    if (data.status == 'send_pin') {
+                      let response =  await submitPin(pin, data.reference)
                       console.log("Optdddddddddddddddddddddddd", response, chargeResponse.data.reference, response.display_text);
                       if(response.status == 'send_otp'){
                           reject({status: 'send_otp', reference: chargeResponse.data.reference, displayText: response.display_text})
