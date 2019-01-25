@@ -53,7 +53,7 @@ module.exports = {
 
                     if (chargeResponse.data.status == 'send_pin') {
                       let response =  submitPin(pin, chargeResponse.data.reference)
-                      console.log("Opt", response);
+                      console.log("Optdddddddddddddddddddddddd", response, chargeResponse.data.reference, response.display_text);
                       if(response.status == 'send_otp'){
                           reject({status: 'send_otp', reference: chargeResponse.data.reference, displayText: response.display_text})
                       }
