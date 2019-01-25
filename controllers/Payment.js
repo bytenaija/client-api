@@ -10,7 +10,7 @@ module.exports = {
     sendOTP: (req, res, next) =>{
         let {otp, reference, farm, chargeReference } = req.body;
         let verification = verify(req, res, next);
-   
+        console.log("This is OTP sending on line 13 on Payment controller", otp, reference, farm, chargeReference);
         payment.sendOTP(reference, otp).then(chargeResponse =>{
             if(chargeResponse){
               
