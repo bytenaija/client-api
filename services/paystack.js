@@ -57,9 +57,10 @@ module.exports = {
                       console.log("responsesssss", response)
                       console.log("Optdddddddddddddddddddddddd", response.data.display_text, data.reference);
                       if(response.data.status == 'send_otp'){
+                          console.log("rejectiifififififii")
                           reject({status: 'send_otp', reference: data.reference, displayText: response.display_text})
                       }
-                      console.log(response);
+                     
                     }else{
                         console.log("Whahahahahahahahahahahahahah");
                         resolve()
