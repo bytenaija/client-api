@@ -64,6 +64,8 @@ module.exports = {
     },
     paystackPayment:  (req, res, next) =>{
         const io = req.io;
+
+        console.log("this is request.body in paystack 68", req.body)
         let {number, cvv, expiry_month, expiry_year, amount, reference, farm, pin} = req.body
      
         let verification = verify(req, res, next);
@@ -75,7 +77,7 @@ module.exports = {
 
                 console.log('chargesgsgsgsgsgsgsg 76', chargeResponse)
                 if(chargeResponse){
-                await Transaction.create({paymentReference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
+                await Transaction.create({reference: paymentReference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
                 if(farm){
                       Farm.findOne({reference}).then(farm =>{
                         if(farm){
