@@ -10,7 +10,7 @@ module.exports = {
             otp: OTP
         }
 
-        axios.post(`https://api.paystack.co/charge/submit_otp`, transaction)
+        axios.post(`https://api.paystack.co/charge/submit_otp`, paymentDetails)
                 .then(chargeResponse => {
                    console.log("Charge response", chargeResponse.data)
                         

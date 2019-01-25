@@ -7,7 +7,49 @@ let Transaction = require('../models/Transaction')
 
 module.exports = {
     sendOTP: (req, res, next) =>{
-        let 
+        let {otp, reference, farm, chargeReference } = req.body;
+        payment.sendOTP(reference, otp).then(message =>{
+            if(chargeResponse){
+                await Transaction.create({reference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
+                if(farm){
+                      Farm.findOne({chargeReference}).then(farm =>{
+                        if(farm){
+                            farm.status = 'Paid';
+                            farm.save();
+                            
+                                io.sockets.emit('Farm Payment', farm);
+                          
+                        }
+                        
+                        res.status(200).json({success: true, message: 'Payment Successful'});
+                    }).catch(err =>{
+                        console.log(err);
+                        res.status(200).json({success: true, message: 'Payment Successful'});
+                    })
+                }else{
+                    Order.findOne({chargeReference}).then(order =>{
+                        if(order){
+                            order.status = 'Paid';
+                            order.save();
+                            Cart.findOneAndUpdate({_id: order.cartId}, {status: 'Paid'}).exec().then(cart =>{
+                               // console.log(cart);
+                                io.sockets.emit('Order Payment', order);
+
+                                
+                            })
+                        }
+                        
+                        res.status(200).json({success: true, message: 'Payment Successful'});
+                    }).catch(err =>{
+                        console.log("Payment Errorsssssss", err);
+                        res.status(200).json({success: true, message: 'Payment Successful'});
+                    })
+                }
+                
+            }else{
+                res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
+            }
+        })
     },
     paystackPayment:  (req, res, next) =>{
         const io = req.io;
@@ -20,7 +62,7 @@ module.exports = {
             payment(number, cvv, expiry_month, expiry_year, pin, amount, email, paymentReference)
             .then(async chargeResponse =>{
                 if(chargeResponse){
-                await Transaction.create({reference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
+                await Transaction.create({paymentReference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
                 if(farm){
                       Farm.findOne({reference}).then(farm =>{
                         if(farm){
@@ -57,12 +99,13 @@ module.exports = {
                 }
                 
             }else{
-                res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
+               
+                res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err, farm : farm? true: false, chargeReference: reference});
             }
             }).catch( async err =>{
                 console.log("Erororororororor from snedoing pin", err);
                 if(err.status == 'send_otp'){
-                    res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
+                    res.status(500).json({success: false, message: 'Send OTP', errorMessage: err});
                 }else{
                     if(farm){
                  
