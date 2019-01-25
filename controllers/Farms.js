@@ -76,6 +76,8 @@ module.exports = {
       farm.userId = verification.user._id;
       farm.dateOfROI = moment().add(6, 'months').toISOString();
 
+
+      console.log("Farmmsmsmsm creation", farm)
       Farms.create(farm)
         .then(farm => {
           if (!farm) {
