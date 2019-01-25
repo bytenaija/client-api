@@ -12,6 +12,7 @@ module.exports = {
         let verification = verify(req, res, next);
         console.log("This is OTP sending on line 13 on Payment controller",req.body);
         sendOTP(reference, otp).then(chargeResponse =>{
+            console.log('line 15, reolved true', chargeResponse)
             if(chargeResponse){
               
                 if(verification){

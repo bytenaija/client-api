@@ -17,6 +17,7 @@ module.exports = {
                    console.log("Charge response", chargeResponse.data)
                         
                     if (chargeResponse.data.status == 'success') {
+                        console.log('resolving true')
                         resolve(true)
                     }else if(chargeResponse.data.status == 'pending'){
                         let response;
