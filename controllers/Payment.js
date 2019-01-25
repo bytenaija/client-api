@@ -72,6 +72,8 @@ module.exports = {
             let email = verification.user.email;
             payment(number, cvv, expiry_month, expiry_year, pin, amount, email, paymentReference)
             .then(async chargeResponse =>{
+
+                console.log('chargesgsgsgsgsgsgsg 76', chargeResponse)
                 if(chargeResponse){
                 await Transaction.create({paymentReference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
                 if(farm){
