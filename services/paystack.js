@@ -78,28 +78,31 @@ module.exports = {
 }
 
 const submitPin = (pin, reference) =>{
-    console.log("Submitting pin")
-    let url = 'https://api.paystack.co/charge/submit_pin'
-    let paymentDetails = {
-        pin,
-        reference
-    }
-
-    axios.post(url, paymentDetails)
-    .then(chargeResponse => {
-       console.log("Charge response from from OTPsssssssssssssssss", chargeResponse.data, chargeResponse.status)
-
-        if (chargeResponse.status) {
-            console.log("Returnnnnnfnfnfnfnfn")
-         return chargeResponse.data
-        }else{
-            return false;
+    return new Promise((resolve, reject) =>{
+        console.log("Submitting pin")
+        let url = 'https://api.paystack.co/charge/submit_pin'
+        let paymentDetails = {
+            pin,
+            reference
         }
-    }).catch(err => {
-        console.log("Payment Error data", err)
-        console.log("Payment Error response", err.response)
-        return err
+    
+        axios.post(url, paymentDetails)
+        .then(chargeResponse => {
+           console.log("Charge response from from OTPsssssssssssssssss", chargeResponse.data, chargeResponse.status)
+    
+            if (chargeResponse.status) {
+                console.log("Returnnnnnfnfnfnfnfn")
+             resolve(chargeResponse.data)
+            }else{
+                reject(false);
+            }
+        }).catch(err => {
+            console.log("Payment Error data", err)
+            console.log("Payment Error response", err.response)
+            reject(err)
+        })
     })
+   
 
 }
 
