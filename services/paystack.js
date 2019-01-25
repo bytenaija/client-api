@@ -54,9 +54,9 @@ module.exports = {
 
                     if (data.status == 'send_pin') {
                       let response =  await submitPin(pin, data.reference)
-                      console.log("Optdddddddddddddddddddddddd", response, chargeResponse.data.data.reference);
+                      console.log("Optdddddddddddddddddddddddd", response.display_text, data.reference);
                       if(response.status == 'send_otp'){
-                          reject({status: 'send_otp', reference: chargeResponse.data.reference, displayText: response.display_text})
+                          reject({status: 'send_otp', reference: data.reference, displayText: response.display_text})
                       }
                       console.log(response);
                     }else{
@@ -88,10 +88,10 @@ const submitPin = (pin, reference) =>{
     
         axios.post(url, paymentDetails)
         .then(chargeResponse => {
-           console.log("Charge response from from OTPsssssssssssssssss", chargeResponse.data, chargeResponse.status)
+        //    console.log("Charge response from from OTPsssssssssssssssss", chargeResponse.data, chargeResponse.status)
     
             if (chargeResponse.status) {
-                console.log("Returnnnnnfnfnfnfnfn")
+                // console.log("Returnnnnnfnfnfnfnfn")
              resolve(chargeResponse.data)
             }else{
                 reject(false);
