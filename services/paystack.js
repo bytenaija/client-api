@@ -50,7 +50,7 @@ module.exports = {
             axios.post(`https://api.paystack.co/charge`, transaction)
                 .then( async chargeResponse => {
                     let {data} = chargeResponse.data
-                   console.log("Charge response data data", chargeResponse.data.data)
+                   console.log("Charge response data data", data)
 
                     if (data.status == 'send_pin') {
                       let response =  await submitPin(pin, data.reference)
