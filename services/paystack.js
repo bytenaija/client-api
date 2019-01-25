@@ -23,7 +23,7 @@ module.exports = {
 })
 },
     payment: (number, cvv, expiry_month, expiry_year, pin, amount, email, reference) => {
-       // console.log("email", email)
+       console.log("email", email)
         return new Promise((resolve, reject) => {
 
             // axios.defaults.headers.post['Authorization'] = 'Bearer sk_test_dce12f10f109e0a79d04e8f1615610e9d89c240e';
@@ -49,7 +49,7 @@ module.exports = {
 
             axios.post(`https://api.paystack.co/charge`, transaction)
                 .then( async chargeResponse => {
-                   console.log("Charge response", chargeResponse.data)
+                   console.log("Charge response data data", chargeResponse.data.data)
 
                     if (chargeResponse.data.status == 'send_pin') {
                       let response =  await submitPin(pin, chargeResponse.data.reference)
@@ -59,7 +59,8 @@ module.exports = {
                       }
                       console.log(response);
                     }else{
-                        reject(false)
+                        console.log("Whahahahahahahahahahahahahah");
+                        resolve()
                     }
                 }).catch(err => {
                     console.log("Payment Error data", err.response.data)
