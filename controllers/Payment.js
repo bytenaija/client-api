@@ -60,13 +60,14 @@ module.exports = {
                 res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
             }
             }).catch( async err =>{
+                console.log("Erororororororor from snedoing pin", err);
                 if(farm){
-                    console.log("deleting farm")
+                 
                     await Farm.findOneAndDelete({reference})
                 }else{
                     await   Order.findOneAndDelete({reference})
                 }
-                console.log("Errror from payment", err)
+              
                 res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
             })
         }else{
