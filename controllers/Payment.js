@@ -15,7 +15,7 @@ module.exports = {
             if(chargeResponse){
               
                 if(verification){
-                    User.findById(verification.user._id).then(user =>{
+                    User.findById(verification.user._id).then( async user =>{
                         await Transaction.create({reference, amount, from: user.firstname + " " +  user.lastname, to: 'Goatti.ng', email: user.email})
                     })
                     
