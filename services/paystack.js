@@ -90,14 +90,15 @@ const submitPin = (pin, reference) =>{
        console.log("Charge response from from OTPsssssssssssssssss", chargeResponse.data, chargeResponse.status)
 
         if (chargeResponse.status) {
-         return chargeResponse.data.data
+            console.log("Returnnnnnfnfnfnfnfn")
+         return chargeResponse.data
         }else{
             return false;
         }
     }).catch(err => {
         console.log("Payment Error data", err)
         console.log("Payment Error response", err.response)
-        return err.response
+        return err
     })
 
 }
