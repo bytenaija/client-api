@@ -1,4 +1,4 @@
-let {payment} = require('../services/paystack');
+let {payment, sendOTP} = require('../services/paystack');
 let {verify} = require('../config/jwt')
 let Order = require('../models/Order')
 let Cart = require('../models/Cart')
@@ -11,7 +11,7 @@ module.exports = {
         let {otp, reference, farm, chargeReference } = req.body;
         let verification = verify(req, res, next);
         console.log("This is OTP sending on line 13 on Payment controller", otp, reference, farm, chargeReference);
-        payment.sendOTP(reference, otp).then(chargeResponse =>{
+        sendOTP(reference, otp).then(chargeResponse =>{
             if(chargeResponse){
               
                 if(verification){
