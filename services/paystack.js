@@ -3,6 +3,8 @@ const axios = require('axios')
 module.exports = {
 
     sendOTP: (reference, OTP)=>{
+
+        console.log("Sending OTP", reference, OTP);
         return new Promise((resolve, reject) => {
 
         let paymentDetails = {
