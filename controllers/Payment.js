@@ -4,13 +4,23 @@ let Order = require('../models/Order')
 let Cart = require('../models/Cart')
 let Farm = require('../models/Farms')
 let Transaction = require('../models/Transaction')
+let User = require('../models/User')
 
 module.exports = {
     sendOTP: (req, res, next) =>{
         let {otp, reference, farm, chargeReference } = req.body;
+        let verification = verify(req, res, next);
+   
         payment.sendOTP(reference, otp).then(chargeResponse =>{
             if(chargeResponse){
-                await Transaction.create({reference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
+              
+                if(verification){
+                    User.findById(verification.user._id).then(user =>{
+                        await Transaction.create({reference, amount, from: user.firstname + " " +  user.lastname, to: 'Goatti.ng', email: user.email})
+                    })
+                    
+                }
+              
                 if(farm){
                       Farm.findOne({chargeReference}).then(farm =>{
                         if(farm){
