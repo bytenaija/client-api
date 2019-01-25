@@ -18,7 +18,7 @@ module.exports = {
                         resolve(true)
                     }else if(chargeResponse.data.status == 'pending'){
                         let response;
-                        setTimeout(() =>{
+                        setTimeout(async () =>{
                             response = await checkPending(reference)
                         }, 15000)
                     
