@@ -77,11 +77,14 @@ module.exports = {
                       if(response.data.status == 'send_otp'){
                           console.log("rejectiifififififii")
                           reject({status: 'send_otp', reference: data.reference, displayText: response.data.display_text})
+                      }else{
+                        console.log("BBBDBBDBDBDBDBDBDBDB");
+                        resolve(true)
                       }
                      
                     }else{
                         console.log("Whahahahahahahahahahahahahah");
-                        resolve()
+                        resolve(true)
                     }
                 }).catch(err => {
                     console.log("Payment Error data", err)
