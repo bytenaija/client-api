@@ -11,13 +11,28 @@ module.exports = {
         }
 
         axios.post(`https://api.paystack.co/charge/submit_otp`, paymentDetails)
-                .then(chargeResponse => {
+                .then( async chargeResponse => {
                    console.log("Charge response", chargeResponse.data)
                         
                     if (chargeResponse.data.status == 'success') {
                         resolve(true)
-                    }else{
-                        resolve(false);
+                    }else if(chargeResponse.data.status == 'pending'){
+                        let response;
+                        setTimeout(() =>{
+                            response = await checkPending(reference)
+                        }, 15000)
+                    
+                        if(response){
+                            if(response.status != 'pending'){
+                                if(response.status == 'failed'){
+                                    resolve(false);
+                                }else{
+                                    resolve(true)
+                                }
+                                
+                            }
+                        }
+                        
                     }
     })
 })
@@ -105,6 +120,15 @@ const submitPin = (pin, reference) =>{
         })
     })
    
+
+}
+
+const checkPending = (reference) =>{
+    return new Promise((resolve, reject) =>{
+        let url = `https://api.paystack.co/charge/${reference}`;
+        axios.get(url).then(chargeResponse => resolve(chargeResponse.data.data))
+        .catch(err => reject(err))
+    })
 
 }
 
