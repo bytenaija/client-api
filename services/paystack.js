@@ -76,6 +76,7 @@ module.exports = {
 }
 
 const submitPin = (pin, reference) =>{
+    console.log("Submitting pin")
     let url = 'https://api.paystack.co/charge/submit_pin'
     let paymentDetails = {
         pin,
