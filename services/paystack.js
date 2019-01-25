@@ -87,17 +87,17 @@ const submitPin = (pin, reference) =>{
 
     axios.post(url, paymentDetails)
     .then(chargeResponse => {
-       console.log("Charge response from from OTP", chargeResponse)
+       console.log("Charge response from from OTP", chargeResponse.data.data)
 
-        if (chargeResponse.status) {
-         return chargeResponse
+        if (chargeResponse.data.status) {
+         return chargeResponse.data.data
         }else{
             return false;
         }
     }).catch(err => {
-        console.log("Payment Error data", err.response.data)
-        console.log("Payment Error response", err.response.data.data.message)
-        return err.response.data.data.message
+        console.log("Payment Error data", err)
+        console.log("Payment Error response", err.response)
+        return err.response
     })
 
 }
