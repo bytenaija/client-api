@@ -34,7 +34,7 @@ const WithdrawalSchema = new Schema({
         ref: 'User'
     },
 
-    farmDue: [{
+    farmsDue: [{
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
         ref: 'Farm'
