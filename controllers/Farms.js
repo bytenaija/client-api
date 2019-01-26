@@ -130,6 +130,7 @@ module.exports = {
       req.body.user = verification.user._id;
         Widthdrawal.create(req.body).then(widthrawal =>{
           for(farm of widthrawal.farmsDue){
+            console.log(farm)
             Farms.findByIdAndUpdate(farm, {status: 'withdrawn'});
           }
           res.status(200).json({success: true, message: 'Successfully Withdrawn your investments'})
