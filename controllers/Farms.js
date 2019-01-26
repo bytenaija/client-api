@@ -132,14 +132,20 @@ module.exports = {
           let counter = 0;
           for(farm of widthrawal.farmsDue){
             
-            Farms.findById(farm, {status: 'withdrawn'}).then(frm => console.log(frm));
-            counter += 1;
-            if(counter == widthrawal.farmsDue.length - 1){
-              console.log("Counting", counter, widthrawal.farmsDue.length - 1)
-              res.status(200).json({success: true, message: 'Successfully Withdrawn your investments'});
-            }
+            Farms.findById(farm).then(frm =>{
+              console.log(frm)
+              frm.status = 'withdrawn'
+              frm.save();
+
+              counter += 1;
+              if(counter == widthrawal.farmsDue.length - 1){
+                console.log("Counting", counter, widthrawal.farmsDue.length - 1)
+                res.status(200).json({success: true, message: 'Successfully Withdrawn your investments'});
+              }
+           
+            });
+           
           }
-         
         }).catch(err => {
           console.log("Erro from withdraw", err)
           res.status(500).json({success: false, err})
