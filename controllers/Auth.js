@@ -42,6 +42,7 @@ module.exports = {
                 console.log("JWT Body", body);
                 jwtSign({user: body}, (err, token) => {
                   if (err) {
+                    console.log("Login", err)
                     return res.status(500).json({
                       success: false,
                       message: 'An error occured. Please try again later'
@@ -70,7 +71,7 @@ module.exports = {
           }
         })
         .catch(err => {
-          console.dir(err)
+          console.log("Error in login", err)
           return res.status(500).json({
             success: false,
             message: 'An error occured. Please try again later'
@@ -119,7 +120,7 @@ module.exports = {
 
         })
         .catch(err => {
-          console.dir(err)
+          console.log(err)
           return res.status(500).json({
             success: false,
             message: 'An error occured. Please try again later'

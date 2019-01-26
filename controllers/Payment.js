@@ -15,12 +15,12 @@ module.exports = {
             console.log('line 15, reolved true', chargeResponse)
             if(chargeResponse){
               
-                if(verification){
+               
                     User.findById(verification.user._id).then( async user =>{
                         await Transaction.create({reference, amount, from: user.firstname + " " +  user.lastname, to: 'Goatti.ng', email: user.email})
                     })
                     
-                }
+                
               
                 if(farm){
                       Farm.findOne({chargeReference}).then(farm =>{
