@@ -133,7 +133,10 @@ module.exports = {
             Farms.findByIdAndUpdate(farm, {status: 'withdrawn'});
           }
           res.status(200).json({success: true, message: 'Successfully Withdrawn your investments'})
-        }).catch(err => res.status(500).json({success: false, err}))
+        }).catch(err => {
+          console.log("Erro from withdraw", err)
+          res.status(500).json({success: false, err})
+        })
      }
   },
 
