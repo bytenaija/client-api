@@ -128,12 +128,17 @@ module.exports = {
  
      if (verification) {
       req.body.user = verification.user._id;
-        Widthdrawal.create(req.body).then(widthrawal =>{
+        Widthdrawal.create(req.body).then(async widthrawal =>{
+          let counter = 0;
           for(farm of widthrawal.farmsDue){
-            console.log(farm)
-            Farms.findByIdAndUpdate(farm, {status: 'withdrawn'});
+            
+            Farms.findById(farm, {status: 'withdrawn'}).then(frm => console.log(frm));
+            counter += 1;
+            if(counter == widthrawal.farmsDue.length - 1){
+              res.status(200).json({success: true, message: 'Successfully Withdrawn your investments'});
+            }
           }
-          res.status(200).json({success: true, message: 'Successfully Withdrawn your investments'})
+         
         }).catch(err => {
           console.log("Erro from withdraw", err)
           res.status(500).json({success: false, err})
