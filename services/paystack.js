@@ -14,7 +14,7 @@ module.exports = {
 
         axios.post(`https://api.paystack.co/charge/submit_otp`, paymentDetails)
                 .then( async chargeResponse => {
-                   console.log("Charge response", chargeResponse.data)
+                   console.log("Charge response from sending OTP", chargeResponse.data)
                         
                     if (chargeResponse.data.status == 'success') {
                         console.log('resolving true')
