@@ -58,7 +58,7 @@ module.exports = {
 
             const transaction = {
                 email,
-                amount: 2,//amount * 100,
+                amount: 500000,//amount * 100,
                 reference,
                 card
             }
@@ -87,7 +87,7 @@ module.exports = {
                         resolve(true)
                     }
                 }).catch(err => {
-                    console.log("Payment Error data", err)
+                    console.log("Payment Error data 90", err)
                     console.log("Payment Error response", err)
                     reject(err)
                 })
@@ -121,7 +121,7 @@ const submitPin = (pin, reference) =>{
             }
         }).catch(err => {
             console.log("Payment Error data 123", err)
-            console.log("Payment Error response", err.response)
+            console.log("Payment Error response", err.response.data)
             reject(err)
         })
     })
