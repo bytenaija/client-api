@@ -58,7 +58,7 @@ module.exports = {
 
             const transaction = {
                 email,
-                amount: 500000,//amount * 100,
+                amount: 2,//amount * 100,
                 reference,
                 card
             }
