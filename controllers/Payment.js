@@ -77,6 +77,12 @@ module.exports = {
 
                 console.log('chargesgsgsgsgsgsgsg 76', chargeResponse)
                 if(chargeResponse){
+                    
+                        User.findById(verification.user._id).then( async user =>{
+                            await Transaction.create({reference, amount, from: user.firstname + " " +  user.lastname, to: 'Goatti.ng', email: user.email})
+                        })
+                        
+        
                 await Transaction.create({reference: paymentReference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
                 if(farm){
                       Farm.findOne({reference}).then(farm =>{
