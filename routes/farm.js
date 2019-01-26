@@ -8,5 +8,7 @@ const FarmController = require('../controllers/Farms')
 router.get('/v1/', FarmController.getAllFarms)
 router.post('/v1/', verifyToken, FarmController.createFarm)
 router.patch('/v1/:id', verifyToken, FarmController.editFarm)
+router.post('/v1/widthdraw', verifyToken, FarmController.withDrawROI)
+
 
 module.exports = router

@@ -7,6 +7,7 @@ const {
 } = require('../config/jwt')
 
 let QueueJobs = require('../services/queue')
+let Widthdrawal = require('../models/Withdrawal')
 
 module.exports = {
   getAllFarms: (req, res, next) => {
@@ -120,6 +121,20 @@ module.exports = {
         message: 'You are not authorised to access this resource'
       })
     }
+  },
+
+  withDrawROI: (req, res, next) =>{
+    const verification = verify(req, res, next);
+ 
+     if (verification) {
+      req.body.user = verification.user._id;
+        Widthdrawal.create(req.body).then(widthrawal =>{
+          for(farm of widthrawal.farmsDue){
+            Farms.findByIdAndUpdate(farm, {status: 'withdrawn'});
+          }
+          res.status(200).json({success: true, message: 'Successfully Withdrawn your investments'})
+        }).catch(err => res.status(500).json({success: false, err}))
+     }
   },
 
   editFarm: (req, res) => {
