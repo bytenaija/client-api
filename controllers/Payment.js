@@ -67,12 +67,12 @@ module.exports = {
 
         console.log("this is request.body in paystack 68", req.body)
         let {number, cvv, expiry_month, expiry_year, amount, reference, farm, pin} = req.body
-     
+        console.group("Amountntnttttt", amount)
         let verification = verify(req, res, next);
         if(verification){
          let paymentReference = Date.now();
             let email = verification.user.email;
-            payment(number, cvv, expiry_month, expiry_year, pin, amount, email, paymentReference)
+            payment(number, cvv, expiry_month, expiry_year, pin, amount, email, paymentReference);
             .then(async chargeResponse =>{
 
                 console.log('chargesgsgsgsgsgsgsg 76', chargeResponse)
