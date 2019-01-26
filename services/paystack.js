@@ -120,7 +120,7 @@ const submitPin = (pin, reference) =>{
                 reject(false);
             }
         }).catch(err => {
-            console.log("Payment Error data", err)
+            console.log("Payment Error data 123", err)
             console.log("Payment Error response", err.response)
             reject(err)
         })
