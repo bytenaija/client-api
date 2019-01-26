@@ -72,7 +72,7 @@ module.exports = {
         if(verification){
          let paymentReference = Date.now();
             let email = verification.user.email;
-            payment(number, cvv, expiry_month, expiry_year, pin, amount, email, paymentReference);
+            payment(number, cvv, expiry_month, expiry_year, pin, amount, email, paymentReference)
             .then(async chargeResponse =>{
 
                 console.log('chargesgsgsgsgsgsgsg 76', chargeResponse)
