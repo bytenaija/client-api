@@ -147,18 +147,18 @@ let inquiryRoutes = require('./routes/inquiry');
 let profileRoutes = require('./routes/profile');
 
 
-app.use('/api/admin/auth', adminRoutes);
-app.use('/api/admin/users', userManagementRoutes)
-app.use('/api/auth', authRoutes);
-app.use('/api/farms', farmRoutes);
-app.use('/api/addresses', addressRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/transactions', transactionRoutes);
-app.use('/api/notifications', notificationRoutes);
-app.use('/api/investments', investmentRoutes);
-app.use('/api/saveditems', SavedItemRoutes);
-app.use('/api/feeds', feedRoutes);
-app.use('/api/gifts', giftRoutes);
-app.use('/api/inquiries', inquiryRoutes);
-app.use('/api/profile', profileRoutes);
+app.use('/admin/auth', adminRoutes);
+app.use('/admin/users', userManagementRoutes)
+app.use('/auth', authRoutes);
+app.use('/farms', farmRoutes);
+app.use('/addresses', addressRoutes);
+app.use('/products', productRoutes);
+app.use('/orders', orderRoutes);
+app.use('/transactions', transactionRoutes);
+app.use('/notifications', notificationRoutes);
+app.use('/investments', investmentRoutes);
+app.use('/saveditems', SavedItemRoutes);
+app.use('/feeds', feedRoutes);
+app.use('/gifts', giftRoutes);
+app.use('/inquiries', inquiryRoutes);
+app.use('/profile', profileRoutes);
