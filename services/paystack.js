@@ -53,6 +53,7 @@ module.exports = {
             axios.interceptors.response.use((response) => {
                 return response;
             }, function (error) {
+                console.log("Error in axios interceptors paystack 56", error.response)
                 return Promise.reject(error.response);
             });
             // axios.defaults.headers.post['Authorization'] = 'Bearer sk_test_dce12f10f109e0a79d04e8f1615610e9d89c240e';
@@ -106,9 +107,9 @@ module.exports = {
                         resolve(true)
                     }
                 }).catch(err => {
-                    console.log("Payment Error data 90", err)
-                    console.log("Payment Error response", err)
-                    reject(err)
+                    console.log("Payment Error data 90", err.response)
+                    console.log("Payment Error response", err.response)
+                    reject(err.response)
                 })
 
 
