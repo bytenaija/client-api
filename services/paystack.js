@@ -54,7 +54,7 @@ module.exports = {
                 return response;
             }, function (error) {
                 console.log("Error in axios interceptors paystack 56", error.response.data)
-                return Promise.reject(error.response);
+                return Promise.reject(error.response.data);
             });
             // axios.defaults.headers.post['Authorization'] = 'Bearer sk_test_dce12f10f109e0a79d04e8f1615610e9d89c240e';
             axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
