@@ -107,9 +107,9 @@ module.exports = {
                         resolve(true)
                     }
                 }).catch(err => {
-                    console.log("Payment Error data 90", err.response)
-                    console.log("Payment Error response", err.response)
-                    reject(err.response)
+                    console.log("Payment Error data 110", err.data)
+                    console.log("Payment Error response", err.data)
+                    reject(err.data)
                 })
 
 
