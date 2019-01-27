@@ -12,6 +12,12 @@ module.exports = {
             otp: OTP
         }
 
+        axios.interceptors.response.use((response) => {
+            return response;
+        }, function (error) {
+            return Promise.reject(error.response);
+        });
+
         axios.post(`https://api.paystack.co/charge/submit_otp`, paymentDetails)
                 .then( async chargeResponse => {
                    console.log("Charge response from sending OTP", chargeResponse.data)
@@ -28,7 +34,7 @@ module.exports = {
                         if(response){
                             if(response.status != 'pending'){
                                 if(response.status == 'failed'){
-                                    resolve(false);
+                                    reject(response.message);
                                 }else{
                                     resolve(true)
                                 }
@@ -44,6 +50,11 @@ module.exports = {
        console.log("email", email)
         return new Promise((resolve, reject) => {
 
+            axios.interceptors.response.use((response) => {
+                return response;
+            }, function (error) {
+                return Promise.reject(error.response);
+            });
             // axios.defaults.headers.post['Authorization'] = 'Bearer sk_test_dce12f10f109e0a79d04e8f1615610e9d89c240e';
             axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
             
@@ -53,14 +64,15 @@ module.exports = {
                 cvv,
                 expiry_month,
                 expiry_year,
-                
+                pin
             }
 
             const transaction = {
                 email,
                 amount: 2,//amount * 100,
                 reference,
-                card
+                card,
+                pin
             }
 
             //console.log(transaction)
@@ -71,6 +83,7 @@ module.exports = {
                    console.log("Charge response data data", data)
 
                     if (data.status == 'send_pin') {
+                    try{
                       let response =  await submitPin(pin, data.reference)
                       console.log("responsesssss", response)
                       console.log("Optdddddddddddddddddddddddd", response.data.display_text, data.reference);
@@ -81,7 +94,13 @@ module.exports = {
                         console.log("BBBDBBDBDBDBDBDBDBDB");
                         resolve(true)
                       }
+                    }catch(err){
+                       console.log("Paystack.js: submitting pin error line : 86", err) 
+                    }
                      
+                    }else if(data.status == 'send_otp'){
+                        console.log("rejectiifififififii")
+                        reject({status: 'send_otp', reference: data.reference, displayText: response.data.display_text})
                     }else{
                         console.log("Whahahahahahahahahahahahahah");
                         resolve(true)
@@ -122,7 +141,7 @@ const submitPin = (pin, reference) =>{
         }).catch(err => {
             console.log("Payment Error data 123", err)
             console.log("Payment Error response", err.response.data)
-            reject(err)
+            reject(err.data)
         })
     })
    

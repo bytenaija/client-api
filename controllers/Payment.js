@@ -12,7 +12,12 @@ module.exports = {
         let verification = verify(req, res, next);
         console.log("This is OTP sending on line 13 on Payment controller",req.body);
         sendOTP(reference, otp).then(chargeResponse =>{
-            console.log('line 15, reolved true', chargeResponse)
+            console.log('line 15, reolved true', chargeResponse, verification)
+            
+            
+            
+            
+            
             if(chargeResponse){
               
                
@@ -34,7 +39,7 @@ module.exports = {
                         
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     }).catch(err =>{
-                        console.log(err);
+                        console.log("farm update error Payment.js line 37", err);
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     })
                 }else{
@@ -52,14 +57,17 @@ module.exports = {
                         
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     }).catch(err =>{
-                        console.log("Payment Errorsssssss", err);
+                        console.log("Order update error Payment.js line 55", err);
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     })
                 }
                 
             }else{
-                res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
+                res.status(500).json({success: false, message: 'Payment not successful', errorMessage: chargeResponse});
             }
+        }).catch(err =>{
+            console.log("Error at Send OTP line 64 Payment.js", err)
+            res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
         })
     },
     paystackPayment:  (req, res, next) =>{
@@ -67,7 +75,7 @@ module.exports = {
 
         console.log("this is request.body in paystack 68", req.body)
         let {number, cvv, expiry_month, expiry_year, amount, reference, farm, pin} = req.body
-        console.group("Amountntnttttt", amount)
+        
         let verification = verify(req, res, next);
         if(verification){
          let paymentReference = Date.now();
