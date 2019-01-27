@@ -51,7 +51,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             axios.interceptors.response.use((response) => {
-                return response;
+                console.log("Line 54 paystack intec", response.data.data)
+                return response.data.data;
             }, function (error) {
                 console.log("Error in axios interceptors paystack 56", error.response.data)
                 return Promise.reject(error.response.data);
