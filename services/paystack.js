@@ -110,11 +110,11 @@ module.exports = {
                         resolve(true)
                     }
                 }).catch(err => {
-                    winston.error("Payment Error response paystack.js ln 112", err.data)
-                    if(err.data.status == 'failed'){
-                        reject({status: 'failed',  displayText: err.data.message})
+                    winston.error("Payment Error response paystack.js ln 112", err)
+                    if(err.status == 'failed'){
+                        reject({status: 'failed',  displayText: err.message})
                     }else{
-                        reject(err.data)
+                        reject(err)
                     }
                    
                 })
