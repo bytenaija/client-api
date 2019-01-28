@@ -28,3 +28,5 @@
 {"message":"Node app is running at localhost:5000","level":"info"}
 {"message":"Node app is running at localhost:5000","level":"info"}
 {"message":"Node app is running at localhost:5000","level":"info"}
+{"message":"Node app is running at localhost:5000","level":"info"}
+{"ok":0,"errmsg":"Authentication failed.","code":18,"codeName":"AuthenticationFailed","name":"MongoError","level":"info"}
