@@ -1,5 +1,7 @@
 const axios = require('axios')
 let winston = require('../config/winston');
+let fs = require('fs')
+,path = require('path')
 
 module.exports = {
 
@@ -52,11 +54,13 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             axios.interceptors.response.use((response) => {
+                fs.writeFileSync( path.join(__dirname, '..', 'success.log'), JSON.stringify(response.data))
                 winston.info("Line 54 paystack intec", response.data.data)
                 return response.data.data;
             }, function (error) {
+                fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response.data.data))
                 winston.error("Error in axios interceptors paystack 56", error.response.data)
-                return Promise.reject(error.response.data);
+                return Promise.reject(error.response.data.data);
             });
             // axios.defaults.headers.post['Authorization'] = 'Bearer sk_test_dce12f10f109e0a79d04e8f1615610e9d89c240e';
             axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
@@ -82,7 +86,8 @@ module.exports = {
 
             axios.post(`https://api.paystack.co/charge`, transaction)
                 .then( async chargeResponse => {
-                    let {data} = chargeResponse.data
+                    winston.info("Charge response data data", chargeResponse)
+                    let data = chargeResponse
                    winston.info("Charge response data data", data)
 
                     if (data.status == 'send_pin') {
@@ -110,8 +115,9 @@ module.exports = {
                         resolve(true)
                     }
                 }).catch(err => {
-                    winston.error("Payment Error response paystack.js ln 112", err)
+                    winston.error("Payment Error response paystack.js ln 114", err)
                     if(err.status == 'failed'){
+                        // 
                         reject({status: 'failed',  displayText: err.message})
                     }else{
                         reject(err)
