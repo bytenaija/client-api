@@ -20,7 +20,6 @@ const redisClient = redis.createClient({
     url: REDIS_URL
 });
 
-console = winston;
 
 const clients = new Set();
 

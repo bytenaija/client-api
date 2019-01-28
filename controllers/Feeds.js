@@ -6,6 +6,7 @@ let formidable = require('formidable')
 const {
     verify
 } = require('../config/jwt')
+let winston = require('../config/winston');
 
 /*configure our cloudinary*/
 cloudinary.config({
