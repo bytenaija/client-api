@@ -59,7 +59,7 @@ module.exports = {
                 return response.data.data;
             }, function (error) {
                 fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response.data.data))
-                winston.error("Error in axios interceptors paystack 56", error.response.data)
+                winston.error("Error in axios interceptors paystack 56", error.response.data.data)
                 return Promise.reject(error.response.data.data);
             });
             // axios.defaults.headers.post['Authorization'] = 'Bearer sk_test_dce12f10f109e0a79d04e8f1615610e9d89c240e';
