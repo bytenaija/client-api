@@ -34,7 +34,10 @@ const clients = new Set();
 mongoose.connect('mongodb://goatti:goattiproductionpassword1@localhost:27017/goatti', {
     useNewUrlParser: true
 }, (err, connect) => {
-    if (err) throw err
+    if (err){
+        winston.info(err)
+        throw err
+    } 
     winston.info("Connected to MongoDB");
 });
 
