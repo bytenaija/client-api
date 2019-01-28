@@ -1,2 +1,6 @@
 node_modules/
 logs/
+/logs/*
+logs
+logs/goatti.log
+logs/app.log
