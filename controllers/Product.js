@@ -3,6 +3,7 @@ let ProductImage = require('../models/ProductImage');
 let config  = require('../config/cloudinary').cloudinary;
 let cloudinary = require('cloudinary')
 let formidable =  require('formidable')
+var winston = require('../config/winston');
 
 /*configure our cloudinary*/
 cloudinary.config({
@@ -38,10 +39,10 @@ module.exports = {
                 
                 let filePath = files[i][1];
                
-               await cloudinary.v2.uploader.upload(filePath.path, (error, result) => {
-                if(error) {
-                    console.log(error)
-                    reject(error)
+               await cloudinary.v2.uploader.upload(filePath.path, (err, result) => {
+                if(err) {
+                    winston.error(err)
+                    reject(err)
                   }else{
                       upload_res.push(result.secure_url);
                     //   console.log(upload_res)
@@ -78,7 +79,7 @@ module.exports = {
                 console.log(product);
                 res.json(product)
             }).catch(err =>{
-                console.log(err)
+                winston.error(err)
             })
         })
 
@@ -104,7 +105,7 @@ module.exports = {
             )
         })
         .catch(err =>{
-            return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+            return res.status(500).json({success: false, message: 'An err occured. Please try again later'})
         })
     },
 
@@ -120,8 +121,8 @@ module.exports = {
             res.status(200).json({success: true, products})
         })
         .catch(err =>{
-            console.log(err)
-            return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+            winston.error(err)
+            return res.status(500).json({success: false, message: 'An err occured. Please try again later'})
         })
     },
 
@@ -133,8 +134,8 @@ module.exports = {
             res.status(200).json({success: true, product})
         })
         .catch(err =>{
-            console.log(err)
-            return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+            winston.error(err)
+            return res.status(500).json({success: false, message: 'An err occured. Please try again later'})
         })
     },
 }

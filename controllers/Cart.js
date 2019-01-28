@@ -4,13 +4,14 @@ let Order = require('../models/Order');
 let CartItem = require('../models/CartItem')
 let User = require('../models/User')
 let {verify} = require('../config/jwt')
+var winston = require('../config/winston');
 
 module.exports = {
     saveCart : async (req, res, next) =>{
         let verification = verify(req, res, next);
         if(verification){
             function saveUser(user){
-                console.log("User carts", user.carts)
+               
                 user.save()
             }
             User.findById(verification.user._id).then(user =>{
@@ -24,17 +25,16 @@ module.exports = {
                            if(c.status == 'Uncomplete'){
                                c.delete()
                                user.carts.splice(user.carts.indexOf(c._id), 1)
-                               console.log("uncomplete", user.carts)
+                               
                            }
                        }else{
-                           console.log("Here now")
-                           console.log(cart)
+                           
                         user.carts.splice(user.carts.indexOf(cart), 1)
                        
                     
                        }
                        incomplete++
-                       console.log("Incomplete", incomplete, length)
+                      
                        if (incomplete === length) {
                         saveUser(user);
                     }
@@ -75,13 +75,13 @@ module.exports = {
                         res.status(200).json({success: true, cart})   
                        })
                 }).catch(err =>{
-                    //console.log(err)
+                    //winston.error(err)
                     return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
                 })
                 // res.status(200).json({success: true, cart})
             })
             .catch(err =>{
-                //console.log(err)
+                //winston.error(err)
                 return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
             })
         }
@@ -119,13 +119,13 @@ module.exports = {
                
                    
                 }).catch(err =>{
-                    //console.log(err)
+                    //winston.error(err)
                     return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
                 })
                 // res.status(200).json({success: true, cart})
           
             .catch(err =>{
-                //console.log(err)
+                //winston.error(err)
                 return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
             })
         
@@ -135,7 +135,7 @@ module.exports = {
         Cart.findOneAndDelete(req.params.id).then(cart =>{
             return res.status(500).json({success: true, message: 'Cart successfully deleted'})
         }).catch(err =>{
-            //console.log(err)
+            //winston.error(err)
             return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
         })
     },
@@ -153,7 +153,7 @@ module.exports = {
             res.status(200).json({success: true, carts})
         })
         .catch(err =>{
-            //console.log(err)
+            //winston.error(err)
             return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
         })
     },
@@ -171,7 +171,7 @@ module.exports = {
             res.status(200).json({success: true, cart})
         })
         .catch(err =>{
-            //console.log(err)
+            //winston.error(err)
             return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
         })
     },

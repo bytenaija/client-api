@@ -4,6 +4,7 @@ let {
     verify
 } = require('../config/jwt')
 let moment = require('moment')
+var winston = require('../config/winston');
 
 module.exports = {
     saveItem: (req, res, next) => {
@@ -41,7 +42,7 @@ module.exports = {
                         });
                     }
                 }).catch(err => {
-                    console.log(err);
+                    winston.error(err);
                     res.status(500).json({
                         success: false,
                         message: 'SavedItem could not be processed. Try again please'

@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 let socket = require('socket.io');
 var http = require('http');
 let fs = require('fs')
-
+var winston = require('./config/winston');
 var redis = require('redis');
 var ioredis = require('socket.io-redis'); //Adapter
 var url = require('url');
@@ -20,7 +20,7 @@ const redisClient = redis.createClient({
     url: REDIS_URL
 });
 
-
+console = winston;
 
 const clients = new Set();
 
@@ -29,12 +29,13 @@ const clients = new Set();
 
 
 // uuid module is required to create a random reference number
+// 'mongodb://root:rootUser1@ds123224.mlab.com:23224/goatti'
 
-mongoose.connect('mongodb://root:rootUser1@ds123224.mlab.com:23224/goatti', {
+mongoose.connect('mongodb://goatti:goattiproductionpassword1@localhost:27017/goatti', {
     useNewUrlParser: true
 }, (err, connect) => {
     if (err) throw err
-    console.log("Connected to MongoDB");
+    winston.info("Connected to MongoDB");
 });
 
 
@@ -42,7 +43,7 @@ var express = require('express');
 var app = require('express')();
 app = module.exports.app = express();
 app.use(cors());
-app.use(morgan('dev'));
+app.use(morgan('combined', { stream: winston.stream }));
 
 
 app.set('port', (process.env.PORT || 5000));
@@ -55,7 +56,7 @@ app.use(express.urlencoded({ // to support URL-encoded bodies
 
 var server = http.createServer(app);
 server.listen(app.get('port'), function () {
-    console.log("Node app is running at localhost:" + app.get('port'))
+    winston.info("Node app is running at localhost:" + app.get('port'))
 });
 
 let io = socket.listen(server);
@@ -65,21 +66,7 @@ io.configure = () => {
     io.set("polling duration", 10)
 };
 
-// var pub = redis.createClient(redisURL.port, redisURL.hostname, {return_buffers: true});
-// var sub = redis.createClient(redisURL.port, redisURL.hostname, {return_buffers: true});
-// pub.auth(redisURL.auth.split(":")[1]);
-// sub.auth(redisURL.auth.split(":")[1]);
 
-// console.log(redisURL)
-
-// var redisOptions = {
-//   pubClient: pub,
-//   subClient: sub,
-//   host: redisURL.hostname,
-//   port: redisURL.port
-// };
-
-// io.adapter(ioredis(redisOptions));
 
 io.on('connection', (socket) => {
 
@@ -97,16 +84,16 @@ io.on('connection', (socket) => {
     socket.on('disconnect', async (data) => {
         for (let element of clients.entries()) {
          
-            //console.log(socket.id, element[0].clientId == socket.id)
+           
             if (element[0].clientId == socket.id) {
 
                
-               // console.log(element[0].userId)
+              
                 redisClient.del(element[0].userId, (err, result) => {
                     if (err) {
-                       // console.log("erororoorororo",err)
+                       
                     } else {
-                      //  console.log("Deleteeeeeee redis:", result)
+                     
                     }
 
                 })
@@ -162,3 +149,16 @@ app.use('/feeds', feedRoutes);
 app.use('/gifts', giftRoutes);
 app.use('/inquiries', inquiryRoutes);
 app.use('/profile', profileRoutes);
+
+app.use(function(err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+  
+    // add this line to include winston logging
+    winston.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
+  });

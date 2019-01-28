@@ -1,5 +1,6 @@
 let Transaction = require('../models/Transaction')
 let {verify} = require('../config/jwt')
+var winston = require('../config/winston');
 
 module.exports = {
     getTransactions: (req, res, next) => {
@@ -9,7 +10,7 @@ module.exports = {
             Transaction.find({email: verification.user.email}).then(transactions =>{
                 res.status(200).json({success: true, transactions});
             }).catch(err =>{
-                console.log(err)
+                winston.error(err)
                 return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
             })
         }else{

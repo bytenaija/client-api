@@ -1,5 +1,6 @@
 let Investment = require('../models/Investment')
 let {verify} = require('../config/jwt')
+var winston = require('../config/winston');
 
 module.exports = {
 
@@ -14,7 +15,7 @@ module.exports = {
                     res.status(200).json({success: false, message: 'An error occured. Please try again later'})
                 }
             }).catch(err =>{
-                console.log(err)
+                winston.error(err)
                 res.status(200).json({success: false, message: 'An error occured. Please try again later'})
             })
         }else{

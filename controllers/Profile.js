@@ -3,6 +3,7 @@ let Profile = require('../models/Profile');
 const {
     verify
 } = require('../config/jwt')
+var winston = require('../config/winston');
 
 let User = require('../models/User');
 let config  = require('../config/cloudinary').cloudinary;
@@ -30,10 +31,10 @@ module.exports = {
                         profile
                     })
                 }).catch(err => {
-                    console.log(err)
+                    winston.error(err)
                     res.status(500).json({
                         success: false,
-                        message: 'An error occured. Please try again later.'
+                        message: 'An err occured. Please try again later.'
                     })
                 })
          
@@ -77,10 +78,10 @@ module.exports = {
                     
                     let filePath = files[i][1];
                    
-                   await cloudinary.v2.uploader.upload(filePath.path, (error, result) => {
-                    if(error) {
-                        console.log(error)
-                        reject(error)
+                   await cloudinary.v2.uploader.upload(filePath.path, (err, result) => {
+                    if(err) {
+                        winston.error(err)
+                        reject(err)
                       }else{
                           upload_res.push(result.secure_url);
                         
@@ -121,10 +122,10 @@ module.exports = {
                     res.json({success: true, profile})
                
             }).catch(err => {
-                console.log(err)
+                winston.error(err)
                 res.status(500).json({
                     success: false,
-                    message: 'An error occured. Please try again later.'
+                    message: 'An err occured. Please try again later.'
                 })
             })
     
@@ -143,7 +144,7 @@ module.exports = {
     }catch(err){
         res.status(500).json({
             success: false,
-            message: 'An error occured. Please try again later.'
+            message: 'An err occured. Please try again later.'
         })
     }
     },
@@ -177,10 +178,10 @@ module.exports = {
                     
                     let filePath = files[i][1];
                    
-                   await cloudinary.v2.uploader.upload(filePath.path, (error, result) => {
-                    if(error) {
-                        console.log(error)
-                        reject(error)
+                   await cloudinary.v2.uploader.upload(filePath.path, (err, result) => {
+                    if(err) {
+                        winston.error(err)
+                        reject(err)
                       }else{
                           upload_res.push(result.secure_url);
                         
@@ -215,10 +216,10 @@ module.exports = {
                     profile
                 })
             }).catch(err => {
-                console.log(err)
+                winston.error(err)
                 res.status(500).json({
                     success: false,
-                    message: 'An error occured. Please try again later.'
+                    message: 'An err occured. Please try again later.'
                 })
             })
     
@@ -237,7 +238,7 @@ module.exports = {
     }catch(err){
         res.status(500).json({
             success: false,
-            message: 'An error occured. Please try again later.'
+            message: 'An err occured. Please try again later.'
         })
     }
             

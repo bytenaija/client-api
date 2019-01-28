@@ -41,10 +41,10 @@ module.exports = {
 
                     let filePath = files[i][1];
 
-                    await cloudinary.v2.uploader.upload(filePath.path, (error, result) => {
-                        if (error) {
-                            console.log(error)
-                            reject(error)
+                    await cloudinary.v2.uploader.upload(filePath.path, (err, result) => {
+                        if (err) {
+                            winston.error(err)
+                            reject(err)
                         } else {
                             upload_res.push(result.secure_url);
                             //   console.log(upload_res)
@@ -90,7 +90,7 @@ module.exports = {
                     })
 
                 }).catch(err => {
-                    console.log(err)
+                    winston.error(err)
                 })
             })
 
@@ -106,10 +106,10 @@ module.exports = {
                 feeds
             })
         }).catch(err => {
-            console.log(err)
+            winston.error(err)
             res.status(500).json({
                 success: false,
-                message: 'An error occurred. Please try again later.'
+                message: 'An err occurred. Please try again later.'
             })
         })
     },
@@ -237,7 +237,7 @@ const favouriteFeed = (id, user) => {
     })
 
     .catch(err => {
-        console.log(err);
+        winston.error(err);
         reject(false);
     })
 })
@@ -263,7 +263,7 @@ const dislikeFeed = (id, user) => {
         )
        
     }).catch(err => {
-        console.log(err);
+        winston.error(err);
         reject(false);
     })
 })
@@ -288,7 +288,7 @@ const unlikeFeed = (id, user) => {
         )
        
     }).catch(err => {
-        console.log(err);
+        winston.error(err);
         reject(false);
     })
 })
@@ -312,7 +312,7 @@ const likeFeed = (id, user) => {
         })
   
     }).catch(err => {
-        console.log(err);
+        winston.error(err);
         reject(false);
     })
 })
@@ -335,7 +335,7 @@ const unDislikeFeed = (id, user) => {
         })
   
     }).catch(err => {
-        console.log(err);
+        winston.error(err);
         reject(false);
     })
 })
@@ -354,7 +354,7 @@ const unFavouriteFeed = (id, user) => {
                 resolve(feeds)
             })
         }).catch(err => {
-            console.log(err);
+            winston.error(err);
             reject(false);
         })
     })

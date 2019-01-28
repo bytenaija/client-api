@@ -5,6 +5,7 @@ let Cart = require('../models/Cart')
 let Farm = require('../models/Farms')
 let Transaction = require('../models/Transaction')
 let User = require('../models/User')
+var winston = require('../config/winston');
 
 module.exports = {
     sendOTP: (req, res, next) =>{
@@ -104,7 +105,7 @@ module.exports = {
                         
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     }).catch(err =>{
-                        console.log(err);
+                        winston.error(err);
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     })
                 }else{

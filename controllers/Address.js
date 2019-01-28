@@ -14,7 +14,7 @@ module.exports = {
             Address.create(req.body)
             .then(address =>{
                 if(address){
-                   // console.log("Verification", verification.user._id)
+                  
                     User.findOne({_id: verification.user._id}).then(user =>{
                         if(user){
                             user.addresses.push(address._id);
@@ -30,7 +30,7 @@ module.exports = {
                     res.status(500).json({success: false, message: 'Address could not be created. Try again please'});
                 }
                 }).catch(err =>{
-                    console.log(err);
+                    
                     res.status(500).json({success: false, message: 'Address could not be created. Try again please'});
                 })
         }else{
@@ -42,7 +42,7 @@ module.exports = {
 
     getAllAddress: (req, res, next)=>{
         let verification = verify(req, res, next);
-        //console.log(verification)
+       
         if(verification){
             Address.find({
                userId: verification.user._id 

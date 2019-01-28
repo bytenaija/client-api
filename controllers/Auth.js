@@ -15,6 +15,7 @@ const {
   jwtKey
 } = require('../config/keys')
 const jwt = require('jsonwebtoken');
+var winston = require('../config/winston');
 
 
 module.exports = {
@@ -39,10 +40,10 @@ module.exports = {
               if (isMatch) {
                 let body = {_id: user._id, email: user.email};
 
-                console.log("JWT Body", body);
+                
                 jwtSign({user: body}, (err, token) => {
                   if (err) {
-                    console.log("Login", err)
+                    winston.error("Login", err)
                     return res.status(500).json({
                       success: false,
                       message: 'An error occured. Please try again later'
@@ -71,7 +72,7 @@ module.exports = {
           }
         })
         .catch(err => {
-          console.log("Error in login", err)
+         winston.error("Error in login", err)
           return res.status(500).json({
             success: false,
             message: 'An error occured. Please try again later'
@@ -91,7 +92,7 @@ module.exports = {
         state,
         email
       } = req.body;
-    //  console.log("Creating", user)
+   
       User.create(user).then(user => {
           if (user) {
             let body = {_id: user._id, email: user.email};
@@ -120,7 +121,7 @@ module.exports = {
 
         })
         .catch(err => {
-          console.log(err)
+         winston.error(err)
           return res.status(500).json({
             success: false,
             message: 'An error occured. Please try again later'
@@ -142,10 +143,7 @@ module.exports = {
               uppercase: true
             });
 
-           // console.log(code)
-           // console.log(user.email)
-
-            await ForgotPassword.findOneAndRemove({
+                    await ForgotPassword.findOneAndRemove({
               email: user.email
             });
 
@@ -218,9 +216,7 @@ module.exports = {
         token
       } = req.body;
 
-      console.log(token)
-
-      let user = jwt.verify(token, jwtKey, (err, authData) => {
+       let user = jwt.verify(token, jwtKey, (err, authData) => {
         if (err) {
           return false
         } else {
@@ -232,7 +228,6 @@ module.exports = {
       });
 
 
-      console.log("user", user)
       if (user) {
         User.findOne({
             email: user.user.email
@@ -245,7 +240,7 @@ module.exports = {
                 })
               } else {
                 jwtSign({user: {_id: user._id, email: user.email}}, (err, token) => {
-                  console.log("Tojejejejejeje", token)
+                 
                     if (err) {
                       return res.status(500).json({
                         success: false,
@@ -254,7 +249,7 @@ module.exports = {
                     } else {
                       user.token = token;
                       user.save();
-                     // console.log("Token", token)
+                     
                       res.status(200).json({
                         success: true,
                         user,
@@ -264,7 +259,7 @@ module.exports = {
                   })
                 }
               }).catch(err => {
-              console.log("Erroror", err);
+              winston.error("Erroror", err);
 
               return res.status(401).json({
                 success: false,

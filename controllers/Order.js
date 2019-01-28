@@ -2,6 +2,7 @@ let Order = require('../models/Order');
 let uuid = require('node-uuid');
 let {verify} = require('../config/jwt')
 let moment = require('moment')
+var winston = require('../config/winston');
 
 module.exports = {
     create: (req, res, next)=>{
@@ -18,7 +19,7 @@ module.exports = {
                     res.status(500).json({success: false, message: 'Order could not be processed. Try again please'});
                 }
                 }).catch(err =>{
-                    console.log(err);
+                    winston.error(err);
                     res.status(500).json({success: false, message: 'Order could not be processed. Try again please'});
                 })
         }else{

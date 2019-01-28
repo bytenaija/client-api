@@ -2,6 +2,7 @@ let Gifting = require('../models/Gifting');
 const {
     verify
 } = require('../config/jwt')
+var winston = require('../config/winston');
 
 let User = require('../models/User');
 
@@ -15,7 +16,7 @@ module.exports = {
                     gifts
                 })
             }).catch(err => {
-                console.log(err)
+                winston.error(err)
                 res.status(500).json({
                     success: false,
                     message: 'An error occured. Please try again later.'
@@ -37,7 +38,7 @@ module.exports = {
             User.findById(sender).populate('farms').then(user => {
 
                 if (user) {
-                   // console.log("Ususususu", user)
+                
                     let totalNumberOfGoats = getNumberOfGoats(user.farms);
                     if (totalNumberOfGoats > req.body.number) {
                                               //sort user.farms
@@ -88,7 +89,7 @@ module.exports = {
                                 gift
                             })
                         }).catch(err => {
-                            console.log(err)
+                            winston.error(err)
                             res.status(500).json({
                                 success: false,
                                 message: 'An error occured. Please try again later.'
@@ -128,7 +129,7 @@ module.exports = {
                     gift
                 })
             }).catch(err => {
-                console.log(err)
+                winston.error(err)
                 res.status(500).json({
                     success: false,
                     message: 'An error occured. Please try again later.'
@@ -151,7 +152,7 @@ module.exports = {
                     message: 'Gifting Successfully canceled'
                 })
             }).catch(err => {
-                console.log(err)
+                winston.error(err)
                 res.status(500).json({
                     success: false,
                     message: 'An error occured. Please try again later.'

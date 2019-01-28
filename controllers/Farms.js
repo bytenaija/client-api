@@ -5,6 +5,9 @@ let uuid = require('node-uuid')
 const {
   verify
 } = require('../config/jwt')
+let winston = require('../config/winston');
+
+
 
 let QueueJobs = require('../services/queue')
 let Widthdrawal = require('../models/Withdrawal')
@@ -22,7 +25,7 @@ module.exports = {
 
       })
       .catch(err => {
-        console.log(err)
+        winston.error(err)
         return res.status(500).json({
           success: false,
           message: 'An error occured. Please try again later'
@@ -52,7 +55,7 @@ module.exports = {
         }
       })
       .catch(err => {
-        console.log(err)
+        winston.error(err)
         return res.status(500).json({
           success: false,
           message: 'An error occured. Please try again later'
@@ -65,7 +68,7 @@ module.exports = {
     const queue = req.queue;
     const redisClient = req.redisClient
     const verification = verify(req, res, next);
-   // console.log(verification)
+  
     if (verification) {
 
       let farm = {
@@ -78,7 +81,7 @@ module.exports = {
       farm.dateOfROI = moment().add(6, 'months').toISOString();
 
 
-      console.log("Farmmsmsmsm creation", farm)
+      winston.info("Farmmsmsmsm creation", farm)
       Farms.create(farm)
         .then(farm => {
           if (!farm) {
@@ -109,7 +112,7 @@ module.exports = {
           }
         })
         .catch(err => {
-          console.log(err)
+          winston.error(err)
           return res.status(500).json({
             success: false,
             message: 'An error occured. Please try again later'
@@ -133,13 +136,13 @@ module.exports = {
           for(farm of widthrawal.farmsDue){
             
             Farms.findById(farm).then(frm =>{
-              console.log(frm)
+              winston.info(frm)
               frm.status = 'withdrawn'
               frm.save();
 
               counter += 1;
               if(counter == widthrawal.farmsDue.length - 1){
-                console.log("Counting", counter, widthrawal.farmsDue.length - 1)
+                winston.info("Counting", counter, widthrawal.farmsDue.length - 1)
                 res.status(200).json({success: true, message: 'Successfully Withdrawn your investments'});
               }
            
@@ -147,7 +150,7 @@ module.exports = {
            
           }
         }).catch(err => {
-          console.log("Erro from withdraw", err)
+          winston.info("Erro from withdraw", err)
           res.status(500).json({success: false, err})
         })
      }

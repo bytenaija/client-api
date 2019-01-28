@@ -2,6 +2,7 @@ let Inquiry = require('../models/Inquiry');
 const {
     verify
 } = require('../config/jwt')
+var winston = require('../config/winston');
 
 let User = require('../models/User');
 let EmailService = require('../services/EmailService')
@@ -16,7 +17,7 @@ module.exports = {
                     inquiries
                 })
             }).catch(err => {
-                console.log(err)
+                winston.error(err)
                 res.status(500).json({
                     success: false,
                     message: 'An error occured. Please try again later.'
@@ -46,7 +47,7 @@ module.exports = {
                             })
                            
                         }).catch(err => {
-                            console.log(err)
+                            winston.error(err)
                             res.status(500).json({
                                 success: false,
                                 message: 'An error occured. Please try again later.'
@@ -78,7 +79,7 @@ module.exports = {
                     inquiry
                 })
             }).catch(err => {
-                console.log(err)
+                winston.error(err)
                 res.status(500).json({
                     success: false,
                     message: 'An error occured. Please try again later.'
