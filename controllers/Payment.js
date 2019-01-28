@@ -13,7 +13,7 @@ module.exports = {
         let verification = verify(req, res, next);
         winston.info("This is OTP sending on line 13 on Payment controller",req.body);
         sendOTP(reference, otp).then(chargeResponse =>{
-            winston.info'line 15, reolved true', chargeResponse, verification)
+            winston.info('line 15, reolved true', chargeResponse, verification)
             
             
             
