@@ -59,7 +59,7 @@ module.exports = {
                 return response.data.data;
             }, function (error) {
                 fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response.data.data))
-                winston.error("Error in axios interceptors paystack 56", error.response.data.data)
+                winston.error(error.response.data.data)
                 return Promise.reject(error.response.data.data);
             });
             // axios.defaults.headers.post['Authorization'] = 'Bearer sk_test_dce12f10f109e0a79d04e8f1615610e9d89c240e';
@@ -116,12 +116,19 @@ module.exports = {
                     }
                 }).catch(err => {
                     winston.error("Payment Error response paystack.js ln 114", err)
-                    if(err.status == 'failed'){
-                        // 
-                        reject({status: 'failed',  displayText: err.message})
+                    if(err.status) {
+                        if(err.status == 'failed'){
+                            // 
+                            reject({status: 'failed',  displayText: err.message})
+                        }else{
+                            reject({status: 'failed',  displayText: "An unknown error occured. Please try again."})
+                        }
                     }else{
-                        reject(err)
+                       
+                            reject({status: 'failed',  displayText: "An unknown error occured. Please try again."})
+                        
                     }
+                   
                    
                 })
 
