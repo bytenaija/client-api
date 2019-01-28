@@ -92,7 +92,7 @@ module.exports = {
                         })
                         
         
-                await Transaction.create({reference: paymentReference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
+                // await Transaction.create({reference: paymentReference, amount, from: verification.user.firstname + " " +  verification.user.lastname, to: 'Goatti.ng', email})
                 if(farm){
                       Farm.findOne({reference}).then(farm =>{
                         if(farm){
