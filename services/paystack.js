@@ -58,18 +58,29 @@ module.exports = {
                 winston.info("Line 54 paystack intec", response.data.data)
                 return response.data.data;
             }, function (error) {
-                fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response))
-                winston.error(error.response.data.data)
+                
+               if(error.response){
+              
                 if(error.response.data){
                     if(error.response.data.data){
+                        fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response.data.data))
+                        winston.error(error.response.data.data)
                         return Promise.reject(error.response.data.data);
                     }else{
+                        fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response.data))
+                        winston.error(error.response.data)
                         return Promise.reject(error.response.data);
                     }
                     
                 }else{
+                    // fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response))
+                    winston.error(error.response)
                     return Promise.reject(error.response)
                 }
+            }else{
+                winston.error(error)
+                return Promise.reject(error)
+            }
                
                
             });
