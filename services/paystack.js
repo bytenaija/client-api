@@ -4,7 +4,7 @@ module.exports = {
 
     sendOTP: (reference, OTP)=>{
 
-        console.log("Sending OTP", reference, OTP);
+        winston.info("Sending OTP", reference, OTP);
         return new Promise((resolve, reject) => {
 
         let paymentDetails = {
@@ -20,10 +20,10 @@ module.exports = {
 
         axios.post(`https://api.paystack.co/charge/submit_otp`, paymentDetails)
                 .then( async chargeResponse => {
-                   console.log("Charge response from sending OTP", chargeResponse.data)
+                   winston.info("Charge response from sending OTP", chargeResponse.data)
                         
                     if (chargeResponse.data.status == 'success') {
-                        console.log('resolving true')
+                        winston.info('resolving true')
                         resolve(true)
                     }else if(chargeResponse.data.status == 'pending'){
                         let response;
@@ -47,14 +47,14 @@ module.exports = {
 })
 },
     payment: (number, cvv, expiry_month, expiry_year, pin, amount, email, reference) => {
-       console.log("email", email)
+       winston.info("email", email)
         return new Promise((resolve, reject) => {
 
             axios.interceptors.response.use((response) => {
-                console.log("Line 54 paystack intec", response.data.data)
+                winston.info("Line 54 paystack intec", response.data.data)
                 return response.data.data;
             }, function (error) {
-                console.log("Error in axios interceptors paystack 56", error.response.data)
+                winston.error("Error in axios interceptors paystack 56", error.response.data)
                 return Promise.reject(error.response.data);
             });
             // axios.defaults.headers.post['Authorization'] = 'Bearer sk_test_dce12f10f109e0a79d04e8f1615610e9d89c240e';
@@ -77,39 +77,39 @@ module.exports = {
                 pin
             }
 
-            //console.log(transaction)
+            //winston.info(transaction)
 
             axios.post(`https://api.paystack.co/charge`, transaction)
                 .then( async chargeResponse => {
                     let {data} = chargeResponse.data
-                   console.log("Charge response data data", data)
+                   winston.info("Charge response data data", data)
 
                     if (data.status == 'send_pin') {
                     try{
                       let response =  await submitPin(pin, data.reference)
-                      console.log("responsesssss", response)
-                      console.log("Optdddddddddddddddddddddddd", response.data.display_text, data.reference);
+                      winston.info("responsesssss", response)
+                      winston.info("Optdddddddddddddddddddddddd", response.data.display_text, data.reference);
                       if(response.data.status == 'send_otp'){
-                          console.log("rejectiifififififii")
+                          winston.info("rejectiifififififii")
                           reject({status: 'send_otp', reference: data.reference, displayText: response.data.display_text})
                       }else{
-                        console.log("BBBDBBDBDBDBDBDBDBDB");
+                        winston.info("BBBDBBDBDBDBDBDBDBDB");
                         resolve(true)
                       }
                     }catch(err){
-                       console.log("Paystack.js: submitting pin error line : 86", err) 
+                       winston.error("Paystack.js: submitting pin error line : 86", err)
+                       reject(err) 
                     }
                      
                     }else if(data.status == 'send_otp'){
-                        console.log("rejectiifififififii")
+                        winston.info("rejectiifififififii")
                         reject({status: 'send_otp', reference: data.reference, displayText: response.data.display_text})
                     }else{
-                        console.log("Whahahahahahahahahahahahahah");
+                        winston.info("Whahahahahahahahahahahahahah");
                         resolve(true)
                     }
                 }).catch(err => {
-                    console.log("Payment Error data 110", err.data)
-                    console.log("Payment Error response", err.data)
+                    winston.error("Payment Error response paystack.js ln 112", err.data)
                     reject(err.data)
                 })
 
@@ -123,7 +123,7 @@ module.exports = {
 
 const submitPin = (pin, reference) =>{
     return new Promise((resolve, reject) =>{
-        console.log("Submitting pin")
+        winston.info("Submitting pin")
         let url = 'https://api.paystack.co/charge/submit_pin'
         let paymentDetails = {
             pin,
@@ -132,17 +132,16 @@ const submitPin = (pin, reference) =>{
     
         axios.post(url, paymentDetails)
         .then(chargeResponse => {
-        //    console.log("Charge response from from OTPsssssssssssssssss", chargeResponse.data, chargeResponse.status)
+        //    winston.info("Charge response from from OTPsssssssssssssssss", chargeResponse.data, chargeResponse.status)
     
             if (chargeResponse.status) {
-                // console.log("Returnnnnnfnfnfnfnfn")
+                // winston.info("Returnnnnnfnfnfnfnfn")
              resolve(chargeResponse.data)
             }else{
                 reject(false);
             }
         }).catch(err => {
-            console.log("Payment Error data 123", err)
-            console.log("Payment Error response", err.response.data)
+            winston.error("Payment Error response paystack 144", err.data)
             reject(err.data)
         })
     })

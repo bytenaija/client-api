@@ -11,9 +11,9 @@ module.exports = {
     sendOTP: (req, res, next) =>{
         let {otp, reference, farm, chargeReference } = req.body;
         let verification = verify(req, res, next);
-        console.log("This is OTP sending on line 13 on Payment controller",req.body);
+        winston.info("This is OTP sending on line 13 on Payment controller",req.body);
         sendOTP(reference, otp).then(chargeResponse =>{
-            console.log('line 15, reolved true', chargeResponse, verification)
+            winston.info'line 15, reolved true', chargeResponse, verification)
             
             
             
@@ -40,7 +40,7 @@ module.exports = {
                         
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     }).catch(err =>{
-                        console.log("farm update error Payment.js line 37", err);
+                        winston.error("farm update error Payment.js line 43", err);
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     })
                 }else{
@@ -49,7 +49,7 @@ module.exports = {
                             order.status = 'Paid';
                             order.save();
                             Cart.findOneAndUpdate({_id: order.cartId}, {status: 'Paid'}).exec().then(cart =>{
-                               // console.log(cart);
+                              
                                 io.sockets.emit('Order Payment', order);
 
                                 
@@ -58,7 +58,7 @@ module.exports = {
                         
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     }).catch(err =>{
-                        console.log("Order update error Payment.js line 55", err);
+                      winston.error("Order update error Payment.js line 55", err);
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     })
                 }
@@ -67,14 +67,14 @@ module.exports = {
                 res.status(500).json({success: false, message: 'Payment not successful', errorMessage: chargeResponse});
             }
         }).catch(err =>{
-            console.log("Error at Send OTP line 64 Payment.js", err)
+            winston.error("Error at Send OTP line 64 Payment.js", err)
             res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err});
         })
     },
     paystackPayment:  (req, res, next) =>{
         const io = req.io;
 
-        console.log("this is request.body in paystack 68", req.body)
+        winston.info("this is request.body in paystack 68", req.body)
         let {number, cvv, expiry_month, expiry_year, amount, reference, farm, pin} = req.body
         
         let verification = verify(req, res, next);
@@ -84,7 +84,7 @@ module.exports = {
             payment(number, cvv, expiry_month, expiry_year, pin, amount, email, paymentReference)
             .then(async chargeResponse =>{
 
-                console.log('chargesgsgsgsgsgsgsg 76', chargeResponse)
+                winston.info('chargesgsgsgsgsgsgsg 76', chargeResponse)
                 if(chargeResponse){
                     
                         User.findById(verification.user._id).then( async user =>{
@@ -114,7 +114,7 @@ module.exports = {
                             order.status = 'Paid';
                             order.save();
                             Cart.findOneAndUpdate({_id: order.cartId}, {status: 'Paid'}).exec().then(cart =>{
-                               // console.log(cart);
+                               
                                 io.sockets.emit('Order Payment', order);
 
                                 
@@ -123,17 +123,17 @@ module.exports = {
                         
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     }).catch(err =>{
-                        console.log("Payment Errorsssssss", err);
+                        winston.error("Payment Errorsssssss", err);
                         res.status(200).json({success: true, message: 'Payment Successful'});
                     })
                 }
                 
             }else{
-                console.log("Just checking",  err,  farm? true: false,  reference)
+                winston.info("Just checking",  err,  farm? true: false,  reference)
                 res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err, farm : farm? true: false, chargeReference: reference});
             }
             }).catch( async err =>{
-                console.log("Erororororororor from snedoing pin", err);
+                winston.error("Erororororororor from snedoing pin", err);
                 if(err.status == 'send_otp'){
                     res.status(500).json({success: false, message: 'Send OTP', errorMessage: err});
                 }else{

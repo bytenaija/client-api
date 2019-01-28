@@ -121,7 +121,7 @@ module.exports = {
 
         })
         .catch(err => {
-         winston.error(err)
+         winston.error("/controllers/Auth - ln: 124", err)
           return res.status(500).json({
             success: false,
             message: 'An error occured. Please try again later'

@@ -75,13 +75,13 @@ module.exports = {
                         res.status(200).json({success: true, cart})   
                        })
                 }).catch(err =>{
-                    //winston.error(err)
+                    winston.error("/controllers/Cart - ln: 78", err)
                     return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
                 })
                 // res.status(200).json({success: true, cart})
             })
             .catch(err =>{
-                //winston.error(err)
+                winston.error("/controllers/Cart - ln: 84", err)
                 return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
             })
         }
