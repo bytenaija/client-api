@@ -8,8 +8,10 @@ var http = require('http');
 let fs = require('fs')
 var winston = require('./config/winston');
 var redis = require('redis');
-var ioredis = require('socket.io-redis'); //Adapter
-var url = require('url');
+
+var express = require('express');
+var app = require('express')();
+
 const REDIS_URL = process.env.NODE_ENV == 'production'? process.env.REDIS_URL : 'redis://h:p8e15aeba426fb276116439f8d2c91f30d4bf9fafa7bb6874e7a572fc9dd5d96b@ec2-52-5-188-199.compute-1.amazonaws.com:18599'
 // var redisURL = url.parse(REDIS_URL);
 var kue = require('kue')
@@ -19,6 +21,7 @@ var kue = require('kue')
 const redisClient = redis.createClient({
     url: REDIS_URL
 });
+
 
 
 const clients = new Set();
@@ -41,15 +44,13 @@ mongoose.connect('mongodb://goatti:goattiproductionpassword1@localhost:27017/goa
 });
 
 
-var express = require('express');
-var app = require('express')();
 app = module.exports.app = express();
 app.use(cors());
 app.use(morgan('combined', { stream: winston.stream }));
 
 
 app.set('port', (process.env.PORT || 5000));
-app.use(express.static(__dirname + '/public'));
+// app.use(express.static(__dirname + '/public'));
 
 app.use(express.json()); // to support JSON-encoded bodies
 app.use(express.urlencoded({ // to support URL-encoded bodies
@@ -152,12 +153,13 @@ app.use('/gifts', giftRoutes);
 app.use('/inquiries', inquiryRoutes);
 app.use('/profile', profileRoutes);
 
-app.use(function(err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+// app.use(function(err, req, res, next) {
+//     // set locals, only providing error in development
+//     res.locals.message = err.message;
+//     res.locals.error = req.app.get('env') === 'development' ? err : {};
   
-    // add this line to include winston logging
-    winston.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-
-  });
+//     // add this line to include winston logging
+//     winston.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  
+//    next()
+//   });

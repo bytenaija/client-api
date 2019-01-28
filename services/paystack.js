@@ -104,14 +104,19 @@ module.exports = {
                      
                     }else if(data.status == 'send_otp'){
                         winston.info("rejectiifififififii")
-                        reject({status: 'send_otp', reference: data.reference, displayText: response.data.display_text})
+                        reject({status: 'send_otp', reference: data.reference, displayText: data.display_text})
                     }else{
                         winston.info("Whahahahahahahahahahahahahah");
                         resolve(true)
                     }
                 }).catch(err => {
-                    winston.error("Payment Error response paystack.js ln 112", err.data)
-                    reject(err.data)
+                    winston.error("Payment Error response paystack.js ln 112", err)
+                    if(err.status == 'failed'){
+                        reject({{status: 'failed',  displayText: err.message})
+                    }else{
+                        reject(err)
+                    }
+                   
                 })
 
 
