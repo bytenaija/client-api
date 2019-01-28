@@ -37,7 +37,7 @@ module.exports = {
         if (sender) {        
                         req.body.sender = sender;
                         Inquiry.create(req.body).then(inquiry => {
-                            User.findById(sender).then(user =>{
+                            User.findOne({_id:sender}).then(user =>{
                                 EmailService.emailInquiry(req.body.email, user.firstname, 'Inquiry');
 
                                 res.status(200).json({
