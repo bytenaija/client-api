@@ -58,9 +58,20 @@ module.exports = {
                 winston.info("Line 54 paystack intec", response.data.data)
                 return response.data.data;
             }, function (error) {
-                fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response.data.data))
+                fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response))
                 winston.error(error.response.data.data)
-                return Promise.reject(error.response.data.data);
+                if(error.response.data){
+                    if(error.response.data.data){
+                        return Promise.reject(error.response.data.data);
+                    }else{
+                        return Promise.reject(error.response.data);
+                    }
+                    
+                }else{
+                    return Promise.reject(error.response)
+                }
+               
+               
             });
             // axios.defaults.headers.post['Authorization'] = 'Bearer sk_test_dce12f10f109e0a79d04e8f1615610e9d89c240e';
             axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
