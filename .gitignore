@@ -4,3 +4,5 @@ logs/
 logs
 logs/goatti.log
 logs/app.log
+error.log
+success.log
