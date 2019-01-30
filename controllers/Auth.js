@@ -161,6 +161,19 @@ module.exports = {
         })
         .catch(err => {
          winston.error("/controllers/Auth - ln: 124", err)
+
+         if (err.code === 11000) {
+          // email or username could violate the unique index. we need to find out which field it was.
+          // var field = err.errmsg.split(".$")[1];
+          var field = err.errmsg.split(" dup key")[0];
+          var field = err.errmsg.split(" index:")[1];
+          field = field.substring(0, field.lastIndexOf("_"));
+          
+          return res.status(500).json({
+            success: false,
+            message: `${field} already exist in the database`
+          })
+         }
           return res.status(500).json({
             success: false,
             message: 'An error occured. Please try again later'
