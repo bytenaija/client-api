@@ -16,12 +16,18 @@ module.exports = {
         }
 
         axios.interceptors.response.use((response) => {
-            fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), util.inspect(response.data))
-            winston.info("Line 20 paystack OTP", util.inspect(response.data))
+          
+         
             if(response.data){
+                fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), util.inspect(response.data))
+                winston.info("Line 20 paystack OTP", util.inspect(response.data))
                 if(response.data.data){
+                    fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), util.inspect(response.data.data))
+                    winston.info("Line 20 paystack OTP", util.inspect(response.data.data))
                     return response.data.data
                 }
+                fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), util.inspect(response))
+                winston.info("Line 20 paystack OTP", util.inspect(response))
                 return response.data;
             }
             return response
