@@ -126,12 +126,12 @@ module.exports = {
                 
             }else{
                 winston.info("Just checking",  err,  farm? true: false,  reference)
-                res.status(500).json({success: false, message: 'Payment not successful', errorMessage: err, farm : farm? true: false, chargeReference: reference});
+                res.status(500).json({success: false, message: 'Payment not successful', errorMessage: {err, farm : farm? true: false, chargeReference: reference}});
             }
             }).catch( async err =>{
                 winston.error("Erororororororor from snedoing pin", err);
                 if(err.status == 'send_otp'){
-                    res.status(500).json({success: false, message: 'Send OTP', errorMessage: err});
+                    res.status(500).json({success: false, message: 'Send OTP', errorMessage: {...err, chargeReference}});
                 }else{
                     if(farm){
                  
