@@ -255,6 +255,7 @@ const submitPin = (pin, reference) =>{
 }
 
 const checkPending = (reference) =>{
+    axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
     axios.interceptors.response.use((response) => {
         fs.writeFileSync( path.join(__dirname, '..', 'success.log'), util.inspect(response.data))
         winston.info("Line 54 paystack intec", util.inspect(response.data))
