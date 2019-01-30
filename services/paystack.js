@@ -6,7 +6,7 @@ let fs = require('fs')
 module.exports = {
 
     sendOTP: (reference, OTP)=>{
-
+        axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
         winston.info("Sending OTP", reference, OTP);
         return new Promise((resolve, reject) => {
 
