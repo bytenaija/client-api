@@ -20,15 +20,15 @@ module.exports = {
           
          
             if(response.data){
-                fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), moment.format('DD/MM/YYY - h:m:s') + util.inspect(response.data))
+                fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(response.data))
                 winston.info("Line 20 paystack OTP", util.inspect(response.data))
                 if(response.data.data){
-                    fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'),  moment.format('DD/MM/YYY - h:m:s') + util.inspect(response.data.data))
-                    winston.info("Line 20 paystack OTP",  moment.format('DD/MM/YYY - h:m:s') + util.inspect(response.data.data))
+                    fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), moment().format('DD/MM/YYY - h:m:s') + util.inspect(response.data.data))
+                    winston.info("Line 20 paystack OTP", moment().format('DD/MM/YYY - h:m:s') + util.inspect(response.data.data))
                     return response.data.data
                 }
-                fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'),  moment.format('DD/MM/YYY - h:m:s') + util.inspect(response))
-                winston.info("Line 20 paystack OTP",  moment.format('DD/MM/YYY - h:m:s') + util.inspect(response))
+                fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), moment().format('DD/MM/YYY - h:m:s') + util.inspect(response))
+                winston.info("Line 20 paystack OTP", moment().format('DD/MM/YYY - h:m:s') + util.inspect(response))
                 return response.data;
             }
             return response
@@ -39,17 +39,17 @@ module.exports = {
           
             if(error.response.data){
                 if(error.response.data.data){
-                    fs.writeFileSync( path.join(__dirname, '..', 'OTPerror.log'), moment.format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data.data))
+                    fs.writeFileSync( path.join(__dirname, '..', 'OTPerror.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data.data))
                     winston.error("OTPERROR", error.response.data.data)
                     return Promise.reject(error.response.data.data);
                 }else{
-                    fs.writeFileSync( path.join(__dirname, '..', 'OTPerror.log'), moment.format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data))
+                    fs.writeFileSync( path.join(__dirname, '..', 'OTPerror.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data))
                     winston.error("OTPError", error.response.data)
                     return Promise.reject(error.response.data);
                 }
                 
             }else{
-                // fs.writeFileSync( path.join(__dirname, '..', 'error.log'), moment.format('DD/MM/YYY - h:m:s') + util.inspect(error.response))
+                // fs.writeFileSync( path.join(__dirname, '..', 'error.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response))
                 winston.error(error.response)
                 return Promise.reject(error.response)
             }
@@ -92,8 +92,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             axios.interceptors.response.use((response) => {
-                fs.writeFileSync( path.join(__dirname, '..', 'success.log'),  moment.format('DD/MM/YYY - h:m:s') + util.inspect(response.data))
-                winston.info("Line 54 paystack intec",  moment.format('DD/MM/YYY - h:m:s') + util.inspect(response.data))
+                fs.writeFileSync( path.join(__dirname, '..', 'success.log'), moment().format('DD/MM/YYY - h:m:s') + util.inspect(response.data))
+                winston.info("Line 54 paystack intec", moment().format('DD/MM/YYY - h:m:s') + util.inspect(response.data))
                 if(response.data){
                     if(response.data.data){
                         return response.data.data
@@ -108,17 +108,17 @@ module.exports = {
               
                 if(error.response.data){
                     if(error.response.data.data){
-                        fs.writeFileSync( path.join(__dirname, '..', 'error.log'),  moment.format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data.data))
+                        fs.writeFileSync( path.join(__dirname, '..', 'error.log'), moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data.data))
                         winston.error(error.response.data.data)
                         return Promise.reject(error.response.data.data);
                     }else{
-                        fs.writeFileSync( path.join(__dirname, '..', 'error.log'), moment.format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data))
+                        fs.writeFileSync( path.join(__dirname, '..', 'error.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data))
                         winston.error(error.response.data)
                         return Promise.reject(error.response.data);
                     }
                     
                 }else{
-                    fs.writeFileSync( path.join(__dirname, '..', 'error.log'),  moment.format('DD/MM/YYY - h:m:s') + util.inspect(error.response))
+                    fs.writeFileSync( path.join(__dirname, '..', 'error.log'), moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response))
                     winston.error(error.response)
                     return Promise.reject(error.response)
                 }
@@ -272,17 +272,17 @@ const checkPending = (reference) =>{
       
         if(error.response.data){
             if(error.response.data.data){
-                fs.writeFileSync( path.join(__dirname, '..', 'error.log'), moment.format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data.data))
+                fs.writeFileSync( path.join(__dirname, '..', 'error.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data.data))
                 winston.error(error.response.data.data)
                 return Promise.reject(error.response.data.data);
             }else{
-                fs.writeFileSync( path.join(__dirname, '..', 'error.log'), moment.format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data))
+                fs.writeFileSync( path.join(__dirname, '..', 'error.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data))
                 winston.error(error.response.data)
                 return Promise.reject(error.response.data);
             }
             
         }else{
-            // fs.writeFileSync( path.join(__dirname, '..', 'error.log'), moment.format('DD/MM/YYY - h:m:s') + util.inspect(error.response))
+            // fs.writeFileSync( path.join(__dirname, '..', 'error.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response))
             winston.error(error.response)
             return Promise.reject(error.response)
         }
