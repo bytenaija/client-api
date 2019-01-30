@@ -173,7 +173,7 @@ module.exports = {
                     }else if(data.status == 'pending'){
                         winston.info("Pending");
                         
-                        setTimeout(()=>{
+                        setTimeout(async ()=>{
                             try{
                             let result = await checkPending(data.reference);
                             if(result.status == 'failed'){
