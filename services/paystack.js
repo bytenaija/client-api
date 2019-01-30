@@ -54,9 +54,9 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             axios.interceptors.response.use((response) => {
-                fs.writeFileSync( path.join(__dirname, '..', 'success.log'), JSON.stringify(response.data))
-                winston.info("Line 54 paystack intec", response.data.data)
-                return response.data.data;
+                fs.writeFileSync( path.join(__dirname, '..', 'success.log'), JSON.stringify(response))
+                winston.info("Line 54 paystack intec", response)
+                return response;
             }, function (error) {
                 
                if(error.response){
