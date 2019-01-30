@@ -1,15 +1,16 @@
 const axios = require('axios')
 let winston = require('../config/winston');
 let fs = require('fs')
-,path = require('path'), util = require('util')
+,path = require('path'), util = require('util'),
+moment = require('moment')
 
 module.exports = {
 
     sendOTP: (reference, OTP)=>{
-        axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
+       
         winston.info("Sending OTP", reference, OTP);
         return new Promise((resolve, reject) => {
-
+            axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
         let paymentDetails = {
             reference,
             otp: OTP
@@ -19,15 +20,15 @@ module.exports = {
           
          
             if(response.data){
-                fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), util.inspect(response.data))
+                fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), moment() + util.inspect(response.data))
                 winston.info("Line 20 paystack OTP", util.inspect(response.data))
                 if(response.data.data){
-                    fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), util.inspect(response.data.data))
-                    winston.info("Line 20 paystack OTP", util.inspect(response.data.data))
+                    fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'),  moment() + util.inspect(response.data.data))
+                    winston.info("Line 20 paystack OTP",  moment() + util.inspect(response.data.data))
                     return response.data.data
                 }
-                fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), util.inspect(response))
-                winston.info("Line 20 paystack OTP", util.inspect(response))
+                fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'),  moment() + util.inspect(response))
+                winston.info("Line 20 paystack OTP",  moment() + util.inspect(response))
                 return response.data;
             }
             return response
@@ -91,8 +92,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             axios.interceptors.response.use((response) => {
-                fs.writeFileSync( path.join(__dirname, '..', 'success.log'), util.inspect(response.data))
-                winston.info("Line 54 paystack intec", util.inspect(response.data))
+                fs.writeFileSync( path.join(__dirname, '..', 'success.log'),  moment() + util.inspect(response.data))
+                winston.info("Line 54 paystack intec",  moment() + util.inspect(response.data))
                 if(response.data){
                     if(response.data.data){
                         return response.data.data
@@ -107,17 +108,17 @@ module.exports = {
               
                 if(error.response.data){
                     if(error.response.data.data){
-                        fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response.data.data))
+                        fs.writeFileSync( path.join(__dirname, '..', 'error.log'),  moment() + util.inspect(error.response.data.data))
                         winston.error(error.response.data.data)
                         return Promise.reject(error.response.data.data);
                     }else{
-                        fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response.data))
+                        fs.writeFileSync( path.join(__dirname, '..', 'error.log'), moment() + util.inspect(error.response.data))
                         winston.error(error.response.data)
                         return Promise.reject(error.response.data);
                     }
                     
                 }else{
-                    // fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response))
+                    fs.writeFileSync( path.join(__dirname, '..', 'error.log'),  moment() + util.inspect(error.response))
                     winston.error(error.response)
                     return Promise.reject(error.response)
                 }
