@@ -61,12 +61,12 @@ module.exports = {
 
         axios.post(`https://api.paystack.co/charge/submit_otp`, paymentDetails)
                 .then( async chargeResponse => {
-                   winston.info("Charge response from sending OTP", chargeResponse.data)
+                   winston.info("Charge response from sending OTP", chargeResponse)
                         
-                    if (chargeResponse.data.status == 'success') {
+                    if (chargeResponse.status == 'success') {
                         winston.info('resolving true')
                         resolve(true)
-                    }else if(chargeResponse.data.status == 'pending'){
+                    }else if(chargeResponse.status == 'pending'){
                         let response;
                         setTimeout(async () =>{
                             response = await checkPending(reference)
@@ -295,67 +295,8 @@ const checkPending = (reference) =>{
     });
     return new Promise((resolve, reject) =>{
         let url = `https://api.paystack.co/charge/${reference}`;
-        axios.get(url).then(chargeResponse => resolve(chargeResponse.data.data))
+        axios.get(url).then(chargeResponse => resolve(chargeResponse))
         .catch(err => reject(err))
     })
 
 }
-
-// module.exports = {
-// getNewAccessCode: (req, res) =>{
-//     var customerid = req.params.customerid;
-//     var cartid     = req.params.cartid;
-//     amountinkobo = process.env.TEST_AMOUNT * 100;
-//     if(isNaN(amountinkobo) || (amountinkobo < 2500)){
-//         amountinkobo = 2500;
-//     }
-//     email = process.env.SAMPLE_EMAIL;
-
-//     paystack.transaction.initialize({
-//         email:     email,        // a valid email address
-//         amount:    amountinkobo, // only kobo and must be integer
-//         metadata:  {
-//             custom_fields:[
-//                 {
-//                     "display_name":"Started From",
-//                     "variable_name":"started_from",
-//                     "value":"sample charge card backend"
-//                 },
-//                 {
-//                     "display_name":"Requested by",
-//                     "variable_name":"requested_by",
-//                     "value": req.headers['user-agent']
-//                 },
-//                 {
-//                     "display_name":"Server",
-//                     "variable_name":"server",
-//                     "value": req.headers.host
-//                 }
-//             ]
-//         }
-//     },function(error, body) {
-//         if(error){
-//             res.send({error:error});
-//             return;
-//         }
-//         res.send(body.data.access_code);
-//     });
-// },
-
-// verifyReference: () =>{
-//     var reference = req.params.reference;
-
-//     paystack.transaction.verify(reference,
-//         function(error, body) {
-//         if(error){
-//             res.send({error:error});
-//             return;
-//         }
-//         if(body.data.success){
-//             // save authorization
-//             var auth = body.authorization;
-//         }
-//         res.send(body.data.gateway_response);
-//     });
-// }
-// }
