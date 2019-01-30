@@ -15,10 +15,6 @@ module.exports = {
         sendOTP(reference, otp).then(chargeResponse =>{
             winston.info('line 15, reolved true', chargeResponse, verification)
             
-            
-            
-            
-            
             if(chargeResponse){
               
                

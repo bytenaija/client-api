@@ -170,9 +170,28 @@ module.exports = {
                     }else if(data.status == 'send_otp'){
                         winston.info("rejectiifififififii")
                         reject({status: 'send_otp', reference: data.reference, displayText: data.display_text})
-                    }else{
+                    }else if(data.status == 'pending'){
+                        winston.info("Pending");
+                        
+                        setTimeout(()=>{
+                            try{
+                            let result = await checkPending(data.reference);
+                            if(result.status == 'failed'){
+                                reject({status: 'failed',  displayText: result.message})
+                            }else{
+                                resolve(true)
+                            }
+                            }catch(err){
+                                reject({status: 'failed',  displayText: err.message})
+                            }
+                        })
+                       
+                        
+                    }else if(data.status == 'success'){
                         winston.info("Whahahahahahahahahahahahahah");
                         resolve(true)
+                    }else{
+                        reject({status: 'failed',  displayText: 'An unknown error occured. Please try again'})
                     }
                 }).catch(err => {
                     winston.error("Payment Error response paystack.js ln 114", err)
@@ -229,6 +248,44 @@ const submitPin = (pin, reference) =>{
 }
 
 const checkPending = (reference) =>{
+    axios.interceptors.response.use((response) => {
+        fs.writeFileSync( path.join(__dirname, '..', 'success.log'), util.inspect(response.data))
+        winston.info("Line 54 paystack intec", util.inspect(response.data))
+        if(response.data){
+            if(response.data.data){
+                return response.data.data
+            }
+            return response.data;
+        }
+        return response
+        
+    }, function (error) {
+        
+       if(error.response){
+      
+        if(error.response.data){
+            if(error.response.data.data){
+                fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response.data.data))
+                winston.error(error.response.data.data)
+                return Promise.reject(error.response.data.data);
+            }else{
+                fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response.data))
+                winston.error(error.response.data)
+                return Promise.reject(error.response.data);
+            }
+            
+        }else{
+            // fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response))
+            winston.error(error.response)
+            return Promise.reject(error.response)
+        }
+    }else{
+        winston.error(error)
+        return Promise.reject(error)
+    }
+       
+       
+    });
     return new Promise((resolve, reject) =>{
         let url = `https://api.paystack.co/charge/${reference}`;
         axios.get(url).then(chargeResponse => resolve(chargeResponse.data.data))
