@@ -131,7 +131,7 @@ module.exports = {
             }).catch( async err =>{
                 winston.error("Erororororororor from snedoing pin", err);
                 if(err.status == 'send_otp'){
-                    res.status(500).json({success: false, message: 'Send OTP', errorMessage: {...err, chargeReference}});
+                    res.status(500).json({success: false, message: 'Send OTP', errorMessage: {...err, chargeReference: reference}});
                 }else{
                     if(farm){
                  
