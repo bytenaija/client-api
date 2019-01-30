@@ -296,6 +296,7 @@ const checkPending = (reference) =>{
        
     });
     return new Promise((resolve, reject) =>{
+        winston.info("checking pending")
         axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
         let url = `https://api.paystack.co/charge/${reference}`;
         axios.get(url).then(chargeResponse => resolve(chargeResponse))
