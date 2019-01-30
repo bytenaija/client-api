@@ -16,9 +16,40 @@ module.exports = {
         }
 
         axios.interceptors.response.use((response) => {
-            return response;
+            fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'), util.inspect(response.data))
+            winston.info("Line 20 paystack OTP", util.inspect(response.data))
+            if(response.data){
+                if(response.data.data){
+                    return response.data.data
+                }
+                return response.data;
+            }
+            return response
+            
         }, function (error) {
-            return Promise.reject(error.response);
+            
+           if(error.response){
+          
+            if(error.response.data){
+                if(error.response.data.data){
+                    fs.writeFileSync( path.join(__dirname, '..', 'OTPerror.log'), JSON.stringify(error.response.data.data))
+                    winston.error("OTPERROR", error.response.data.data)
+                    return Promise.reject(error.response.data.data);
+                }else{
+                    fs.writeFileSync( path.join(__dirname, '..', 'OTPerror.log'), JSON.stringify(error.response.data))
+                    winston.error("OTPError", error.response.data)
+                    return Promise.reject(error.response.data);
+                }
+                
+            }else{
+                // fs.writeFileSync( path.join(__dirname, '..', 'error.log'), JSON.stringify(error.response))
+                winston.error(error.response)
+                return Promise.reject(error.response)
+            }
+        }else{
+            winston.error(error)
+            return Promise.reject(error)
+        }
         });
 
         axios.post(`https://api.paystack.co/charge/submit_otp`, paymentDetails)
@@ -56,7 +87,14 @@ module.exports = {
             axios.interceptors.response.use((response) => {
                 fs.writeFileSync( path.join(__dirname, '..', 'success.log'), util.inspect(response.data))
                 winston.info("Line 54 paystack intec", util.inspect(response.data))
-                return response.data;
+                if(response.data){
+                    if(response.data.data){
+                        return response.data.data
+                    }
+                    return response.data;
+                }
+                return response
+                
             }, function (error) {
                 
                if(error.response){
