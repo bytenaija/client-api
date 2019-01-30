@@ -257,9 +257,10 @@ const submitPin = (pin, reference) =>{
 const checkPending = (reference) =>{
     axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
     axios.interceptors.response.use((response) => {
-        fs.writeFileSync( path.join(__dirname, '..', 'success.log'), util.inspect(response.data))
-        winston.info("Line 54 paystack intec", util.inspect(response.data))
+   
         if(response.data){
+            fs.writeFileSync( path.join(__dirname, '..', 'Pendsuccess.log'), util.inspect(response.data))
+            winston.info("Line 54 paystack intec", util.inspect(response.data))
             if(response.data.data){
                 return response.data.data
             }
@@ -273,11 +274,11 @@ const checkPending = (reference) =>{
       
         if(error.response.data){
             if(error.response.data.data){
-                fs.writeFileSync( path.join(__dirname, '..', 'error.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data.data))
+                fs.writeFileSync( path.join(__dirname, '..', 'Penderror.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data.data))
                 winston.error(error.response.data.data)
                 return Promise.reject(error.response.data.data);
             }else{
-                fs.writeFileSync( path.join(__dirname, '..', 'error.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data))
+                fs.writeFileSync( path.join(__dirname, '..', 'Penderror.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data))
                 winston.error(error.response.data)
                 return Promise.reject(error.response.data);
             }
