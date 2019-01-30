@@ -30,6 +30,8 @@ module.exports = {
         }).populate(['adresses', 'carts', 'farms'])
         .then(user => {
           if (!user) {
+            User.findOne({email: username}).populate(['adresses', 'carts', 'farms']).then(user =>{
+              if (!user) {           
             return res.status(404).json({
               success: false,
               message: 'Invalid credentials'
@@ -70,6 +72,43 @@ module.exports = {
 
 
           }
+        })
+      }else {
+
+        user.comparePassword(user.password, password, (err, isMatch) => {
+          if (isMatch) {
+            let body = {_id: user._id, email: user.email};
+
+            
+            jwtSign({user: body}, (err, token) => {
+              if (err) {
+                winston.error("Login", err)
+                return res.status(500).json({
+                  success: false,
+                  message: 'An error occured. Please try again later'
+                })
+              } else {
+                
+                res.status(200).json({
+                  success: true,
+                  user,
+                  token
+                })
+
+
+              }
+            });
+
+          } else {
+            return res.status(404).json({
+              success: false,
+              message: 'Invalid credentials'
+            })
+          }
+        });
+
+
+      }
         })
         .catch(err => {
          winston.error("Error in login", err)

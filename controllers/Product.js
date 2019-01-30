@@ -58,7 +58,7 @@ module.exports = {
             resolve(upload_res)
         })
 
-        console.log(fields)
+    
         let upload = await multipleUpload; 
         let imageIds = [],
         product = {}
