@@ -9,6 +9,7 @@ var winston = require('../config/winston');
 
 module.exports = {
     sendOTP: (req, res, next) =>{
+        let io = req.io
         let {otp, reference, farm, chargeReference } = req.body;
         let verification = verify(req, res, next);
         winston.info("This is OTP sending on line 13 on Payment controller",req.body);
@@ -19,6 +20,7 @@ module.exports = {
               
                
                     User.findById(verification.user._id).then( async user =>{
+                        winston.info("user", user);
                         await Transaction.create({reference, amount, from: user.firstname + " " +  user.lastname, to: 'Goatti.ng', email: user.email})
                     })
                     
