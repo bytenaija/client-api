@@ -27,6 +27,13 @@ const UserSchema = new Schema({
     required: true,
     unique: true
   },
+
+  phoneNumber: {
+    type: String,
+    required: true,
+    
+  },
+
   state: {
     type: String,
     required: true
