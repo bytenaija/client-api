@@ -3,7 +3,7 @@ const User = require('../../models/User');
 
 module.exports = {
   getAllUsers : (req, res)=>{
-    User.find({})
+    User.find({}).populate('carts').populate('farms')
       .then(users =>{
         if(!users){
           return res.status(404).json({success: false, message: 'Invalid credentials'})
