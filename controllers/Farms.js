@@ -15,7 +15,7 @@ let Widthdrawal = require('../models/Withdrawal')
 module.exports = {
   getAllFarms: (req, res, next) => {
 
-    Farms.find({})
+    Farms.find({}).populate('userId')
       .then(farms => {
 
         res.status(200).json({
