@@ -36,5 +36,16 @@ module.exports = {
     },
     deleteTransaction: (req, res) => {
 
+    },
+
+    getAllTransactions: (req, res, next) =>{
+        
+            Transaction.find({}).then(transactions =>{
+                res.status(200).json({success: true, transactions});
+            }).catch(err =>{
+                winston.error(err)
+                return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+            })
+        
     }
 }
