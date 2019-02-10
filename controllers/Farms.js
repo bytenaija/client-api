@@ -187,9 +187,10 @@ module.exports = {
 
     Farms.findByIdAndRemove(id).then(farm => {
      User.findById(farm.userId).then(user =>{
-       user.farm = user.farm.filter(farm => farm.toString() !== id.toString());
-       user.save()
-
+       if(user){
+        user.farm = user.farms.filter(farm => farm.toString() !== id.toString());
+        user.save()
+       }
        res.status(200).json({
         success: true,
         message: 'Farm Successfully deleted'
