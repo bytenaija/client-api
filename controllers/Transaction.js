@@ -32,7 +32,12 @@ module.exports = {
 
     },
     updateTransaction: (req, res) => {
-
+        Transaction.findByIdAndUpdate(req.params.id, req.body).then(transaction =>{
+            res.status(200).json({success: true, transaction, message: 'Your changes were saved successfully'});
+        }).catch(err =>{
+            winston.error(err);
+            return res.status(500).json({success: false, err, message: 'An error occured. Please try again later'})
+        })
     },
     deleteTransaction: (req, res) => {
 
