@@ -161,13 +161,13 @@ module.exports = {
       id
     } = req.params;
 
-    Farms.findById(id).then(farm => {
-      farm.save(req.body).then(farm => {
+    Farms.findByIdAndUpdate(id, req.body).then(farm => {
+      winston.info(farm)
         res.status(200).json({
           success: true,
-          farm
+          message: 'Your farm edit has been successfully saved'
         })
-      })
+    
     }).catch(err =>{
       res.status(500).json({
         success: false,
