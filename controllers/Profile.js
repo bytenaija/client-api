@@ -119,7 +119,6 @@ module.exports = {
                     })
                 })
                 
-                    res.json({success: true, profile})
                
             }).catch(err => {
                 winston.error(err)
