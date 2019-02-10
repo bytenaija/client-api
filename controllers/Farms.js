@@ -177,16 +177,16 @@ module.exports = {
     })
   },
 
-  deleteFarm: (req, res) => {
+  deleteFarm: async (req, res) => {
     let {
       id
     } = req.params;
-    let userId = null;
-    Farms.findById(id).then(farm =>{
-      userId = farm.userId;
-    })
+    
+    let farm = await Farms.findById(id)
+    winston.info(farm)
+
     Farms.findByIdAndRemove(id).then(farm => {
-     User.findById(userId).then(user =>{
+     User.findById(farm.userId).then(user =>{
        user.farm = user.farm.filter(farm => farm.toString() !== id.toString());
        user.save()
 
