@@ -40,7 +40,12 @@ module.exports = {
         })
     },
     deleteTransaction: (req, res) => {
-
+        Transaction.findByIdAndRemove(req.params.id).then(() =>{
+            res.status(200).json({success: true, message: 'Your have successfully deleted the transaction'});
+        }).catch(err =>{
+            winston.error(err);
+            return res.status(500).json({success: false, err, message: 'An error occured. Please try again later'})
+        })
     },
 
     getAllTransactions: (req, res, next) =>{
