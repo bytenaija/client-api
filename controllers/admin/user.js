@@ -15,4 +15,12 @@ module.exports = {
         return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
       })
   },
+
+  deleteUser: (req, res) =>{
+    User.findByIdAndRemove(req.params.id).then(user =>{
+      res.status(200).json({success: true, message: 'User successfully deleted'})
+    })  .catch(err =>{
+      return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
+    })
+  }
 }
