@@ -169,5 +169,30 @@ module.exports = {
         })
       })
     })
+  },
+
+  deleteFarm: (req, res) => {
+    let {
+      id
+    } = req.params;
+    let userId = null;
+    Farms.findById(id).then(farm =>{
+      userId = farm.userId;
+    })
+    Farms.findByIdAndRemove(id).then(farm => {
+     User.findById(userId).then(user =>{
+       user.farm = user.farm.filter(farm => farm.toString() !== id.toString());
+       user.save()
+
+       res.status(200).json({
+        success: true,
+        message: 'Farm Successfully deleted'
+      })
+     })
+        
+      }).catch(e =>{
+        res.status(500).json({success: false, e})
+      })
+   
   }
 }
