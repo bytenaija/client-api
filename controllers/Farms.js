@@ -161,12 +161,18 @@ module.exports = {
       id
     } = req.params;
 
-    Farms.findOneById(id).then(farm => {
+    Farms.findById(id).then(farm => {
       farm.save(req.body).then(farm => {
         res.status(200).json({
           success: true,
           farm
         })
+      })
+    }).catch(err =>{
+      res.status(500).json({
+        success: false,
+        err,
+        message: "An error occured and we could not save your changes. Pelase try again"
       })
     })
   },
