@@ -34,13 +34,13 @@ const clients = new Set();
 // 'mongodb://root:rootUser1@ds123224.mlab.com:23224/goatti'
 
 mongoose.connect('mongodb://goatti:goattiproductionpassword1@localhost:27017/goatti', {
-    useNewUrlParser: true
+  useNewUrlParser: true
 }, (err, connect) => {
-    if (err){
-        winston.info(err)
-        throw err
-    } 
-    winston.info("Connected to MongoDB");
+  if (err) {
+    winston.info(err)
+    throw err
+  }
+  winston.info("Connected to MongoDB");
 });
 
 
@@ -86,22 +86,22 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', async (data) => {
         for (let element of clients.entries()) {
-         
-           
+
+
             if (element[0].clientId == socket.id) {
 
-               
-              
+
+
                 redisClient.del(element[0].userId, (err, result) => {
                     if (err) {
-                       
+
                     } else {
-                     
+
                     }
 
                 })
                 clients.delete(element)
-             
+
 
             }
 
@@ -157,9 +157,9 @@ app.use('/profile', profileRoutes);
 //     // set locals, only providing error in development
 //     res.locals.message = err.message;
 //     res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
+
 //     // add this line to include winston logging
 //     winston.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-  
+
 //    next()
 //   });

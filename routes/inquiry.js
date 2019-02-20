@@ -5,7 +5,7 @@ const InquiryController = require('../controllers/Inquiry')
 
 
 
-router.get('/v1/', InquiryController.getInquiries)
+router.get('/v1/', verifyToken, InquiryController.getInquiries)
 router.post('/v1/', verifyToken, InquiryController.addInquiry)
 router.patch('/v1/:id', verifyToken, InquiryController.editInquiry)
 
