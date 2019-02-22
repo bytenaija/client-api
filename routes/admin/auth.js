@@ -4,7 +4,7 @@ const router = express.Router();
 const AdminAuthController = require('../../controllers/admin/auth')
 
 
-router.post('v1/admin/login', AdminAuthController.login)
-router.post('v1/admin/createUser', AdminAuthController.createUser)
+router.post('v1/login', AdminAuthController.login)
+router.post('v1/createUser', AdminAuthController.createUser)
 
 module.exports = router
