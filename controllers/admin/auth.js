@@ -7,7 +7,9 @@ var winston = require('../../config/winston');
 module.exports = {
   login : (req, res)=>{
     const { username, password} = req.body;
+
     Admin.findOne({email: username})
+
       .then(admin =>{
         console.log(admin);
         if(!admin){
@@ -59,6 +61,7 @@ module.exports = {
 
   createUser: (req, res)=>{
     const admin = {password, firstname, lastname, email} = req.body;
+    console.log(email)
     Admin.create(admin).then(admin =>{
       if(admin){
         res.status(200).json({success: true, admin})
