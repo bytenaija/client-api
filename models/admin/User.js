@@ -50,5 +50,18 @@ AdminSchema.methods.saveToken = (token) =>{
 }
 
 
+AdminSchema.methods.comparePassword = (userPassword, password, cb) => {
+  let user = this;
+  console.dir(password)
+  // console.log(this.password)
+  bcrypt.compare(password, userPassword, (err, isMatch) => {
+    //  console.log("ismat", isMatch)
+    if (err) {
+      cb(err)
+    } else {
+      cb(null, isMatch)
+    }
 
+  })
+}
 module.exports = Admin = mongoose.model('administrators', AdminSchema)
