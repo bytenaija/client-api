@@ -24,7 +24,7 @@ module.exports = {
   },
 
   createUser: (req, res)=>{
-    const admin = {username, password, firstname, lastname, email} = req.body;
+    const admin = {password, firstname, lastname, email} = req.body;
     Admin.create(admin).then(admin =>{
       if(admin){
         res.status(200).json({success: true, admin})
