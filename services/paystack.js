@@ -191,7 +191,7 @@ module.exports = {
                             }catch(err){
                                 reject({status: 'failed',  displayText: err.message})
                             }
-                        })
+                        }, 5000)
 
 
                     }else if(data.status == 'success'){
