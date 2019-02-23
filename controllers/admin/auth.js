@@ -11,7 +11,6 @@ module.exports = {
         }else{
           if(admin.comparePassword(password)){
             let token = jwtSign(admin);
-            admin.saveToken(token)
             res.status(200).json({success: true, token, admin})
           }else{
             return res.status(404).json({success: false, message: 'Invalid credentials'})
@@ -19,6 +18,7 @@ module.exports = {
         }
       })
       .catch(err =>{
+        console.log(err)
         return res.status(500).json({success: false, message: 'An error occured. Please try again later'})
       })
   },
