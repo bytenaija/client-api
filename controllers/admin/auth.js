@@ -2,7 +2,7 @@
 
 const Admin = require('../../models/admin/User');
 const {jwtVerify, jwtSign} = require('../../config/jwt')
-var winston = require('../config/winston');
+var winston = require('../../config/winston');
 
 module.exports = {
   login : (req, res)=>{
