@@ -12,7 +12,7 @@ module.exports = {
         if(!admin){
           return res.status(404).json({success: false, message: 'Invalid credentials'})
         }else{
-          admin.comparePassword(password, (err, isMatch) => {
+          admin.comparePassword(password, admin.password, (err, isMatch) => {
                 if (isMatch) {
                   let body = {
                     _id: admin._id,
