@@ -54,7 +54,7 @@ AdminSchema.methods.comparePassword = (userPassword, password, cb) => {
   let user = this;
 
   bcrypt.compare(password, userPassword, (err, isMatch) => {
-    //  console.log("ismat", isMatch)
+     console.log("ismat", isMatch)
     if (err) {
       cb(err)
     } else {
