@@ -7,7 +7,7 @@ moment = require('moment')
 module.exports = {
 
     sendOTP: (reference, OTP)=>{
-       
+
         winston.info("Sending OTP", reference, OTP);
         return new Promise((resolve, reject) => {
             axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
@@ -17,8 +17,8 @@ module.exports = {
         }
 
         axios.interceptors.response.use((response) => {
-          
-         
+
+
             if(response.data){
                 fs.writeFileSync( path.join(__dirname, '..', 'OTPsuccess.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(response.data))
                 winston.info("Line 20 paystack OTP", util.inspect(response.data))
@@ -32,11 +32,11 @@ module.exports = {
                 return response.data;
             }
             return response
-            
+
         }, function (error) {
-            
+
            if(error.response){
-          
+
             if(error.response.data){
                 if(error.response.data.data){
                     fs.writeFileSync( path.join(__dirname, '..', 'OTPerror.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data.data))
@@ -47,7 +47,7 @@ module.exports = {
                     winston.error("OTPError", error.response.data)
                     return Promise.reject(error.response.data);
                 }
-                
+
             }else{
                 // fs.writeFileSync( path.join(__dirname, '..', 'error.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response))
                 winston.error(error.response)
@@ -62,7 +62,7 @@ module.exports = {
         axios.post(`https://api.paystack.co/charge/submit_otp`, paymentDetails)
                 .then( async chargeResponse => {
                    winston.info("Charge response from sending OTP", chargeResponse)
-                        
+
                     if (chargeResponse.status == 'success') {
                         winston.info('resolving true')
                         resolve(true)
@@ -71,7 +71,7 @@ module.exports = {
                         setTimeout(async () =>{
                             response = await checkPending(reference)
                         }, 15000)
-                    
+
                         if(response){
                             if(response.status != 'pending'){
                                 if(response.status == 'failed'){
@@ -79,10 +79,10 @@ module.exports = {
                                 }else{
                                     resolve(true)
                                 }
-                                
+
                             }
                         }
-                        
+
                     }
     })
 })
@@ -101,11 +101,11 @@ module.exports = {
                     return response.data;
                 }
                 return response
-                
+
             }, function (error) {
-                
+
                if(error.response){
-              
+
                 if(error.response.data){
                     if(error.response.data.data){
                         fs.writeFileSync( path.join(__dirname, '..', 'error.log'), moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data.data))
@@ -116,7 +116,7 @@ module.exports = {
                         winston.error(error.response.data)
                         return Promise.reject(error.response.data);
                     }
-                    
+
                 }else{
                     fs.writeFileSync( path.join(__dirname, '..', 'error.log'), moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response))
                     winston.error(error.response)
@@ -126,12 +126,12 @@ module.exports = {
                 winston.error(error)
                 return Promise.reject(error)
             }
-               
-               
+
+
             });
             // axios.defaults.headers.post['Authorization'] = 'Bearer sk_test_dce12f10f109e0a79d04e8f1615610e9d89c240e';
             axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
-            
+
 
             const card = {
                 number,
@@ -171,15 +171,15 @@ module.exports = {
                       }
                     }catch(err){
                        winston.error("Paystack.js: submitting pin error line : 86", err)
-                       reject(err) 
+                       reject(err)
                     }
-                     
+
                     }else if(data.status == 'send_otp'){
                         winston.info("rejectiifififififii")
                         reject({status: 'send_otp', reference: data.reference, displayText: data.display_text})
                     }else if(data.status == 'pending'){
                         winston.info("Pending");
-                        
+
                         setTimeout(async ()=>{
                             try{
                             let result = await checkPending(data.reference);
@@ -192,8 +192,8 @@ module.exports = {
                                 reject({status: 'failed',  displayText: err.message})
                             }
                         })
-                       
-                        
+
+
                     }else if(data.status == 'success'){
                         winston.info("Whahahahahahahahahahahahahah");
                         resolve(true)
@@ -204,18 +204,18 @@ module.exports = {
                     winston.error("Payment Error response paystack.js ln 114", err)
                     if(err.status) {
                         if(err.status == 'failed'){
-                            // 
+                            //
                             reject({status: 'failed',  displayText: err.message})
                         }else{
                             reject({status: 'failed',  displayText: "An unknown error occured. Please try again."})
                         }
                     }else{
-                       
+
                             reject({status: 'failed',  displayText: "An unknown error occured. Please try again."})
-                        
+
                     }
-                   
-                   
+
+
                 })
 
 
@@ -223,7 +223,7 @@ module.exports = {
 
     },
 
-    
+
 }
 
 const submitPin = (pin, reference) =>{
@@ -234,11 +234,11 @@ const submitPin = (pin, reference) =>{
             pin,
             reference
         }
-    
+
         axios.post(url, paymentDetails)
         .then(chargeResponse => {
         //    winston.info("Charge response from from OTPsssssssssssssssss", chargeResponse.data, chargeResponse.status)
-    
+
             if (chargeResponse.status) {
                 // winston.info("Returnnnnnfnfnfnfnfn")
              resolve(chargeResponse.data)
@@ -250,14 +250,14 @@ const submitPin = (pin, reference) =>{
             reject(err.data)
         })
     })
-   
+
 
 }
 
 const checkPending = (reference) =>{
-    
+
     axios.interceptors.response.use((response) => {
-   
+
         if(response.data){
             fs.writeFileSync( path.join(__dirname, '..', 'Pendsuccess.log'), util.inspect(response.data))
             winston.info("Line 54 paystack intec", util.inspect(response.data))
@@ -267,11 +267,11 @@ const checkPending = (reference) =>{
             return response.data;
         }
         return response
-        
+
     }, function (error) {
-        
+
        if(error.response){
-      
+
         if(error.response.data){
             if(error.response.data.data){
                 fs.writeFileSync( path.join(__dirname, '..', 'Penderror.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response.data.data))
@@ -282,7 +282,7 @@ const checkPending = (reference) =>{
                 winston.error(error.response.data)
                 return Promise.reject(error.response.data);
             }
-            
+
         }else{
             // fs.writeFileSync( path.join(__dirname, '..', 'error.log'),moment().format('DD/MM/YYY - h:m:s') + util.inspect(error.response))
             winston.error(error.response)
@@ -292,14 +292,17 @@ const checkPending = (reference) =>{
         winston.error(error)
         return Promise.reject(error)
     }
-       
-       
+
+
     });
+     axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
     return new Promise((resolve, reject) =>{
         winston.info("checking pending")
-        axios.defaults.headers.post['Authorization'] = 'Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02';
+
         let url = `https://api.paystack.co/charge/${reference}`;
-        axios.get(url).then(chargeResponse => resolve(chargeResponse))
+        axios.get(url, {headers: {
+          "Authorization": "Bearer sk_live_9210a883f7a1124638b18304c664ab71d4586e02"
+        }}).then(chargeResponse => resolve(chargeResponse))
         .catch(err => reject(err))
     })
 
