@@ -3,8 +3,8 @@ const {jwtVerify, jwtSign} = require('../../config/jwt')
 
 module.exports = {
   login : (req, res)=>{
-    const {username, password} = req.body;
-    Admin.findOne({username})
+    const { username, password} = req.body;
+    Admin.findOne({email: username})
       .then(admin =>{
         if(!admin){
           return res.status(404).json({success: false, message: 'Invalid credentials'})
