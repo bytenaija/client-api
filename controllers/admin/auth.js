@@ -6,6 +6,7 @@ module.exports = {
     const { username, password} = req.body;
     Admin.findOne({email: username})
       .then(admin =>{
+        console.log(admin);
         if(!admin){
           return res.status(404).json({success: false, message: 'Invalid credentials'})
         }else{
