@@ -7,7 +7,7 @@ var winston = require('../../config/winston');
 module.exports = {
   login : (req, res)=>{
     const { username, password} = req.body;
-
+    console.log("admisjssisis", req.body);
     Admin.findOne({email: username})
 
       .then(admin =>{
