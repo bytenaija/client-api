@@ -17,7 +17,8 @@ module.exports = {
 
     Farms.find({}).populate('userId')
       .then(farms => {
-
+        farms = farms.filter((farm) => farm.userId.firstname)
+        console.log(farms);
         res.status(200).json({
           success: true,
           farms
@@ -68,7 +69,7 @@ module.exports = {
     const queue = req.queue;
     const redisClient = req.redisClient
     const verification = verify(req, res, next);
-  
+
     if (verification) {
 
       let farm = {
@@ -97,7 +98,7 @@ module.exports = {
               user.save();
               QueueJobs.createFeedJobs(queue, io, redisClient.get(user._id.toString()));
               // QueueJobs.createEmailJob(queue, user.email, user.password, user.firstname, 'ForgotPassword' )
-            })    
+            })
             io.sockets.emit('Farm Added', farm);
             let notification = {
               title: `A new farm created (${moment().format('YYYY')} - ${moment().add(6, 'months').format('YYYY')})`,
@@ -128,13 +129,13 @@ module.exports = {
 
   withDrawROI: (req, res, next) =>{
     const verification = verify(req, res, next);
- 
+
      if (verification) {
       req.body.user = verification.user._id;
         Widthdrawal.create(req.body).then(async widthrawal =>{
           let counter = 0;
           for(farm of widthrawal.farmsDue){
-            
+
             Farms.findById(farm).then(frm =>{
               winston.info(frm)
               frm.status = 'withdrawn'
@@ -145,9 +146,9 @@ module.exports = {
                 winston.info("Counting", counter, widthrawal.farmsDue.length - 1)
                 res.status(200).json({success: true, message: 'Successfully Withdrawn your investments'});
               }
-           
+
             });
-           
+
           }
         }).catch(err => {
           winston.info("Erro from withdraw", err)
@@ -167,7 +168,7 @@ module.exports = {
           success: true,
           message: 'Your farm edit has been successfully saved'
         })
-    
+
     }).catch(err =>{
       res.status(500).json({
         success: false,
@@ -181,7 +182,7 @@ module.exports = {
     let {
       id
     } = req.params;
-    
+
     let farm = await Farms.findById(id)
     winston.info(farm)
 
@@ -196,10 +197,10 @@ module.exports = {
         message: 'Farm Successfully deleted'
       })
      })
-        
+
       }).catch(e =>{
         res.status(500).json({success: false, e})
       })
-   
+
   }
 }
