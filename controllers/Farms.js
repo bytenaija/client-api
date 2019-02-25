@@ -13,16 +13,16 @@ let QueueJobs = require('../services/queue')
 let Widthdrawal = require('../models/Withdrawal')
 
 module.exports = {
-  getAllFarms: (req, res, next) => {
-
+  getAllFarms: async (req, res, next) => {
+   await Farms.deleteMany({userId: null});
     Farms.find({}).populate('userId')
       .then(farms => {
-        console.log(farms[0])
+
         farms = farms.filter((farm) => {
           console.log(farm.userId)
           return farm.userId != null;
         })
-        console.log(farms);
+
         res.status(200).json({
           success: true,
           farms
