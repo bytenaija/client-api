@@ -20,7 +20,7 @@ module.exports = {
         console.log(farms[0])
         farms = farms.filter((farm) => {
           console.log(farm.userId)
-          return farm.userId.firstname != null;
+          return farm.userId != null;
         })
         console.log(farms);
         res.status(200).json({
@@ -129,7 +129,7 @@ module.exports = {
         message: 'You are not authorised to access this resource'
       })
     }
-  },
+  },P
 
   withDrawROI: (req, res, next) =>{
     const verification = verify(req, res, next);
