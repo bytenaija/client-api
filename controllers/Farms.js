@@ -17,8 +17,11 @@ module.exports = {
 
     Farms.find({}).populate('userId')
       .then(farms => {
-        console.log(farms)
-        farms = farms.filter((farm) => farm.userId.firstname)
+        console.log(farms[0])
+        farms = farms.filter((farm) => {
+          console.log(farm.userId)
+          return farm.userId.firstname != undefined && farm.userId.firstname != '';
+        })
         console.log(farms);
         res.status(200).json({
           success: true,
