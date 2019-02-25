@@ -8,7 +8,8 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    lowercase: true,
   },
   firstname: {
     type: String,
@@ -25,13 +26,14 @@ const UserSchema = new Schema({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    lowercase: true,
   },
 
   phoneNumber: {
     type: String,
     required: false,
-    
+
   },
 
   state: {
@@ -42,7 +44,7 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  
+
   carts: [{ type: Schema.Types.ObjectId, ref: 'Cart' }],
   farms: [{ type: Schema.Types.ObjectId, ref: 'Farm' }],
   addresses: [{ type: Schema.Types.ObjectId, ref: 'Address' }],
