@@ -99,7 +99,7 @@ module.exports = {
 const extractuserId = (req, res, next) => {
   let verification = verify(req, res, next);
   if (verification) {
-    console.log(verification)
+    if (verification.user) return verification.user._id;
     return verification.admin._id;
 
   } else {
