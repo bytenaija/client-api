@@ -17,6 +17,7 @@ module.exports = {
 
     Farms.find({}).populate('userId')
       .then(farms => {
+        console.log(farms)
         farms = farms.filter((farm) => farm.userId.firstname)
         console.log(farms);
         res.status(200).json({
