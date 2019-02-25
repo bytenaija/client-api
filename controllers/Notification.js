@@ -44,6 +44,7 @@ module.exports = {
         winston.info(notification);
         res.json({success: true, notification});
       }).catch(err =>{
+        winston.error(err)
         res.status(500).json({success: false, message: "An error an occured. Try again later"})
       })
     }
