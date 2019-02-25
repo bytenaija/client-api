@@ -24,7 +24,7 @@ const Notification = require('../models/Notification');
 module.exports = {
   login: (req, res) => {
     const { io, redisClent } = req;
-
+    console.log(io.sockets)
 
     let {
       username,
