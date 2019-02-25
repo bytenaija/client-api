@@ -23,7 +23,9 @@ const Notification = require('../models/Notification');
 
 module.exports = {
   login: (req, res) => {
-    const { io } = req;
+    const { io, redisClent } = req;
+
+    console.log(io, redisClent);
     const {
       username,
       password,
@@ -57,9 +59,11 @@ module.exports = {
                     }
 
                     Notification.find({ type: 'admin' }).then((notifications) => {
+                      winston.info(notifications)
                       io.sockets.emit('notification', notifications.notification);
                     });
                     Notification.find({ userId: user._id }).then((notifications) => {
+                      winston.info(notifications)
                       io.sockets.emit('notification', notifications.notification);
                     });
                     res.status(200).json({
