@@ -5,6 +5,6 @@ let {verifyToken} = require('../config/jwt')
 
 
 router.get('/v1/',  verifyToken, NotificationController.getNotifications)
-
+router.post('/v1/', NotificationController.addNotification)
 
 module.exports = router

@@ -1,5 +1,6 @@
 let Notification = require('../models/Notification')
 let {verify} = require('../config/jwt')
+const winston = require('../config/winston');
 
 module.exports = {
     getNotifications: (req, res, next) => {
@@ -34,5 +35,16 @@ module.exports = {
     },
     deleteNotification: (req, res) => {
 
+    },
+
+    addNotification: (req, res) =>{
+      const io = req.io;
+      Notification.create(req.body).then(notification =>{
+        io.sockets.emit('notification', notification.notification);
+        winston.info(notification);
+        res.json({success: true, notification});
+      }).catch(err =>{
+        res.status(500).json({success: false, message: "An error an occured. Try again later"})
+      })
     }
 }
