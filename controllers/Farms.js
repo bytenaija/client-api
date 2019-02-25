@@ -20,7 +20,7 @@ module.exports = {
         console.log(farms[0])
         farms = farms.filter((farm) => {
           console.log(farm.userId)
-          return farm.userId.firstname != undefined && farm.userId.firstname != '';
+          return farm.userId.firstname != null;
         })
         console.log(farms);
         res.status(200).json({
