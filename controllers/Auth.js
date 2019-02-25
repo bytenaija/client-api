@@ -25,18 +25,18 @@ module.exports = {
   login: (req, res) => {
     const { io, redisClent } = req;
 
-    console.log(io, redisClent);
+
     const {
       username,
       password,
     } = req.body;
 
     User.findOne({
-      username: { $regex: new RegExp(`^${username.toLowerCase()}i`) },
+      username: { $regex: new RegExp("^" + username.toLowerCase() + "i") },
     }).populate(['adresses', 'carts', 'farms'])
       .then((user) => {
         if (!user) {
-          User.findOne({ email: { $regex: new RegExp(`^${username.toLowerCase()}i`) } }).populate(['adresses', 'carts', 'farms']).then((user) => {
+          User.findOne({ email: { $regex: new RegExp("^" + username.toLowerCase() + "i") } }).populate(['adresses', 'carts', 'farms']).then((user) => {
             if (!user) {
               return res.status(404).json({
                 success: false,
