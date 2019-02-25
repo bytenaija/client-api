@@ -129,7 +129,7 @@ module.exports = {
         message: 'You are not authorised to access this resource'
       })
     }
-  },P
+  },
 
   withDrawROI: (req, res, next) =>{
     const verification = verify(req, res, next);
