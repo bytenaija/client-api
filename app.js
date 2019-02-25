@@ -74,7 +74,7 @@ io.configure = () => {
 io.on('connection', (socket) => {
 
     socket.on('storeClientInfo', function (data) {
-
+      console.log("Socket connected", data)
         clients.add({
             userId: data.userId,
             clientId: socket.id
