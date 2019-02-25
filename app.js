@@ -72,9 +72,9 @@ io.configure = () => {
 
 
 io.on('connection', (socket) => {
-
+console.log("Socket connected", socket)
     socket.on('storeClientInfo', function (data) {
-      console.log("Socket connected", data)
+      console.log("Socket connected, storeClientInfo", data)
         clients.add({
             userId: data.userId,
             clientId: socket.id
