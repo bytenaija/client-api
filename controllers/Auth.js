@@ -60,11 +60,12 @@ module.exports = {
 
                     Notification.find({ type: 'admin' }).then((notifications) => {
                       winston.info(notifications)
-                      io.sockets.emit('notification', notifications);
+                      notifications.forEach(notification => io.sockets.emit('notification', notification));
                     });
                     Notification.find({ userId: user._id }).then((notifications) => {
                       winston.info(notifications)
-                      io.sockets.emit('notification', notifications);
+                      notifications.forEach(notification => io.sockets.emit('notification', notification));
+
                     });
                     res.status(200).json({
                       success: true,
