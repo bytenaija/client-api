@@ -20,9 +20,9 @@ module.exports = {
           return farm.userId != null;
         }).sort((a, b) =>{
           if(a.status == 'Paid' && b.status != 'Paid'){
-            return 1
-          } else if (b.status == 'Paid' && a.status != 'Paid') {
             return -1
+          } else if (b.status == 'Paid' && a.status != 'Paid') {
+            return 1
           }else{
             return 0
           }
