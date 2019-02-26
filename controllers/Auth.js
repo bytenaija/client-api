@@ -61,13 +61,13 @@ module.exports = {
                     Notification.find({ type: 'admin' }).then((notifications) => {
                       winston.info(notifications)
                        if(notifications.length > 0){
-                     io.sockets.emit('notification', { notifications });
+                     io.sockets.emit('notification', notifications);
                   }
                     });
                     Notification.find({ userId: user._id }).then((notifications) => {
                       winston.info(notifications)
                        if(notifications.length > 0){
-                     io.sockets.emit('notification', { notifications });
+                     io.sockets.emit('notification', notifications);
                   }
                     });
                     res.status(200).json({
@@ -103,14 +103,14 @@ module.exports = {
                 Notification.find({ type: 'admin' }).then((notifications) => {
                   winston.info(notifications, 'email');
                   if (notifications.length > 0) {
-                     io.sockets.emit('notification', { notifications });
+                     io.sockets.emit('notification', notifications);
                   }
 
                 });
                 Notification.find({ userId: user._id }).then((notifications) => {
                   winston.info(notifications, "email")
                  if (notifications.length > 0) {
-                     io.sockets.emit('notification', { notifications });
+                     io.sockets.emit('notification', notifications);
                   }
 
                 });
