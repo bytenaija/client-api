@@ -60,12 +60,15 @@ module.exports = {
 
                     Notification.find({ type: 'admin' }).then((notifications) => {
                       winston.info(notifications)
-                      notifications.forEach(notification => io.sockets.emit('notification', notification));
+                       if(notifications){
+                     io.sockets.emit('notification', { notifications });
+                  }
                     });
                     Notification.find({ userId: user._id }).then((notifications) => {
                       winston.info(notifications)
-                      notifications.forEach(notification => io.sockets.emit('notification', notification));
-
+                       if(notifications){
+                     io.sockets.emit('notification', { notifications });
+                  }
                     });
                     res.status(200).json({
                       success: true,
@@ -100,14 +103,14 @@ module.exports = {
                 Notification.find({ type: 'admin' }).then((notifications) => {
                   winston.info(notifications, 'email');
                   if(notifications){
-                     io.sockets.emit('notification', notifications);
+                     io.sockets.emit('notification', { notifications });
                   }
 
                 });
                 Notification.find({ userId: user._id }).then((notifications) => {
                   winston.info(notifications, "email")
                   if(notifications){
-                     io.sockets.emit('notification', notifications);
+                     io.sockets.emit('notification', { notifications });
                   }
 
                 });
