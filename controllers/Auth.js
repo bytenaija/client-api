@@ -65,13 +65,13 @@ module.exports = {
                       if (notifications.length > 0) {
                         io.sockets.emit('notification', notifications);
                       }
-                    });
+                    }).catch(err => console.log(err));
                     Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).then((notifications) => {
                       winston.info(notifications);
                       if (notifications.length > 0) {
                         io.sockets.emit('notification', notifications);
                       }
-                    });
+                    }).catch(err => console.log(err));
                     res.status(200).json({
                       success: true,
                       user,
@@ -109,13 +109,13 @@ module.exports = {
                   if (notifications.length > 0) {
                     io.sockets.emit('notification', notifications);
                   }
-                });
+                }).catch(err => console.log(err));
                 Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).then((notifications) => {
                   winston.info(notifications);
                   if (notifications.length > 0) {
                     io.sockets.emit('notification', notifications);
                   }
-                });
+                }).catch(err => console.log(err));
                 res.status(200).json({
                   success: true,
                   user,
