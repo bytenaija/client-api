@@ -94,8 +94,7 @@ UserSchema.pre('findOneAndUpdate', function(next) {
 
 UserSchema.methods.comparePassword = (userPassword, password, cb) => {
   let user = this;
-  console.dir(password)
-  // console.log(this.password)
+
   bcrypt.compare(password, userPassword, (err, isMatch) => {
   //  console.log("ismat", isMatch)
     if (err) {
