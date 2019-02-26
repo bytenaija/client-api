@@ -110,7 +110,7 @@ module.exports = {
             })
             io.sockets.emit('Farm Added', farm);
             let notification = {
-              title: `A new farm created (${moment().format('YYYY')} - ${moment().add(6, 'months').format('YYYY')})`,
+              notification: `A new farm created (${moment().format('YYYY')} - ${moment().add(6, 'months').format('YYYY')})`,
               date: moment(),
               read: false
             };

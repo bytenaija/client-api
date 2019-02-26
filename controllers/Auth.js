@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 /* eslint-disable no-undef */
 /* eslint-disable no-multi-assign */
 /* eslint-disable consistent-return */
@@ -30,13 +31,13 @@ module.exports = {
       username,
       password,
     } = req.body;
-    username = '^' + username + '$';
+    username = `^${username}$`;
     User.findOne({
-      username: {'$regex': username, $options:'i'},
+      username: { $regex: username, $options: 'i' },
     }).populate(['adresses', 'carts', 'farms'])
       .then((user) => {
         if (!user) {
-          User.findOne({ email: {'$regex': username, $options:'i'} }).populate(['adresses', 'carts', 'farms']).then((user) => {
+          User.findOne({ email: { $regex: username, $options: 'i' } }).populate(['adresses', 'carts', 'farms']).then((user) => {
             if (!user) {
               return res.status(404).json({
                 success: false,
@@ -57,18 +58,19 @@ module.exports = {
                         message: 'An error occured. Please try again later',
                       });
                     }
+                    const twoDays = moment().add(-2, 'days');
 
-                    Notification.find({ type: 'admin' }).then((notifications) => {
-                      winston.info(notifications)
-                       if(notifications.length > 0){
-                     io.sockets.emit('notification', notifications);
-                  }
+                    Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).then((notifications) => {
+                      winston.info(notifications);
+                      if (notifications.length > 0) {
+                        io.sockets.emit('notification', notifications);
+                      }
                     });
-                    Notification.find({ userId: user._id }).then((notifications) => {
-                      winston.info(notifications)
-                       if(notifications.length > 0){
-                     io.sockets.emit('notification', notifications);
-                  }
+                    Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).then((notifications) => {
+                      winston.info(notifications);
+                      if (notifications.length > 0) {
+                        io.sockets.emit('notification', notifications);
+                      }
                     });
                     res.status(200).json({
                       success: true,
@@ -100,19 +102,19 @@ module.exports = {
                   });
                 }
 
-                Notification.find({ type: 'admin' }).then((notifications) => {
-                  winston.info(notifications, 'email');
+                const twoDays = moment().add(-2, 'days');
+
+                Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).then((notifications) => {
+                  winston.info(notifications);
                   if (notifications.length > 0) {
-                     io.sockets.emit('notification', notifications);
+                    io.sockets.emit('notification', notifications);
                   }
-
                 });
-                Notification.find({ userId: user._id }).then((notifications) => {
-                  winston.info(notifications, "email")
-                 if (notifications.length > 0) {
-                     io.sockets.emit('notification', notifications);
+                Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).then((notifications) => {
+                  winston.info(notifications);
+                  if (notifications.length > 0) {
+                    io.sockets.emit('notification', notifications);
                   }
-
                 });
                 res.status(200).json({
                   success: true,
