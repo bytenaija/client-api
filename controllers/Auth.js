@@ -62,13 +62,13 @@ module.exports = {
                     }
                     const twoDays = moment().add(-2, 'days');
 
-                    Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).then((notifications) => {
+                    Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
                       winston.info(notifications);
                       if (notifications.length > 0) {
                         io.sockets.emit('notification', notifications);
                       }
                     }).catch(err => console.log(err));
-                    Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).then((notifications) => {
+                    Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
                       winston.info(notifications);
                       if (notifications.length > 0) {
                         io.sockets.emit('notification', notifications);
@@ -106,13 +106,13 @@ module.exports = {
 
                 const twoDays = moment().add(-2, 'days');
 
-                Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).then((notifications) => {
+                Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
                   winston.info(notifications);
                   if (notifications.length > 0) {
                     io.sockets.emit('notification', notifications);
                   }
                 }).catch(err => console.log(err));
-                Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).then((notifications) => {
+                Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
                   winston.info(notifications);
                   if (notifications.length > 0) {
                     io.sockets.emit('notification', notifications);
@@ -323,13 +323,13 @@ module.exports = {
 
               const twoDays = moment().add(-2, 'days');
 
-                    Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).then((notifications) => {
+                    Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
                       winston.info(notifications);
                       if (notifications.length > 0) {
                         io.sockets.emit('notification', notifications);
                       }
                     }).catch(err => console.log(err));
-                    Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).then((notifications) => {
+                    Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
                       winston.info(notifications);
                       if (notifications.length > 0) {
                         io.sockets.emit('notification', notifications);
