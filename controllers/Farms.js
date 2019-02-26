@@ -14,12 +14,9 @@ let Widthdrawal = require('../models/Withdrawal')
 
 module.exports = {
   getAllFarms: async (req, res, next) => {
-   await Farms.deleteMany({userId: null});
     Farms.find({}).populate('userId')
       .then(farms => {
-
         farms = farms.filter((farm) => {
-          console.log(farm.userId)
           return farm.userId != null;
         }).sort((a, b) =>{
           if(a.status == 'paid' && b.status != 'paid'){
