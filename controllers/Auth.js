@@ -5,9 +5,11 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-else-return */
+const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const generator = require('generate-password');
 const User = require('../models/User');
+
 const {
   jwtSign,
 } = require('../config/jwt');
