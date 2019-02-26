@@ -284,6 +284,7 @@ module.exports = {
   },
 
   getUserByToken: (req, res) => {
+    const { io } = req;
     const {
       token,
     } = req.body;
@@ -320,6 +321,20 @@ module.exports = {
               user.token = token;
               user.save();
 
+              const twoDays = moment().add(-2, 'days');
+
+                    Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).then((notifications) => {
+                      winston.info(notifications);
+                      if (notifications.length > 0) {
+                        io.sockets.emit('notification', notifications);
+                      }
+                    }).catch(err => console.log(err));
+                    Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).then((notifications) => {
+                      winston.info(notifications);
+                      if (notifications.length > 0) {
+                        io.sockets.emit('notification', notifications);
+                      }
+                    }).catch(err => console.log(err));
               res.status(200).json({
                 success: true,
                 user,
