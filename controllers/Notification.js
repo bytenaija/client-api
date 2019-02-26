@@ -40,7 +40,7 @@ module.exports = {
     addNotification: (req, res) =>{
       const io = req.io;
       Notification.create(req.body).then(notification =>{
-        io.sockets.emit('notification', notification.notification);
+        io.sockets.emit('notification', notification);
         winston.info(notification);
         res.json({success: true, notification});
       }).catch(err =>{
