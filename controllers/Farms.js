@@ -21,6 +21,14 @@ module.exports = {
         farms = farms.filter((farm) => {
           console.log(farm.userId)
           return farm.userId != null;
+        }).sort((a, b) =>{
+          if(a.status == 'paid' && b.status != 'paid'){
+            return 1
+          } else if (b.status == 'paid' && a.status != 'paid') {
+            return -1
+          }else{
+            return 0
+          }
         })
 
         res.status(200).json({
