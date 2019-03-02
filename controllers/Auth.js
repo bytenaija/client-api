@@ -28,18 +28,17 @@ module.exports = {
   login: (req, res) => {
     const { io, redisClent } = req;
 
-
     let {
       username,
       password,
     } = req.body;
     username = `^${username}$`;
-    console.log('username', username, password);
+
     User.findOne({
       username: { $regex: username, $options: 'i' },
     }).populate(['adresses', 'carts', 'farms'])
       .then((user) => {
-        console.log(user);
+
         if (!user) {
           User.findOne({ email: { $regex: username, $options: 'i' } }).populate(['adresses', 'carts', 'farms']).then((user) => {
             if (!user) {
