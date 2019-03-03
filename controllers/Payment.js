@@ -170,6 +170,7 @@ number, cvv, expiry_month, expiry_year, amount, reference, farm, pin
       const {
         reference,
         amount,
+        farm
       } = req.body;
       User.findById(verification.user._id).then(async (user) => {
         await Transaction.create({
