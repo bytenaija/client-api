@@ -8,7 +8,7 @@ const CartController = require('../controllers/Cart')
 
 
 //payment operations
-router.post('/v1/payment/weppay', verifyToken, PaymentController.webPay);
+router.post('/v1/payment/webpay', verifyToken, PaymentController.webPay);
 router.post('/v1/payment', verifyToken, PaymentController.paystackPayment);
 router.post('/v1/payment/otp', verifyToken, PaymentController.sendOTP);
 // router.get('/v1/payments', verifyToken, PaymentController.getAllPayments)
