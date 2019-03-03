@@ -8,17 +8,18 @@ const CartController = require('../controllers/Cart')
 
 
 //payment operations
-router.post('/v1/payment', verifyToken, PaymentController.paystackPayment)
-router.post('/v1/payment/otp', verifyToken, PaymentController.sendOTP)
+router.post('/v1/payment/weppay', verifyToken, PaymentController.webPay);
+router.post('/v1/payment', verifyToken, PaymentController.paystackPayment);
+router.post('/v1/payment/otp', verifyToken, PaymentController.sendOTP);
 // router.get('/v1/payments', verifyToken, PaymentController.getAllPayments)
 
 // //orders operations
-router.post('/v1', verifyToken, OrderController.create)
-router.get('/v1', verifyToken, OrderController.getAllOrders)
-router.get('/v1/user', verifyToken, OrderController.getAllOrdersForAUser)
-router.get('/v1/:id', verifyToken, OrderController.getOrder)
-router.put('/v1/:id', verifyToken, OrderController.edit)
-router.delete('/v1/new', verifyToken, OrderController.delete)
+router.post('/v1', verifyToken, OrderController.create);
+router.get('/v1', verifyToken, OrderController.getAllOrders);
+router.get('/v1/user', verifyToken, OrderController.getAllOrdersForAUser);
+router.get('/v1/:id', verifyToken, OrderController.getOrder);
+router.put('/v1/:id', verifyToken, OrderController.edit);
+router.delete('/v1/new', verifyToken, OrderController.delete);
 
 // //cart operations
 // router.get('/v1/cart/:id', verifyToken, CartController.getCart)
