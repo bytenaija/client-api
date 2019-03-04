@@ -32,6 +32,8 @@ module.exports = {
       username,
       password,
     } = req.body;
+
+    console.log(username, password);
     username = `^${username}$`;
 
     User.findOne({
