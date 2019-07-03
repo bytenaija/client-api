@@ -9,10 +9,10 @@
     "start": "node app.js"
   },
   "engines": {
-    "node": "8.11.4",
-    "npm": "6.4.x",
-    "yarn": "1.13.0"
-  },
+      "node": "8.11.4",
+      "npm": "6.4.x",
+      "yarn": "1.13.0"
+    },
   "repository": "",
   "keywords": [
     "paystack",

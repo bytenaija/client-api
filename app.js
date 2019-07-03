@@ -32,16 +32,31 @@ const clients = new Set();
 
 // uuid module is required to create a random reference number
 // 'mongodb://root:rootUser1@ds123224.mlab.com:23224/goatti'
+if (process.env.NODE_ENV === 'production') {
+    mongoose.connect('mongodb://goatti:goattiproductionpassword1@localhost:27017/goatti', {
+      useNewUrlParser: true
+    }, (err, connect) => {
+      if (err) {
+        winston.info(err)
+        throw err
+      }
+      winston.info("Connected to MongoDB");
+    });
+    
+} else {
+    
+    mongoose.connect('mongodb://localhost:27017/goatti', {
+        useNewUrlParser: true
+    }, (err, connect) => {
+        if (err) {
+            winston.info(err)
+            throw err
+        }
+        winston.info("Connected to MongoDB");
+    });
+}
 
-mongoose.connect('mongodb://goatti:goattiproductionpassword1@localhost:27017/goatti', {
-  useNewUrlParser: true
-}, (err, connect) => {
-  if (err) {
-    winston.info(err)
-    throw err
-  }
-  winston.info("Connected to MongoDB");
-});
+
 
 
 app = module.exports.app = express();

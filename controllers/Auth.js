@@ -251,13 +251,16 @@ module.exports = {
   },
 
   passwordRecovery: (req, res) => {
+
     const {
       code,
     } = req.query;
+    console.log(code);
     ForgotPassword.findOne({
-      code,
+      code
     })
       .then((user) => {
+        console.log(user)
         if (user) {
           User.findOneAndUpdate({
             email: user.email,
@@ -276,9 +279,14 @@ module.exports = {
                 message: 'An error occured. Please try again later',
               });
             });
+        } else {
+          res.status(401).json({
+            success: false,
+            message: 'Wrong key supplied',
+          });
         }
       }).catch((err) => {
-        console.dir(err);
+        console.log(err);
         res.status(500).json({
           success: false,
           message: 'An error occured. Please try again later',
