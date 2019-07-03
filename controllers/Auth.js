@@ -65,13 +65,13 @@ module.exports = {
                     }
                     const twoDays = moment().add(-2, 'days');
 
-                    Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
+                    Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).sort({ createdAt: -1 }).then((notifications) => {
                       winston.info(notifications);
                       if (notifications.length > 0) {
                         io.sockets.emit('allNotification', notifications);
                       }
                     }).catch(err => console.log(err));
-                    Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
+                    Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).sort({ createdAt: -1 }).then((notifications) => {
                       winston.info(notifications);
                       if (notifications.length > 0) {
                         io.sockets.emit('allNotification', notifications);
@@ -109,13 +109,13 @@ module.exports = {
 
                 const twoDays = moment().add(-2, 'days');
 
-                Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
+                Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).sort({ createdAt: -1 }).then((notifications) => {
                   winston.info(notifications);
                   if (notifications.length > 0) {
                     io.sockets.emit('allNotification', notifications);
                   }
                 }).catch(err => console.log(err));
-                Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
+                Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).sort({ createdAt: -1 }).then((notifications) => {
                   winston.info(notifications);
                   if (notifications.length > 0) {
                     io.sockets.emit('allNotification', notifications);
@@ -226,7 +226,7 @@ module.exports = {
             email: user.email,
             code,
           }).then(async (response) => {
-            const link = `http://localhost:3000/${code}`;
+            const link = `http://password.goatti.ng/${code}`;
             await EmailService.email(response.email, link, user.firstname, 'ForgotPassword');
             res.status(200).json({
               success: true,
@@ -265,8 +265,8 @@ module.exports = {
           User.findOneAndUpdate({
             email: user.email,
           }, {
-            password: req.body.password,
-          })
+              password: req.body.password,
+            })
             .then(() => {
               res.status(200).json({
                 success: true,
@@ -334,18 +334,18 @@ module.exports = {
 
               const twoDays = moment().add(-2, 'days');
 
-                    Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
-                      winston.info(notifications);
-                      if (notifications.length > 0) {
-                        io.sockets.emit('allNotification', notifications);
-                      }
-                    }).catch(err => console.log(err));
-                    Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).sort({createdAt: -1}).then((notifications) => {
-                      winston.info(notifications);
-                      if (notifications.length > 0) {
-                        io.sockets.emit('allNotification', notifications);
-                      }
-                    }).catch(err => console.log(err));
+              Notification.find({ type: 'admin', createdAt: { '$gt': twoDays } }).sort({ createdAt: -1 }).then((notifications) => {
+                winston.info(notifications);
+                if (notifications.length > 0) {
+                  io.sockets.emit('allNotification', notifications);
+                }
+              }).catch(err => console.log(err));
+              Notification.find({ userId: user._id, createdAt: { '$gt': twoDays } }).sort({ createdAt: -1 }).then((notifications) => {
+                winston.info(notifications);
+                if (notifications.length > 0) {
+                  io.sockets.emit('allNotification', notifications);
+                }
+              }).catch(err => console.log(err));
               res.status(200).json({
                 success: true,
                 user,
