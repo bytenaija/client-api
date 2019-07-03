@@ -226,7 +226,7 @@ module.exports = {
             email: user.email,
             code,
           }).then(async (response) => {
-            const link = `http://api.goatti.ng/auth/v1/password-recovery/?code=${code}`;
+            const link = `http://localhost:3000/${code}`;
             await EmailService.email(response.email, link, user.firstname, 'ForgotPassword');
             res.status(200).json({
               success: true,
