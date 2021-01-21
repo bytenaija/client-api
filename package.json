@@ -43,7 +43,7 @@
     "nodemailer": "^5.1.1",
     "paystack": "^2.0.1",
     "redis": "^2.8.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "socket.io-redis": "^5.2.0",
     "winston": "^3.2.0"
   }
